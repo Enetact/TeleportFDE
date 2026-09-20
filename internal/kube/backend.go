@@ -24,10 +24,15 @@ import (
 	"k8s.io/client-go/util/retry"
 )
 
+// Group is the API group used by the development ReplicaIntent CRD and annotations.
 const Group = "replicas.reference.example.com"
 
+// IntentGVR identifies the served ReplicaIntent resource; treat it as read-only.
 var IntentGVR = schema.GroupVersionResource{Group: Group, Version: "v1alpha1", Resource: "replicaintents"}
 
+// Backend connects the shared API and controller to Kubernetes clients and caches.
+// Construct it with New and keep its configuration fixed while it is running.
+// Informer objects are shared across goroutines and must not be mutated.
 type Backend struct {
 	Kube           kubernetes.Interface
 	Dynamic        dynamic.Interface
@@ -39,6 +44,8 @@ type Backend struct {
 	Intents        informers.GenericInformer
 }
 
+// New configures the informers for a validated level from 1 through 5.
+// It does not start watches. Level 5 requires a non-nil dynamic client.
 func New(k kubernetes.Interface, d dynamic.Interface, level int) *Backend {
 	b := &Backend{Kube: k, Dynamic: d, Level: level}
 	b.Factory = informers.NewSharedInformerFactory(k, 0)
@@ -55,6 +62,9 @@ func New(k kubernetes.Interface, d dynamic.Interface, level int) *Backend {
 	}
 	return b
 }
+
+// Start launches watches needed by the selected level until ctx is canceled.
+// Register controller handlers before calling Start, then wait for Synced.
 func (b *Backend) Start(ctx context.Context) {
 	if b.Level >= 4 {
 		b.Factory.Start(ctx.Done())
@@ -63,6 +73,9 @@ func (b *Backend) Start(ctx context.Context) {
 		b.DynamicFactory.Start(ctx.Done())
 	}
 }
+
+// Synced reports whether the required caches completed their initial synchronization.
+// It does not prove that an already-synchronized watch is currently fresh.
 func (b *Backend) Synced() bool {
 	if b.Level < 4 {
 		return true
@@ -73,7 +86,7 @@ func (b *Backend) Synced() bool {
 	return b.Level != 5 || (b.Intents.Informer().HasSynced() && b.HPAs.Informer().HasSynced())
 }
 
-// Health does live, bounded checks; it is not the read API's data path.
+// Health probes Kubernetes directly using ctx; callers must supply a deadline.
 func (b *Backend) Health(ctx context.Context) error {
 	if _, err := b.Kube.AppsV1().Deployments("").List(ctx, metav1.ListOptions{Limit: 1}); err != nil {
 		return err
@@ -84,6 +97,8 @@ func (b *Backend) Health(ctx context.Context) error {
 	}
 	return nil
 }
+
+// Get returns a copied Deployment view; levels 4 and 5 read from informer caches.
 func (b *Backend) Get(ctx context.Context, t model.Target) (model.Deployment, error) {
 	var d *appsv1.Deployment
 	var err error
@@ -106,6 +121,10 @@ func (b *Backend) Get(ctx context.Context, t model.Target) (model.Deployment, er
 	}
 	return out, nil
 }
+
+// List returns Deployment views sorted by namespace/name.
+// An empty namespace selects the whole cluster. Cached levels do not issue a list
+// request per call, but the result is eventually consistent.
 func (b *Backend) List(ctx context.Context, namespace string) ([]model.Deployment, error) {
 	out := []model.Deployment{}
 	if b.Level >= 4 {
@@ -178,6 +197,10 @@ func (b *Backend) decorateIntent(out *model.Deployment) error {
 	out.ReconcilePhase, _, _ = unstructured.NestedString(u.Object, "status", "phase")
 	return nil
 }
+
+// Set writes a Deployment scale at levels 2–4 or persists intent at level 5.
+// Callers validate target/count first. An empty expected version permits a write
+// without a caller-provided precondition; Kubernetes conflicts may still occur.
 func (b *Backend) Set(ctx context.Context, t model.Target, n int32, expected string) (model.SetResult, error) {
 	if b.Level < 2 {
 		return model.SetResult{}, model.E(model.Forbidden, "this level is read only", nil)
@@ -215,6 +238,8 @@ func (b *Backend) Set(ctx context.Context, t model.Target, n int32, expected str
 	})
 	return out, mapError(err)
 }
+
+// GetTarget fetches a live Deployment view for mutation checks and reconciliation.
 func (b *Backend) GetTarget(ctx context.Context, t model.Target) (model.Deployment, error) {
 	d, err := b.Kube.AppsV1().Deployments(t.Namespace).Get(ctx, t.Name, metav1.GetOptions{})
 	if err != nil {
@@ -222,6 +247,9 @@ func (b *Backend) GetTarget(ctx context.Context, t model.Target) (model.Deployme
 	}
 	return deployment(d), nil
 }
+
+// HasHPA reports whether an HPA currently targets this Deployment.
+// The check and a later scale write are separate Kubernetes operations.
 func (b *Backend) HasHPA(ctx context.Context, t model.Target) (bool, error) {
 	hpas, err := b.Kube.AutoscalingV2().HorizontalPodAutoscalers(t.Namespace).List(ctx, metav1.ListOptions{})
 	if err != nil {

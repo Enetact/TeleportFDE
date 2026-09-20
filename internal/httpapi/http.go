@@ -17,6 +17,8 @@ import (
 
 const maxBodyBytes int64 = 4096
 
+// New returns the HTTP routes enabled for level and bounds each request's work.
+// The caller supplies a configured service and logger and owns the TLS listener.
 func New(s *service.Service, level int, log *slog.Logger) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /v1/namespaces/{namespace}/deployments/{name}/replicas", func(w http.ResponseWriter, r *http.Request) {

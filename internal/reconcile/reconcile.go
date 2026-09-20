@@ -6,6 +6,9 @@ import (
 	"example.com/replica-control/internal/model"
 )
 
+// Store contains the operations one reconciliation pass needs.
+// Implementations must honor contexts and reject stale writes; tests can use a fake
+// without importing Kubernetes clients into the decision logic.
 type Store interface {
 	GetIntent(context.Context, model.Target) (model.Intent, error)
 	GetTarget(context.Context, model.Target) (model.Deployment, error)
@@ -14,11 +17,13 @@ type Store interface {
 	WriteStatus(context.Context, model.Intent, model.ReconcileStatus) error
 }
 
+// Engine reconciles desired counts through its configured Store.
+// Keep Store fixed after construction. The controller serializes passes per target.
 type Engine struct{ Store Store }
 
 // Reconcile is idempotent. A conflict is retried by the work queue, never hidden.
 // Changes to the intent and the Deployment cannot be one atomic transaction.
-// Re-reading the intent narrows that race; later events guarantee another pass.
+// Re-reading narrows that race; events and periodic requeues allow another pass.
 func (e *Engine) Reconcile(ctx context.Context, t model.Target) error {
 	intent, err := e.Store.GetIntent(ctx, t)
 	if model.ErrorCode(err) == model.NotFound && err != nil {

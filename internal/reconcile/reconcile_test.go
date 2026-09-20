@@ -7,6 +7,7 @@ import (
 	"testing"
 )
 
+// fakeStore injects observations and failures without requiring a running cluster.
 type fakeStore struct {
 	intent                                 model.Intent
 	dep                                    model.Deployment

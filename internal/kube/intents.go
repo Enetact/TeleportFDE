@@ -13,6 +13,7 @@ import (
 	"k8s.io/client-go/util/retry"
 )
 
+// parseIntent validates unstructured fields before converting them to typed values.
 func parseIntent(u *unstructured.Unstructured) (model.Intent, error) {
 	name, ok, err := unstructured.NestedString(u.Object, "spec", "deploymentName")
 	if err != nil || !ok || name != u.GetName() {
@@ -29,6 +30,8 @@ func parseIntent(u *unstructured.Unstructured) (model.Intent, error) {
 	return model.Intent{Target: model.Target{Namespace: u.GetNamespace(), Name: name}, UID: string(u.GetUID()), DeploymentUID: uid,
 		Replicas: int32(n), Generation: u.GetGeneration(), ResourceVersion: u.GetResourceVersion(), Deleting: u.GetDeletionTimestamp() != nil}, nil
 }
+
+// GetIntent fetches and validates live desired state for a reconciliation pass.
 func (b *Backend) GetIntent(ctx context.Context, t model.Target) (model.Intent, error) {
 	u, err := b.Dynamic.Resource(IntentGVR).Namespace(t.Namespace).Get(ctx, t.Name, metav1.GetOptions{})
 	if err != nil {
@@ -104,6 +107,9 @@ func (b *Backend) UpdateScale(ctx context.Context, dep model.Deployment, n int32
 	_, err = b.Kube.AppsV1().Deployments(dep.Namespace).UpdateScale(ctx, dep.Name, scale, metav1.UpdateOptions{})
 	return mapError(err)
 }
+
+// WriteStatus records observations only while the same intent generation exists.
+// Unchanged status is skipped to avoid triggering needless watch traffic.
 func (b *Backend) WriteStatus(ctx context.Context, intent model.Intent, status model.ReconcileStatus) error {
 	client := b.Dynamic.Resource(IntentGVR).Namespace(intent.Namespace)
 	// Convert through JSON to keep the status contract independent of Kubernetes.

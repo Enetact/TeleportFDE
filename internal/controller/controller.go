@@ -1,4 +1,4 @@
-// Package controller wires informer events and a bounded retry queue to the
+// Package controller wires informer events and a rate-limited work queue to the
 // reconciliation engine. Only the elected leader calls Run; all Pods serve APIs.
 package controller
 
@@ -17,6 +17,8 @@ import (
 	"k8s.io/client-go/util/workqueue"
 )
 
+// Controller queues target keys and delegates decisions to the reconciliation engine.
+// The queue coalesces repeated keys but does not impose a total capacity limit.
 type Controller struct {
 	backend *kube.Backend
 	engine  *reconcile.Engine
@@ -24,6 +26,8 @@ type Controller struct {
 	log     *slog.Logger
 }
 
+// New registers level-5 informer handlers without starting watches or workers.
+// Call it before starting the backend; log and the level-5 backend must be non-nil.
 func New(b *kube.Backend, log *slog.Logger) (*Controller, error) {
 	c := &Controller{backend: b, engine: &reconcile.Engine{Store: b}, log: log,
 		queue: workqueue.NewTypedRateLimitingQueue(workqueue.DefaultTypedControllerRateLimiter[string]())}
@@ -80,6 +84,9 @@ func New(b *kube.Backend, log *slog.Logger) (*Controller, error) {
 	}
 	return c, nil
 }
+
+// Run waits for initial cache synchronization, then processes keys until cancellation.
+// Call it once after this instance becomes leader; a stopped queue is not reusable.
 func (c *Controller) Run(ctx context.Context) {
 	if !cache.WaitForCacheSync(ctx.Done(), c.backend.Deployments.Informer().HasSynced, c.backend.Intents.Informer().HasSynced, c.backend.HPAs.Informer().HasSynced) {
 		return
@@ -97,6 +104,8 @@ func (c *Controller) Run(ctx context.Context) {
 	c.queue.ShutDown()
 	workers.Wait()
 }
+
+// process handles one key and balances every successful Get with Done, including errors.
 func (c *Controller) process(ctx context.Context) bool {
 	key, quit := c.queue.Get()
 	if quit {
