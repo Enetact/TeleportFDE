@@ -42,10 +42,13 @@ type Error struct {
 
 // Error returns the message supplied by the caller.
 func (e *Error) Error() string                       { return e.Message }
+
 // Unwrap exposes the cause to errors.Is and errors.As.
 func (e *Error) Unwrap() error                       { return e.Cause }
+
 // E constructs an Error with the supplied code, message and optional cause.
 func E(code Code, message string, cause error) error { return &Error{code, message, cause} }
+
 // ErrorCode returns a wrapped Error's code, or classifies a generic error.
 // Call it for a failed operation; nil is not a success sentinel in this helper.
 func ErrorCode(err error) Code {
@@ -58,6 +61,7 @@ func ErrorCode(err error) Code {
 	}
 	return Internal
 }
+
 // PublicError returns a wrapped Error's message or a generic failure description.
 // It does not sanitize messages explicitly supplied through E.
 func PublicError(err error) string {
@@ -95,6 +99,7 @@ func ValidateNamespace(s string, allowEmpty bool) error {
 	}
 	return nil
 }
+
 // Validate checks the namespace and Deployment name before a backend operation.
 func (t Target) Validate() error {
 	if err := ValidateNamespace(t.Namespace, false); err != nil {
@@ -110,6 +115,7 @@ func (t Target) Validate() error {
 	}
 	return nil
 }
+
 // ParseKey splits and validates a namespace/name work-queue key.
 func ParseKey(key string) (Target, error) {
 	parts := strings.Split(key, "/")
@@ -119,6 +125,7 @@ func ParseKey(key string) (Target, error) {
 	t := Target{parts[0], parts[1]}
 	return t, t.Validate()
 }
+
 // ValidateReplicas accepts zero through MaxReplicas, inclusive.
 func ValidateReplicas(n int32) error {
 	if n < 0 || n > MaxReplicas {
@@ -156,6 +163,7 @@ type SetRequest struct {
 	// resourceVersion. Empty means an unconditional, last-successful-write wins.
 	ExpectedVersion string `json:"expectedVersion,omitempty"`
 }
+
 // SetResult describes a direct scale write or a persisted level-5 intent.
 // Version belongs to the object written. Neither result promises ready Pods.
 type SetResult struct {

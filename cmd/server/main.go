@@ -79,6 +79,7 @@ func main() {
 		os.Exit(1)
 	}
 }
+
 // run owns background work and network listeners for one server instance.
 // The separate run context keeps caches and dependency checks alive during draining.
 func run(shutdown context.Context, cfg config, log *slog.Logger) error {

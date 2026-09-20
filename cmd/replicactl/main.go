@@ -24,6 +24,7 @@ func main() {
 		os.Exit(1)
 	}
 }
+
 // run parses one command and shares its deadline across the RPC.
 // The standard flag package expects global flags before the command name.
 func run() error {

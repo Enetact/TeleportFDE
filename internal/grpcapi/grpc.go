@@ -30,6 +30,7 @@ func (s *Server) GetReplicas(ctx context.Context, r *pb.GetReplicasRequest) (*pb
 	}
 	return toProto(d), nil
 }
+
 // SetReplicas validates input and persists desired intent through the service.
 func (s *Server) SetReplicas(ctx context.Context, r *pb.SetReplicasRequest) (*pb.SetReplicasResponse, error) {
 	if r == nil {
@@ -41,6 +42,7 @@ func (s *Server) SetReplicas(ctx context.Context, r *pb.SetReplicasRequest) (*pb
 	}
 	return &pb.SetReplicasResponse{Namespace: d.Namespace, Name: d.Name, Replicas: d.Replicas, Version: d.Version, Accepted: d.Accepted}, nil
 }
+
 // ListDeployments returns cached views for one namespace or the whole cluster.
 func (s *Server) ListDeployments(ctx context.Context, r *pb.ListDeploymentsRequest) (*pb.ListDeploymentsResponse, error) {
 	ds, err := s.Service.List(ctx, r.GetNamespace())

@@ -62,6 +62,7 @@ func New(k kubernetes.Interface, d dynamic.Interface, level int) *Backend {
 	}
 	return b
 }
+
 // Start launches watches needed by the selected level until ctx is canceled.
 // Register controller handlers before calling Start, then wait for Synced.
 func (b *Backend) Start(ctx context.Context) {
@@ -72,6 +73,7 @@ func (b *Backend) Start(ctx context.Context) {
 		b.DynamicFactory.Start(ctx.Done())
 	}
 }
+
 // Synced reports whether the required caches completed their initial synchronization.
 // It does not prove that an already-synchronized watch is currently fresh.
 func (b *Backend) Synced() bool {
@@ -95,6 +97,7 @@ func (b *Backend) Health(ctx context.Context) error {
 	}
 	return nil
 }
+
 // Get returns a copied Deployment view; levels 4 and 5 read from informer caches.
 func (b *Backend) Get(ctx context.Context, t model.Target) (model.Deployment, error) {
 	var d *appsv1.Deployment
@@ -118,6 +121,7 @@ func (b *Backend) Get(ctx context.Context, t model.Target) (model.Deployment, er
 	}
 	return out, nil
 }
+
 // List returns Deployment views sorted by namespace/name.
 // An empty namespace selects the whole cluster. Cached levels do not issue a list
 // request per call, but the result is eventually consistent.
@@ -193,6 +197,7 @@ func (b *Backend) decorateIntent(out *model.Deployment) error {
 	out.ReconcilePhase, _, _ = unstructured.NestedString(u.Object, "status", "phase")
 	return nil
 }
+
 // Set writes a Deployment scale at levels 2–4 or persists intent at level 5.
 // Callers validate target/count first. An empty expected version permits a write
 // without a caller-provided precondition; Kubernetes conflicts may still occur.
@@ -233,6 +238,7 @@ func (b *Backend) Set(ctx context.Context, t model.Target, n int32, expected str
 	})
 	return out, mapError(err)
 }
+
 // GetTarget fetches a live Deployment view for mutation checks and reconciliation.
 func (b *Backend) GetTarget(ctx context.Context, t model.Target) (model.Deployment, error) {
 	d, err := b.Kube.AppsV1().Deployments(t.Namespace).Get(ctx, t.Name, metav1.GetOptions{})
@@ -241,6 +247,7 @@ func (b *Backend) GetTarget(ctx context.Context, t model.Target) (model.Deployme
 	}
 	return deployment(d), nil
 }
+
 // HasHPA reports whether an HPA currently targets this Deployment.
 // The check and a later scale write are separate Kubernetes operations.
 func (b *Backend) HasHPA(ctx context.Context, t model.Target) (bool, error) {

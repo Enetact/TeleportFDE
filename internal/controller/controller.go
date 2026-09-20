@@ -84,6 +84,7 @@ func New(b *kube.Backend, log *slog.Logger) (*Controller, error) {
 	}
 	return c, nil
 }
+
 // Run waits for initial cache synchronization, then processes keys until cancellation.
 // Call it once after this instance becomes leader; a stopped queue is not reusable.
 func (c *Controller) Run(ctx context.Context) {
@@ -103,6 +104,7 @@ func (c *Controller) Run(ctx context.Context) {
 	c.queue.ShutDown()
 	workers.Wait()
 }
+
 // process handles one key and balances every successful Get with Done, including errors.
 func (c *Controller) process(ctx context.Context) bool {
 	key, quit := c.queue.Get()

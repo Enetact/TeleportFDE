@@ -23,6 +23,7 @@ func roots(path string) (*x509.CertPool, error) {
 	}
 	return pool, nil
 }
+
 // Server loads a TLS 1.3 identity and requires verified, allowlisted client certificates.
 // The caller owns the returned configuration and listener. Files are loaded once;
 // replacing them on disk does not rotate certificates in a running process.
@@ -58,6 +59,7 @@ func Server(certPath, keyPath, caPath, allowedClientURI string) (*tls.Config, er
 		},
 	}, nil
 }
+
 // Client loads a local identity and CA bundle and verifies the server's DNS/IP name.
 // The caller owns the returned TLS configuration.
 func Client(certPath, keyPath, caPath, serverName string) (*tls.Config, error) {

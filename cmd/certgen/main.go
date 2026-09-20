@@ -97,6 +97,7 @@ func run() error {
 	fmt.Printf("Local identities written to %s; leaf certificates expire after 7 days.\n", *dir)
 	return nil
 }
+
 // writePair writes PEM files beneath dir using operating-system path semantics.
 // The caller checks that the output directory is empty before generating identities.
 func writePair(dir, name string, der []byte, key *ecdsa.PrivateKey) error {

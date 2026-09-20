@@ -78,6 +78,7 @@ func writeTestPair(t *testing.T, dir, name string, der []byte, key *ecdsa.Privat
 		t.Fatal(err)
 	}
 }
+
 // TestMTLS exercises real local TLS handshakes with isolated test identities.
 func TestMTLS(t *testing.T) {
 	dir := makePKI(t)

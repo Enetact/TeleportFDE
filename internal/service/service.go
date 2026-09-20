@@ -18,6 +18,7 @@ func (s *Service) Get(ctx context.Context, t model.Target) (model.Deployment, er
 	}
 	return s.Backend.Get(ctx, t)
 }
+
 // List validates the optional namespace filter and returns matching Deployments.
 func (s *Service) List(ctx context.Context, namespace string) ([]model.Deployment, error) {
 	if err := model.ValidateNamespace(namespace, true); err != nil {
@@ -25,6 +26,7 @@ func (s *Service) List(ctx context.Context, namespace string) ([]model.Deploymen
 	}
 	return s.Backend.List(ctx, namespace)
 }
+
 // Set validates presence, bounds and version length before requesting a write.
 // The backend chooses direct scaling or durable intent based on the runtime level.
 func (s *Service) Set(ctx context.Context, t model.Target, r model.SetRequest) (model.SetResult, error) {

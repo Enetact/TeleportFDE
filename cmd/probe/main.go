@@ -23,6 +23,7 @@ func main() {
 		os.Exit(1)
 	}
 }
+
 // run samples Service availability over a fixed interval in the development lab.
 // The caller must arrange for that interval to cover the entire rollout.
 func run() error {

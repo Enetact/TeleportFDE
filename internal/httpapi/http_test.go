@@ -31,6 +31,7 @@ func (f *fake) Set(_ context.Context, t model.Target, n int32, v string) (model.
 	f.replicas = n
 	return model.SetResult{Target: t, Replicas: n}, f.err
 }
+
 // TestHTTP exercises routing and decoding without a network listener.
 // Transport certificate checks are covered separately by the security package.
 func TestHTTP(t *testing.T) {
