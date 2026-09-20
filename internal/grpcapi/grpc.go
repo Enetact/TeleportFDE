@@ -1,3 +1,4 @@
+// Package grpcapi adapts the shared service to the level-5 development gRPC contract.
 package grpcapi
 
 import (
@@ -14,11 +15,14 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+// Server implements the generated ReplicaService handlers.
+// Configure Service before registration; the gRPC listener owns transport security.
 type Server struct {
 	pb.UnimplementedReplicaServiceServer
 	Service *service.Service
 }
 
+// GetReplicas returns the cached Deployment view supplied by the level-5 backend.
 func (s *Server) GetReplicas(ctx context.Context, r *pb.GetReplicasRequest) (*pb.Deployment, error) {
 	d, err := s.Service.Get(ctx, model.Target{Namespace: r.GetNamespace(), Name: r.GetName()})
 	if err != nil {
@@ -26,6 +30,7 @@ func (s *Server) GetReplicas(ctx context.Context, r *pb.GetReplicasRequest) (*pb
 	}
 	return toProto(d), nil
 }
+// SetReplicas validates input and persists desired intent through the service.
 func (s *Server) SetReplicas(ctx context.Context, r *pb.SetReplicasRequest) (*pb.SetReplicasResponse, error) {
 	if r == nil {
 		return nil, status.Error(codes.InvalidArgument, "request is required")
@@ -36,6 +41,7 @@ func (s *Server) SetReplicas(ctx context.Context, r *pb.SetReplicasRequest) (*pb
 	}
 	return &pb.SetReplicasResponse{Namespace: d.Namespace, Name: d.Name, Replicas: d.Replicas, Version: d.Version, Accepted: d.Accepted}, nil
 }
+// ListDeployments returns cached views for one namespace or the whole cluster.
 func (s *Server) ListDeployments(ctx context.Context, r *pb.ListDeploymentsRequest) (*pb.ListDeploymentsResponse, error) {
 	ds, err := s.Service.List(ctx, r.GetNamespace())
 	if err != nil {

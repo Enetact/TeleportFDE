@@ -24,6 +24,8 @@ func sampleDeployment() *appsv1.Deployment {
 	n := int32(2)
 	return &appsv1.Deployment{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "demo", UID: types.UID("deployment-uid"), ResourceVersion: "10"}, Spec: appsv1.DeploymentSpec{Replicas: &n}}
 }
+// TestCachedReadsDoNotCallAPIServer separates watch setup from API-read assertions.
+// Clearing recorded actions avoids counting initial synchronization as a cache miss.
 func TestCachedReadsDoNotCallAPIServer(t *testing.T) {
 	d := sampleDeployment()
 	k := fake.NewSimpleClientset(d)
@@ -103,6 +105,8 @@ func TestHPAConflict(t *testing.T) {
 		t.Fatalf("HPA conflict not rejected: %v", err)
 	}
 }
+// TestIntentIsDurableAndNotDirectScale checks intent creation in the fake API store.
+// It does not prove persistence through an actual API-server or controller restart.
 func TestIntentIsDurableAndNotDirectScale(t *testing.T) {
 	k := fake.NewSimpleClientset(sampleDeployment())
 	dyn := dynamicfake.NewSimpleDynamicClientWithCustomListKinds(runtime.NewScheme(), map[schema.GroupVersionResource]string{IntentGVR: "ReplicaIntentList"})

@@ -1,4 +1,4 @@
-// probe runs inside the cluster to test the actual Service during a rollout.
+// Probe runs inside the cluster to test the actual Service during a rollout.
 // It deliberately establishes fresh connections rather than pinning one Pod
 // through kubectl port-forward. A failed request makes the overall check fail.
 package main
@@ -23,6 +23,8 @@ func main() {
 		os.Exit(1)
 	}
 }
+// run samples Service availability over a fixed interval in the development lab.
+// The caller must arrange for that interval to cover the entire rollout.
 func run() error {
 	level := flag.Int("level", 5, "challenge level")
 	addr := flag.String("addr", "replica-control.replica-system.svc:8443", "Service DNS and port")

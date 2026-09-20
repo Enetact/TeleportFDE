@@ -6,6 +6,7 @@ import (
 	"testing"
 )
 
+// fakeBackend counts calls so validation tests can prove invalid input never reaches storage.
 type fakeBackend struct {
 	calls    int
 	replicas int32

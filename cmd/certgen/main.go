@@ -1,5 +1,5 @@
-// certgen produces short-lived LOCAL-DEVELOPMENT identities. Never use its local
-// CA as your organization's production PKI. Existing files are not overwritten.
+// Certgen produces short-lived identities for the local development lab.
+// Existing identities are preserved by rejecting a nonempty output directory.
 package main
 
 import (
@@ -97,6 +97,8 @@ func run() error {
 	fmt.Printf("Local identities written to %s; leaf certificates expire after 7 days.\n", *dir)
 	return nil
 }
+// writePair writes PEM files beneath dir using operating-system path semantics.
+// The caller checks that the output directory is empty before generating identities.
 func writePair(dir, name string, der []byte, key *ecdsa.PrivateKey) error {
 	if err := os.WriteFile(filepath.Join(dir, name+".crt"), pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: der}), 0644); err != nil {
 		return err

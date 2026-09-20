@@ -6,6 +6,7 @@ import (
 	"testing"
 )
 
+// TestTargetValidation uses named cases to show accepted names and rejected path-like input.
 func TestTargetValidation(t *testing.T) {
 	for _, tc := range []struct {
 		ns, name string

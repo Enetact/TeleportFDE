@@ -1,3 +1,4 @@
+// Replicactl exercises the development gRPC API with a local client identity.
 package main
 
 import (
@@ -23,6 +24,8 @@ func main() {
 		os.Exit(1)
 	}
 }
+// run parses one command and shares its deadline across the RPC.
+// The standard flag package expects global flags before the command name.
 func run() error {
 	address := flag.String("addr", "localhost:8443", "gRPC address")
 	serverName := flag.String("server-name", "localhost", "expected server certificate DNS name")

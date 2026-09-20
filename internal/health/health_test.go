@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+// TestHealthStates controls observations directly to isolate readiness decisions.
+// It does not simulate a Kubernetes network outage.
 func TestHealthStates(t *testing.T) {
 	synced := false
 	s := New(func() bool { return synced }, func(context.Context) error { return nil })

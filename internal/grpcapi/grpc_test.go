@@ -32,6 +32,8 @@ func (stub) Set(_ context.Context, t model.Target, n int32, v string) (model.Set
 	}
 	return model.SetResult{Target: t, Replicas: n, Accepted: true}, nil
 }
+// TestGRPCWire checks generated codecs and status mapping through an in-memory connection.
+// It does not exercise Kubernetes persistence or the application's TLS listener.
 func TestGRPCWire(t *testing.T) {
 	listener := bufconn.Listen(1 << 20)
 	server := grpc.NewServer()
