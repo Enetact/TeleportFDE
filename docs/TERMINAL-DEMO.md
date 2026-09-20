@@ -62,6 +62,11 @@ Its final success message is `Level N integration checks passed.` A stage marker
 alone is not proof that the stage succeeded. Read the process exit status and
 `artifacts/integration/level-N/<test-namespace>/result.log` as well.
 
+Each verified API checkpoint now also prints `PASS` with its operation and
+selected response fields; failures print `FAIL`. `api-checks.log` retains those
+lines and `check-summary.log` records the outcome. In GitHub these also appear
+in the job summary. See [API test logs](API-TEST-LOGS.md) for the precise scope.
+
 | Level | What the automated run demonstrates |
 |---|---|
 | 1 | Authenticated HTTP read; missing and unauthorized certificate rejection; normal access afterward |

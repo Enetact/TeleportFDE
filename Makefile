@@ -130,6 +130,7 @@ quality: toolchain-check format-check verify-generated test vet build helm-check
 .PHONY: harness-check
 harness-check:
 	bash scripts/test-harness.sh
+	bash scripts/test-report_test.sh
 
 vuln: check-prepared
 	govulncheck ./...

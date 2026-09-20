@@ -221,6 +221,9 @@ TLS certificate alert counts as rejection. Authenticated API checks follow on a
 fresh tunnel. Per-stage diagnostics are saved under
 `artifacts/integration/level-N/` and uploaded by CI without certificate keys.
 See [integration validation](docs/INTEGRATION-VALIDATION.md) for scope and results.
+The harness also prints verified API PASS/FAIL checkpoints, selected response
+fields and a per-level GitHub job summary. See [API test logs](docs/API-TEST-LOGS.md)
+for where to find results and how expected rejections count as passing tests.
 
 The integration script creates a unique temporary namespace, checks behavior,
 then removes that namespace on success or failure. The application release is

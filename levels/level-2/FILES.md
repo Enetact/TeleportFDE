@@ -20,6 +20,7 @@ All links below resolve to shared source. Files can serve multiple levels.
 | [charts/replica-control](../../charts/replica-control) | Shared chart, values, workload, service, service account and RBAC |
 | [.github/workflows/ci.yaml](../../.github/workflows/ci.yaml) | Push quality gate, ci:full PR opt-in, full main/tag suite and manual controls |
 | [scripts/integration.sh](../../scripts/integration.sh) | Level-selected live checks |
+| [scripts/test-report.sh](../../scripts/test-report.sh) | Verified API checkpoints and GitHub job summaries |
 | [scripts/check-format.sh](../../scripts/check-format.sh) | Go formatting check |
 | [docs/DESIGN.md](../../docs/DESIGN.md) | Existing educational design and complete protobuf contract |
 | [docs/VALIDATION.md](../../docs/VALIDATION.md) | Historical validation boundary |

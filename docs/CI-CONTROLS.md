@@ -26,6 +26,10 @@ events skip even that job. The policy is implemented in
 [ci-policy.py](../scripts/ci-policy.py) and wired through
 [ci.yaml](../.github/workflows/ci.yaml).
 
+Enabled integration jobs print verified API checkpoints and add a per-level
+PASS/FAIL summary. [API test logs](API-TEST-LOGS.md) explains the assertions,
+expected rejections, retained response fields and downloadable reports.
+
 Merging a PR into `main` updates `main` and invokes its push workflow. There is
 no additional `pull_request: closed` trigger, avoiding a duplicate full run for
 the same merge. Closing a PR without merging does not trigger full validation.

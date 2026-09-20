@@ -1,0 +1,60 @@
+{
+  "recordedAtUtc": "2026-09-20T22:24:00.4346859+00:00",
+  "checkoutCommitAtReceipt": "fe48e80d3ad6daaa9567c397acf875e1779d5197",
+  "sourceState": "Working-tree reporting files; hashes collected after verification.",
+  "environment": "Ubuntu 24.04 under WSL, Linux/ARM64; local KIND clusters",
+  "focusedChecks": [
+    "Reporting assertions, excluded fields, stdout/stderr separation and summary regression tests passed",
+    "Harness lifecycle and shell syntax checks passed",
+    "CI event-policy tests and actionlint passed"
+  ],
+  "runs": [
+    {
+      "level": 4,
+      "mode": "integration-and-rollout",
+      "result": "PASSED",
+      "passedCheckpoints": 21,
+      "failedCheckpoints": 0,
+      "exitCode": 0,
+      "localLog": "artifacts/validation/api-reporting/level-4.log"
+    },
+    {
+      "level": 5,
+      "mode": "integration",
+      "result": "PASSED",
+      "passedCheckpoints": 23,
+      "failedCheckpoints": 0,
+      "exitCode": 0,
+      "localLog": "artifacts/validation/api-reporting/grpc-fresh-cluster/level-5.log"
+    }
+  ],
+  "httpRollout": {
+    "requests": 152,
+    "failures": 0,
+    "longest": "203.917173ms"
+  },
+  "earlierAttempt": {
+    "result": {
+      "level": 5,
+      "mode": "integration",
+      "result": "FAILED",
+      "passedCheckpoints": 0,
+      "failedCheckpoints": 1,
+      "exitCode": 1,
+      "localLog": "artifacts/validation/api-reporting/level-5.log"
+    },
+    "explanation": "The sequential level-5 attempt timed out waiting for its disposable Deployment during setup, before service API checks. Its FAILED summary was retained. Level 5 passed in a fresh isolated cluster with unchanged scripts and timeouts."
+  },
+  "cleanup": [
+    "sre-api-logs deleted",
+    "sre-api-logs-grpc deleted"
+  ],
+  "scope": "Levels 4 and 5 re-executed for this logging change; levels 1-3 were not rerun. These are local results, not GitHub-hosted execution.",
+  "sourceSha256": {
+    "scripts/integration.sh": "349ab64af892885221529d580f96afed39237db9922d75b6cfa8a361d6af8a40",
+    "scripts/test-report.sh": "c1d799ca7372db53a53d26050321ab4eafac12e9b9bf6308ec4cfffc3ce2bdec",
+    "scripts/test-report_test.sh": "9c29cf3a11a68430c30eae7af2b26625868d6dbe712335b2225331b4edc2c3bd",
+    "Makefile": "fc06ef3147b96f6415cc54bd33a3812476b86d4477125f48fec6c2869aa4943d",
+    ".github/workflows/ci.yaml": "0f2483cc786e7f4616742599f7914730b7ba85120b53174e057318e72c8657cd"
+  }
+}

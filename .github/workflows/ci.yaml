@@ -73,7 +73,8 @@ jobs:
         with:
           persist-credentials: false
       - run: bash scripts/setup-dev.sh
-      - run: bash scripts/dev.sh integration LEVEL=${{ matrix.level }}
+      - name: Verify level ${{ matrix.level }} API calls
+        run: bash scripts/dev.sh integration LEVEL=${{ matrix.level }}
       - name: Probe rolling availability
         if: matrix.level >= 3
         run: bash scripts/dev.sh upgrade-test LEVEL=${{ matrix.level }}

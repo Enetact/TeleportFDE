@@ -154,6 +154,11 @@ Kubernetes events before namespace cleanup. A refused connection is a transport
 failure, not successful certificate rejection. Repair the tunnel or fixture;
 do not disable certificate verification to make the test pass.
 
+Successful and failed runs also produce `api-checks.log` and `check-summary.log`,
+with verified operations and selected response fields printed in the terminal.
+GitHub receives a per-level job summary. [API test logs](API-TEST-LOGS.md) explains
+checkpoint counts, expected errors and where to find the downloadable evidence.
+
 During local validation Docker/KIND restarted between WSL command sessions.
 The remaining checks passed in one continuous session after the named lab node
 was recovered. If local runs encounter stopped containers, check Docker and the

@@ -492,7 +492,10 @@ of this implementation.
 
 Current JSON application logs cover lifecycle, leadership and errors. Intent
 status, Deployment status/events, health checks and per-stage CI logs support
-diagnosis. There is no complete per-mutation audit trail, Prometheus endpoint,
+diagnosis. The integration harness also emits verified API checkpoints, selected
+fixture response fields and per-level GitHub summaries; see
+[API test logs](../docs/API-TEST-LOGS.md). These are test evidence, not a live
+service access log. There is no complete per-mutation audit trail, Prometheus endpoint,
 distributed tracing pipeline or product-usage telemetry. Kubernetes audit logs
 would require separate cluster configuration and are not claimed as supplied.
 
