@@ -59,7 +59,7 @@ The macOS setup path has not been exercised by this change.
 |---|---|---|
 | Go toolchain | 1.27.1 | Local/CI builds and the builder image |
 | Minimum Go language/toolchain | 1.26.0 | Kubernetes v0.37.0 module requirements |
-| gRPC Go | v1.84.0 | Server, CLI and rollout probe |
+| gRPC Go | v1.83.2 (security backport) | Server, CLI and rollout probe |
 | protobuf Go | v1.36.12 | Generated message runtime and protoc-gen-go |
 | Kubernetes api/apimachinery/client-go | v0.37.0, aligned | Backend, informers, CRD client and election |
 | protoc | 36.2 | Explicit binding regeneration |
@@ -75,6 +75,14 @@ contents. Generated files under `gen/replicas/v1/` are included in source contro
 `make prepare` is the explicit update/bootstrap operation. `make quality` does
 not silently tidy dependencies or regenerate the working tree. It compares freshly
 generated bindings in a temporary directory with the supplied files.
+
+The gRPC selection intentionally uses the patched stable v1.83.2 backport.
+On 2026-09-20, the Go vulnerability database still flags v1.84.0 for
+[GO-2026-6443](https://pkg.go.dev/vuln/GO-2026-6443). The
+[upstream security advisory](https://github.com/grpc/grpc-go/security/advisories/GHSA-2v4p-qf9q-27wj)
+confirms v1.83.2 is patched. This avoids requiring the development pseudo-version
+shown by the scanner. A future update must pass `make vuln`; do not restore
+v1.84.0 solely because its version number is higher.
 
 `make format` and `make format-check` both use `scripts/check-format.sh`.
 It enumerates every tracked and nonignored untracked `.go` file, including `gen/`,

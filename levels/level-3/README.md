@@ -54,7 +54,7 @@ LEVEL; it does not consume this optional values overlay.
 
 ## Evidence still needed
 
-Demonstrate listing, loss/recovery of Kubernetes connectivity, and availability throughout a Helm upgrade. The existing upgrade-test target rejects LEVEL=3; see audit finding A3.
+Demonstrate listing, loss/recovery of Kubernetes connectivity, and availability throughout a Helm upgrade. Run `bash "$repo_root/levels/level-3/run.sh" upgrade-test` to exercise the rollout probe. The target now accepts level 3, resolving the command restriction in historical audit finding A3; the fixed-duration probe still has the coverage limitation in A2.
 
 Keep command output, tool versions, source commit and cluster details with the
 result. Historical core test logs do not establish that this level works end to
