@@ -1,0 +1,18 @@
+flowchart TB
+  probe[Authenticated probe succeeds] --> helm
+  helm[Helm changes Pod template] --> surge[Start surge Pod]
+  surge --> sync[Sync caches when used / check API health]
+  sync --> ready[Readiness turns true]
+  ready --> route[Service can route traffic]
+  ready --> stable[5s minReadySeconds / availability]
+  stable --> retire[SIGTERM to old Pod]
+  retire --> drain[Remove readiness / wait 5 seconds]
+  drain --> shutdown[Drain requests / bounded shutdown]
+  shutdown --> finished[Helm completes / acknowledge probe]
+  finished --> observe[Observe 10 more seconds / require success]
+  classDef step fill:#182c47,stroke:#76baff,color:#f1f5ff
+  classDef safe fill:#173d44,stroke:#5eead4,color:#f0fdfa
+  classDef endstep fill:#352b47,stroke:#c4a6ff,color:#faf5ff
+  class probe,helm,surge,sync step
+  class ready,route,stable safe
+  class retire,drain,shutdown,finished,observe endstep

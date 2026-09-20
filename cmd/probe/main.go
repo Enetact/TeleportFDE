@@ -12,8 +12,11 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"io"
+	"net"
 	"net/http"
 	"os"
+	"sync"
+	"sync/atomic"
 	"time"
 )
 
@@ -24,8 +27,9 @@ func main() {
 	}
 }
 
-// run samples Service availability over a fixed interval in the development lab.
-// The caller must arrange for that interval to cover the entire rollout.
+// run samples the real Service until the harness confirms the upgrade finished.
+// The control endpoint is loopback-only and reached through kubectl exec; it
+// needs no Service, Kubernetes API credentials, or shell in the scratch image.
 func run() error {
 	level := flag.Int("level", 5, "challenge level")
 	addr := flag.String("addr", "replica-control.replica-system.svc:8443", "Service DNS and port")
@@ -33,13 +37,28 @@ func run() error {
 	ns := flag.String("namespace", "default", "target namespace")
 	name := flag.String("name", "demo", "target Deployment")
 	duration := flag.Duration("duration", 75*time.Second, "probe duration")
+	controlled := flag.Bool("controlled", false, "require finish acknowledgment before the duration deadline")
+	finish := flag.Bool("finish", false, "tell the running in-Pod probe that Helm finished")
+	settle := flag.Duration("settle", 10*time.Second, "continue sampling after finish acknowledgment")
 	interval := flag.Duration("interval", 200*time.Millisecond, "delay between calls")
 	cert := flag.String("cert", "/tls/client.crt", "client certificate")
 	key := flag.String("key", "/tls/client.key", "client key")
 	ca := flag.String("ca", "/tls/ca.crt", "server CA")
 	flag.Parse()
-	if *duration <= 0 || *interval <= 0 {
-		return fmt.Errorf("duration and interval must be positive")
+	if *finish {
+		client := &http.Client{Timeout: 3 * time.Second}
+		response, err := client.Post("http://127.0.0.1:19091/finish", "text/plain", nil)
+		if err != nil {
+			return err
+		}
+		defer response.Body.Close()
+		if response.StatusCode != http.StatusAccepted {
+			return fmt.Errorf("finish acknowledgment: HTTP %d", response.StatusCode)
+		}
+		return nil
+	}
+	if *duration <= 0 || *interval <= 0 || *settle <= 0 {
+		return fmt.Errorf("duration, interval and settle must be positive")
 	}
 	cfg, err := security.Client(*cert, *key, *ca, *serverName)
 	if err != nil {
@@ -75,27 +94,26 @@ func run() error {
 		}
 		return nil
 	}
-	end := time.Now().Add(*duration)
-	total, failed := 0, 0
-	var longest time.Duration
-	fmt.Println("probe started")
-	for time.Now().Before(end) {
-		start := time.Now()
-		err := check()
-		elapsed := time.Since(start)
-		if elapsed > longest {
-			longest = elapsed
-		}
-		total++
+	finished := make(chan struct{})
+	var ready atomic.Bool
+	if *controlled {
+		listener, err := net.Listen("tcp", "127.0.0.1:19091")
 		if err != nil {
-			failed++
-			fmt.Printf("request %d failed: %v\n", total, err)
+			return err
 		}
-		time.Sleep(*interval)
+		var once sync.Once
+		mux := http.NewServeMux()
+		mux.HandleFunc("POST /finish", func(w http.ResponseWriter, r *http.Request) {
+			if !ready.Load() {
+				http.Error(w, "probe not ready", http.StatusServiceUnavailable)
+				return
+			}
+			once.Do(func() { close(finished) })
+			w.WriteHeader(http.StatusAccepted)
+		})
+		server := &http.Server{Handler: mux, ReadHeaderTimeout: 3 * time.Second}
+		defer server.Close()
+		go func() { _ = server.Serve(listener) }()
 	}
-	fmt.Printf("requests=%d failures=%d longest=%s\n", total, failed, longest)
-	if failed > 0 || total == 0 {
-		return fmt.Errorf("rollout availability test failed")
-	}
-	return nil
+	return monitor(*duration, *interval, *settle, *controlled, finished, check, func() { ready.Store(true) }, os.Stdout)
 }

@@ -1,5 +1,7 @@
 # Audit artifact checks
 
+> Historical audit-artifact checks. The manifest match and counts below refer to the original audit snapshot, not the updated checkout. Current application and cluster results are in [integration validation](INTEGRATION-VALIDATION.md).
+
 Executed 2026-09-20 for the new level guides and audit documentation.
 
 | Check | Result |
@@ -23,3 +25,32 @@ This was a validation-shell setup issue, not a wrapper application-test result.
 No new Go test, race, vet, binary-build, Helm-render, Kubernetes-admission,
 Docker-build or cluster-integration result is claimed. See [AUDIT.md](AUDIT.md).
 The original `docs/VALIDATION.md` and its execution logs were preserved.
+
+## Documentation reconciliation after integration repairs
+
+Checked on 2026-09-20 against the current scripts, workflow, module/tool pins and
+`docs/validation/integration-summary.json`. This follow-up updates documentation;
+the results above remain the original audit snapshot.
+
+| Check | Result |
+|---|---|
+| Repository Markdown inventory | 28 files reviewed for current versus historical scope |
+| Local Markdown link targets | 314 references checked; zero missing targets |
+| Bash examples | 34 blocks parsed with Git Bash; no commands executed |
+| PowerShell examples | Nine blocks parsed with the PowerShell parser; no commands executed |
+| Current command names | Reviewed against Makefile; removed the imported unsupported `fuzz-core` instruction |
+| Application/build provenance | All hashes recorded in the integration receipt still match |
+| Offline HTML guides | All six pages passed local-link, layout and browser checks |
+| Visual behavior | Playback, GIF motion, reduced-motion defaults and zero external requests passed |
+| Whitespace | Git diff check passed |
+
+The root validation index, level evidence sections, file maps, walkthrough,
+design/security guides and dependency report now describe the completed local
+checks. Historical imported review claims and original tool versions are labeled
+as such; missing review-specific receipts are not promoted to verified evidence.
+The integration report also states the HTTP probe's response-body limitation.
+Remote GitHub execution remains distinct from local Linux/ARM64 evidence.
+
+Application tests were not rerun for this documentation-only pass. Prior test
+results remain tied to the unchanged code hashes. Upstream links were not
+revalidated; this pass checked local documentation consistency and link targets.

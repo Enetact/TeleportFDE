@@ -1,5 +1,26 @@
 # TeleportFDE audit
 
+Follow-up: [dependency validation](DEPENDENCY-VALIDATION.md) records subsequent
+toolchain, generated-source, formatting and workflow repairs. Findings below
+describe the original baseline and are retained as historical evidence.
+[Integration repairs and validation](INTEGRATION-VALIDATION.md) track the subsequent
+A2/A4 fixes and the shared port-forward failure observed in CI.
+
+## Follow-up status
+
+| Original finding | Current status |
+|---|---|
+| A1: Missing build inputs | Addressed: supplied bindings/checksums, generation verification, full builds and container tests passed |
+| A2: Incomplete rollout observation | Addressed: completion-controlled probe and ten-second settling period; live checks passed for levels 3–5 |
+| A3: Unsupported level-3 upgrade target | Addressed: levels 3–5 are supported and exercised |
+| A4: False-positive certificate rejection | Addressed: validated fixtures, isolated tunnels and explicit remote TLS alerts; broken tunnel and missing-file checks fail correctly |
+| A5: Failure/recovery coverage gaps | Partially covered by the new live runs; explicit leader failover and Kubernetes connectivity-loss/recovery remain unverified |
+
+The [integration report](INTEGRATION-VALIDATION.md) and its source-hash receipt
+contain the local Linux/ARM64 evidence. GitHub-hosted execution of these fixes is
+not yet recorded. Everything below describes the original audit snapshot;
+its line numbers, missing-file statements and remediation list are historical.
+
 Audit date: 2026-09-20. Baseline: local commit `1d6cd0d` with a clean working tree
 before this audit. Origin: `https://github.com/Enetact/TeleportFDE.git`.
 Scope: public challenge alignment, local source and test inspection, folder

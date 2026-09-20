@@ -130,23 +130,39 @@ an actual measurement, not just a correct-looking Deployment manifest.
 
 ## Developer workflow, build and release
 
-`make prepare` generates protobuf bindings and creates the real dependency lock.
+`make prepare` regenerates protobuf bindings and resolves/verifies module checksums.
+The generated bindings and `go.sum` are already supplied; ordinary checks do not
+require regeneration. `go.mod` selects dependencies and `go.sum` verifies downloads.
 `make test` runs unit/fake-client tests; `make test-core` is the smaller offline
 suite. `make deploy LEVEL=N` builds and loads a static, non-root image into a named
 local KIND cluster and installs the chart. Docker produces one architecture per
 invocation through BuildKit target variables, supporting amd64/arm64 workflows.
 
-`make integration-all` exercises each level. `make upgrade-test LEVEL=4|5` creates
+`make build` produces four host binaries; `tlscheck` is a development-only
+certificate rejection verifier. The runtime image contains the server, gRPC CLI
+and probe. Each deliberate TLS rejection gets a separate port-forward and must
+return a remote certificate alert; broken tunnels and invalid fixtures fail.
+
+`make integration-all` attempts all levels and fails if any level fails.
+`make upgrade-test LEVEL=3` (also supported for 4 and 5) creates
 an authenticated probe Job in the cluster that connects to the Service using fresh
-connections while Helm rolls the application. Any failed request fails the Job.
+connections while Helm rolls the application. A successful first request starts
+monitoring; the harness acknowledges Helm completion through `/probe --finish`
+inside the Pod, followed by ten seconds of additional sampling. The 300-second
+probe deadline fails closed without that acknowledgment and observation period.
+The Job allows 360 seconds and Helm allows 180 seconds. Any failed request fails the Job.
 A kubectl port-forward is not used as the availability measurement because it
-selects a specific Pod. Unit CI runs on pushes/PRs; cluster tests are opt-in manual
-runs to avoid silently consuming resources on every change.
+selects a specific Pod. Quality CI runs on pushes/PRs. Both push and pull-request
+runs automatically test all five levels after quality passes. Manual runs can
+also enable `cluster_tests`. A push to an open PR can trigger both matrices.
+Selected per-level diagnostic logs are uploaded for seven days before cleanup;
+private keys and Secret manifests are excluded from the artifact inputs.
 
 Generated files and real go.sum must be reviewed and committed after bootstrap.
-Pin the protoc executable version, action commit SHAs and builder image digest for
-stronger reproducibility. Dependency vulnerability checks and a signed-release
-supply chain are not provided by a successful unit test.
+The protoc version, action commit SHAs and builder/node/test image digests are
+pinned. `make vuln` is a separate required Go vulnerability gate. These checks
+do not provide a signed-release supply chain. Current local integration and
+rollout results are recorded in [INTEGRATION-VALIDATION.md](INTEGRATION-VALIDATION.md).
 
 ## Proposed review sequence
 

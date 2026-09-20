@@ -1,12 +1,25 @@
-# Generated wire bindings
+# Generated Go bindings
 
-Run `make prepare` (or `make generate`) on a networked development machine with
-Go 1.25+ and protoc installed. The output belongs in:
+`replicas/v1/replicas.pb.go` and `replicas/v1/replicas_grpc.pb.go` are generated
+from `api/replicas/v1/replicas.proto` with the versions in `toolchain.env`.
+Keep these files and `go.sum` in source control. Do not edit generated Go by hand.
 
-- `gen/replicas/v1/replicas.pb.go`
-- `gen/replicas/v1/replicas_grpc.pb.go`
+Both outputs are supplied in this checkout. For a normal build, run the root
+`quality` and `vuln` targets after [toolchain setup](../docs/DEVELOPMENT.md).
+The [development visual guide](../docs/visuals/delivery.html) shows how generation
+verification fits into the build.
 
-The canonical input is `api/replicas/v1/replicas.proto`. Generated Go source was
-not fabricated in an environment without the compiler/plugins. The Makefile pins
-the Go plugin versions. Commit the real generated outputs alongside go.sum before
-using the CI lock/regeneration check.
+After intentionally changing the schema or generator versions, start in the
+repository root (not `gen/`):
+
+```bash
+repo_root="$(pwd)"
+bash "$repo_root/scripts/dev.sh" prepare
+bash "$repo_root/scripts/dev.sh" quality vuln
+```
+
+`verify-generated` regenerates into a temporary directory and compares it with
+these files. It does not silently repair the working tree.
+The common formatter includes generated `.go` files in both `format` and
+`format-check`. Review and commit the real generated outputs and module-file
+changes together; do not replace them with handwritten stubs.

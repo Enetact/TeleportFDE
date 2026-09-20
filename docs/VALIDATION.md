@@ -1,5 +1,7 @@
 # Validation record
 
+> Historical authoring record. The environment, tool versions and NOT RUN entries below describe the original pass. For current executed results, see [dependency validation](DEPENDENCY-VALIDATION.md) and [integration validation](INTEGRATION-VALIDATION.md).
+
 Prepared September 20, 2026. This record distinguishes executed checks from
 provided-but-unexecuted tests. It is not a claim that all five levels run end to end.
 

@@ -52,6 +52,7 @@ build: check-prepared
 	go build -mod=readonly -trimpath -ldflags='-X main.version=$(IMAGE_TAG)' -o "$(BIN)/server" ./cmd/server
 	go build -mod=readonly -trimpath -o "$(BIN)/replicactl" ./cmd/replicactl
 	go build -mod=readonly -trimpath -o "$(BIN)/probe" ./cmd/probe
+	go build -mod=readonly -trimpath -o "$(BIN)/tlscheck" ./cmd/tlscheck
 
 certs:
 	@mkdir -p .local
@@ -80,11 +81,16 @@ integration: deploy build
 	LEVEL='$(LEVEL)' CLUSTER='$(CLUSTER)' NAMESPACE='$(NAMESPACE)' RELEASE='$(RELEASE)' IMAGE='$(IMAGE)' bash scripts/integration.sh
 
 integration-all:
-	@for level in 1 2 3 4 5; do $(MAKE) integration LEVEL=$$level; done
+	@failed=''; for level in 1 2 3 4 5; do \
+	  if ! $(MAKE) integration LEVEL=$$level; then failed="$$failed $$level"; fi; \
+	done; if [ -n "$$failed" ]; then echo "Failed integration levels:$$failed" >&2; exit 1; fi
 
-upgrade-test: deploy build
-	@test '$(LEVEL)' = 3 -o '$(LEVEL)' = 4 -o '$(LEVEL)' = 5 || { echo 'Use LEVEL=3, LEVEL=4 or LEVEL=5.'; exit 1; }
+upgrade-test: check-upgrade-level deploy build
 	UPGRADE_TEST=1 LEVEL='$(LEVEL)' CLUSTER='$(CLUSTER)' NAMESPACE='$(NAMESPACE)' RELEASE='$(RELEASE)' IMAGE='$(IMAGE)' bash scripts/integration.sh
+
+.PHONY: check-upgrade-level
+check-upgrade-level:
+	@test '$(LEVEL)' = 3 -o '$(LEVEL)' = 4 -o '$(LEVEL)' = 5 || { echo 'Use LEVEL=3, LEVEL=4 or LEVEL=5.'; exit 1; }
 
 helm-check:
 	helm lint $(CHART)
@@ -103,7 +109,7 @@ check-prepared:
 	@test -s go.sum -a -s gen/replicas/v1/replicas.pb.go -a -s gen/replicas/v1/replicas_grpc.pb.go || { echo 'Run make prepare first, then review go.mod, go.sum and gen/.' >&2; exit 1; }
 
 format:
-	gofmt -w cmd internal gen
+	bash scripts/check-format.sh --write
 
 format-check:
 	bash scripts/check-format.sh
@@ -114,8 +120,12 @@ verify-generated: check-prepared
 workflow-check:
 	actionlint -shellcheck= -pyflakes=
 
-quality: format-check verify-generated test vet build helm-check workflow-check
+quality: toolchain-check format-check verify-generated test vet build helm-check workflow-check harness-check
 	go mod verify
+
+.PHONY: harness-check
+harness-check:
+	bash scripts/test-harness.sh
 
 vuln: check-prepared
 	govulncheck ./...
@@ -135,3 +145,7 @@ package: check-prepared
 	@mkdir -p artifacts
 	helm package $(CHART) --destination artifacts
 	docker image save '$(IMAGE)' | gzip > artifacts/replica-control-image.tar.gz
+
+.PHONY: toolchain-check
+toolchain-check:
+	python3 scripts/check-toolchain.py

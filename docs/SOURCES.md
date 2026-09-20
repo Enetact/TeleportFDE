@@ -1,5 +1,15 @@
 # Source references
 
+Current checkout authorities are [toolchain.env](../toolchain.env),
+[go.mod](../go.mod) and [go.sum](../go.sum). They select Go 1.27.1,
+client-go v0.37.0, gRPC v1.83.2, protobuf Go v1.36.12, KIND v0.33.0,
+Kubernetes v1.37.0 and Helm v4.3.0. The
+[dependency report](DEPENDENCY-VALIDATION.md) explains the security backport and
+pins; [integration validation](INTEGRATION-VALIDATION.md) records executed tests.
+The version-specific references below belong to the original authoring baseline,
+not the current package selections. Upstream websites were not rechecked during
+this documentation-only reconciliation.
+
 Checked during preparation on September 20, 2026. These are primary references,
 not endorsements. No upstream challenge implementation has been copied. The
 GitHub-rendered challenge page was used for the requirements; the raw-file web
@@ -23,7 +33,7 @@ cache returned an older wording and was not treated as the latest authority.
   https://github.com/grpc/grpc-go/blob/v1.78.0/go.mod
 - Protocol Buffers Go v1.36.11 module baseline:
   https://github.com/protocolbuffers/protobuf-go/blob/v1.36.11/go.mod
-- KIND v0.31.0 release and Kubernetes 1.35.0 node digest used in Makefile:
+- Historical KIND v0.31.0 release and Kubernetes 1.35.0 node baseline:
   https://github.com/kubernetes-sigs/kind/releases/tag/v0.31.0
 - Helm 3.19.0 baseline:
   https://github.com/helm/helm/releases/tag/v3.19.0
@@ -39,6 +49,7 @@ Official installation references for the developer's machine:
 - https://helm.sh/docs/intro/install/
 - https://protobuf.dev/installation/
 
-The exact transitive dependency graph is determined by the real `make prepare`
-run and should be reviewed and committed. This document is not a substitute for
+The selected graph and generated outputs are supplied. `make prepare` explicitly
+updates those inputs after a deliberate schema/dependency change; review and
+commit its outputs together. This document is not a substitute for
 `go.sum`, an image digest, or a record of executed cluster tests.

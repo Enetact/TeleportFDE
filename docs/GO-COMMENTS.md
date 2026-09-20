@@ -1,5 +1,7 @@
 # Go comments for the development reference
 
+> Historical comment-only pass covering the original 22 authored Go files. Subsequent work added five authored files, bringing the current inventory to 27 authored plus two generated Go files. Formatting and the full race suite now pass; see [integration validation](INTEGRATION-VALIDATION.md). The no-toolchain statement below applies only to that original pass.
+
 Updated 2026-09-20 across all 22 authored Go source and test files under `cmd/`
 and `internal/`. These comments describe the current development implementation.
 
