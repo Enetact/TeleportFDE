@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # This script targets only a named local KIND context and its own test namespace.
 set -euo pipefail
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$repo_root/toolchain.env"
+cd -- "$repo_root"
 LEVEL=${LEVEL:-5}
 CLUSTER=${CLUSTER:-sre-reference}
 NAMESPACE=${NAMESPACE:-replica-system}
@@ -50,7 +53,7 @@ spec:
         seccompProfile: {type: RuntimeDefault}
       containers:
         - name: pause
-          image: registry.k8s.io/pause:3.10
+          image: "$PAUSE_IMAGE"
           resources:
             requests: {cpu: 1m, memory: 8Mi}
             limits: {cpu: 20m, memory: 32Mi}
@@ -187,7 +190,7 @@ YAML
     sleep 0.5
   done
   "${K[@]}" -n "$TEST_NS" logs job/rollout-probe | grep -q 'probe started'
-  helm upgrade "$RELEASE" charts/replica-control --kube-context "$CTX" -n "$NAMESPACE" --reuse-values --set-string rolloutToken="$(date +%s)-$$" --wait --atomic --timeout 180s
+  helm upgrade "$RELEASE" charts/replica-control --kube-context "$CTX" -n "$NAMESPACE" --reuse-values --set-string rolloutToken="$(date +%s)-$$" --wait=watcher --rollback-on-failure --timeout 180s
   "${K[@]}" -n "$TEST_NS" wait --for=condition=complete job/rollout-probe --timeout=120s
   "${K[@]}" -n "$TEST_NS" logs job/rollout-probe
   kill "$PF_PID" 2>/dev/null || true
