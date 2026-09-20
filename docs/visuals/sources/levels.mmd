@@ -1,0 +1,9 @@
+flowchart TB
+  l1[01 / Read replicas] -->|Add controlled writes| l2[02 / Set replicas]
+  l2 -->|Add listing and health| l3[03 / List and operate]
+  l3 -->|Serve reads from informers| l4[04 / Cache reads]
+  l4 -->|Switch transport and persist intent| l5[05 / gRPC and reconciliation]
+  classDef step fill:#152f3e,stroke:#5eead4,color:#f0fdfa
+  classDef final fill:#332c49,stroke:#c4a6ff,color:#faf5ff
+  class l1,l2,l3,l4 step
+  class l5 final

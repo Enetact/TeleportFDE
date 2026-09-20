@@ -1,0 +1,14 @@
+flowchart TB
+  operator[Operator / CLI] -->|TLS 1.3 + client identity| gateway[Service :8443]
+  gateway --> api[HTTP L1-4 / gRPC L5]
+  api --> validation[Shared validation service]
+  validation -->|Reads L4-5| cache[Per-Pod informer cache]
+  validation -->|Live reads L1-3 / writes| kubernetes[Kubernetes API]
+  kubernetes -.->|List and watch L4-5| cache
+  kubernetes --> targets[Deployments / ReplicaIntents L5]
+  classDef entry fill:#173d44,stroke:#5eead4,color:#f0fdfa
+  classDef core fill:#182c47,stroke:#76baff,color:#f1f5ff
+  classDef store fill:#352b47,stroke:#c4a6ff,color:#f9f5ff
+  class operator,gateway entry
+  class api,validation core
+  class cache,kubernetes,targets store

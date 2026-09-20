@@ -1,5 +1,9 @@
 # TeleportFDE audit
 
+Follow-up: [dependency validation](DEPENDENCY-VALIDATION.md) records subsequent
+toolchain, generated-source, formatting and workflow repairs. Findings below
+describe the original baseline and are retained as historical evidence.
+
 Audit date: 2026-09-20. Baseline: local commit `1d6cd0d` with a clean working tree
 before this audit. Origin: `https://github.com/Enetact/TeleportFDE.git`.
 Scope: public challenge alignment, local source and test inspection, folder

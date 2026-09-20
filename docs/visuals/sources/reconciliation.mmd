@@ -1,0 +1,16 @@
+flowchart TB
+  client[SetReplicas] -->|Live target and ownership checks| intent[Persist ReplicaIntent]
+  intent -->|Return accepted and version| ack[Client acknowledgement]
+  intent -->|Informer event| queue[Rate-limited queue]
+  queue --> leader[Leader / two workers]
+  leader --> checks[Recheck UID / HPA / protection / versions]
+  checks -->|Eligible target| scale[Update scale subresource]
+  checks -.->|Ownership or identity conflict| blocked[Blocked status]
+  scale --> status[Observe replicas / update intent status]
+  status -.->|Events and 30s requeue| queue
+  classDef core fill:#182c47,stroke:#76baff,color:#f1f5ff
+  classDef accept fill:#173d44,stroke:#5eead4,color:#f0fdfa
+  classDef caution fill:#423322,stroke:#f4bf76,color:#fff8e9
+  class client,queue,leader,checks,scale,status core
+  class intent,ack accept
+  class blocked caution

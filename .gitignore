@@ -4,5 +4,7 @@
 artifacts/
 coverage.out
 *.test
+docs/visuals/tools/node_modules/
+docs/visuals/.build/
 # Commit the real go.sum and generated protobuf files after make prepare.
 # Do not ignore them. Never commit development PKI private keys.

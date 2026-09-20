@@ -44,5 +44,4 @@ All links below resolve to shared source. Files can serve multiple levels.
 - [cmd/probe/main.go](../../cmd/probe/main.go)
 - [charts/replica-control/crds/replicaintents.yaml](../../charts/replica-control/crds/replicaintents.yaml)
 
-Required bootstrap outputs, currently missing: gen/replicas/v1/replicas.pb.go and gen/replicas/v1/replicas_grpc.pb.go. All server levels also require these because they share one binary.
-
+Generated build inputs are included at [replicas.pb.go](../../gen/replicas/v1/replicas.pb.go) and [replicas_grpc.pb.go](../../gen/replicas/v1/replicas_grpc.pb.go). All server levels require these because they share one binary. Use `make verify-generated` to check them against the pinned generators without rewriting the working tree.

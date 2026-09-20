@@ -5,14 +5,21 @@ not an official Teleport solution, an approved design, or a claim of production
 readiness. It is a reference to study, run, critique, and adapt.
 
 **Current development setup:** see [DEVELOPMENT.md](docs/DEVELOPMENT.md) for
-Windows/WSL installation, the package/image map and Git workflow. All versioned
-tools and image digests are centralized in `toolchain.env`. Generated protobuf
+Windows/WSL installation, the package/image map and Git workflow. Go/Kubernetes
+tool versions and image digests are centralized in `toolchain.env`. Go modules
+are selected in `go.mod`; optional visual-build packages are pinned separately
+in `docs/visuals/tools/package.json` and its lockfile. Generated protobuf
 bindings and `go.sum` are now included. `make prepare` intentionally refreshes
 them; ordinary quality/build targets check the supplied files without regenerating.
 
 Fresh validation results are recorded in [DEPENDENCY-VALIDATION.md](docs/DEPENDENCY-VALIDATION.md).
 The original [VALIDATION.md](docs/VALIDATION.md) describes the earlier authoring
 environment and remains historical evidence.
+
+**Visual guides:** open [the local visual field guide](docs/visuals/index.html)
+in a browser for five architecture walkthroughs with animated SVGs, GIFs,
+Mermaid sources and downloadable diagrams. Viewing works offline; see the
+[visual guide instructions](docs/visuals/README.md) to rebuild the assets.
 
 Teleport's public challenge recommends that candidates write their own design
 and code, obtain design approval, and use reviewable pull requests. This reference
@@ -23,11 +30,11 @@ written or as reviewer-approved.
 
 | Level | Behavior selected by `--level` / `make LEVEL=` | Main files |
 |---|---|---|
-| 1 | HTTP GET replica count, tests, Docker, documented Kubernetes deployment | `internal/httpapi`, `Dockerfile`, Helm chart |
-| 2 | Adds HTTP PUT replicas, validation, concurrency preconditions, integration script | `internal/service`, `internal/kube/backend.go` |
-| 3 | Adds deployment listing across namespaces, live connectivity health, rolling Helm deployment | `internal/health`, `charts/replica-control` |
-| 4 | Deployment informer cache, watch updates, mTLS, Make automation | `internal/kube/backend.go`, `internal/security` |
-| 5 | gRPC; cached reads; per-Deployment ReplicaIntent CRD; drift reconciliation; leader election | `.proto`, `internal/grpcapi`, `internal/controller`, `internal/reconcile`, `internal/kube/intents.go` |
+| [1](levels/level-1/README.md) | HTTP GET replica count, tests, Docker, documented Kubernetes deployment | `internal/httpapi`, `Dockerfile`, Helm chart |
+| [2](levels/level-2/README.md) | Adds HTTP PUT replicas, validation, concurrency preconditions, integration script | `internal/service`, `internal/kube/backend.go` |
+| [3](levels/level-3/README.md) | Adds Deployment listing; uses shared health and rolling deployment support | `internal/health`, `charts/replica-control` |
+| [4](levels/level-4/README.md) | Moves HTTP reads to a Deployment informer cache; retains shared mTLS | `internal/kube/backend.go`, `internal/security` |
+| [5](levels/level-5/README.md) | gRPC; cached reads; per-Deployment ReplicaIntent CRD; drift reconciliation; leader election | `.proto`, `internal/grpcapi`, `internal/controller`, `internal/reconcile`, `internal/kube/intents.go` |
 
 All levels use mTLS in this reference; there is deliberately no insecure API
 mode. Levels 1–3 do not use the informer as their read path. Level 5 exposes gRPC
@@ -57,14 +64,35 @@ internal/security/   TLS 1.3, certificate verification, URI SAN authorization
 charts/replica-control/  Helm resources and structural CRD schema
 scripts/             Integration and formatting checks
 .github/workflows/   Unit checks and opt-in cluster-test matrix
+levels/level-1..5/   Guides, shared file maps, command wrappers and Helm overlays
+gen/replicas/v1/     Committed generated protobuf and gRPC bindings
+docs/visuals/        Offline HTML guides, Mermaid sources, SVGs and animated GIFs
 ```
+
+## Windows quick start
+
+Open PowerShell in the repository root (the directory containing this README).
+Use the existing Ubuntu WSL distribution; the wrappers default to `Ubuntu-24.04`
+and accept `-Distribution` for another installed Ubuntu distribution.
+
+```powershell
+$repoRoot = (Get-Location).Path
+& (Join-Path $repoRoot 'scripts/setup-local.ps1')
+& (Join-Path $repoRoot 'scripts/dev.ps1') -MakeArguments quality,vuln
+& (Join-Path $repoRoot 'scripts/dev.ps1') -MakeArguments pull-images,docker-test,docker-build
+Start-Process (Join-Path $repoRoot 'docs/visuals/index.html')
+```
+
+Setup installs the Linux Go toolchain and requirements inside WSL, not a native
+Windows `go.exe`. Existing Docker is reused. Opening the visual guides needs only
+a browser; Node.js is required only to rebuild their graphics. Paths are derived
+from the selected repository directory and continue to work after relocation.
 
 ## Prerequisites
 
-Use macOS or Linux for the local-cluster workflow. A Linux development environment
-is also the practical route on a Windows workstation. Docker must already be
-running and able to create containers. Use an isolated development cluster, not
-an employer's or production cluster.
+The exercised application workflow is Ubuntu 24.04 under WSL on arm64. Linux and
+manually configured macOS are also supported setup paths; macOS was not exercised.
+Docker must be running and accessible for image builds and the local KIND lab.
 
 | Tool | Reference baseline / requirement |
 |---|---|
@@ -77,39 +105,45 @@ an employer's or production cluster.
 | Helm | Helm 4.3.0; commands use rollback-on-failure and watcher waiting |
 | protoc | Protocol Buffers compiler 36.2; Go plugins are pinned separately |
 | curl, jq | HTTP and JSON integration assertions |
+| Git, Python 3, CA roots, unzip, C compiler | Setup, mapping checks, downloads and race tests |
+| actionlint / govulncheck | Installed versions from toolchain.env; required by quality / vuln |
 
-These are reference pins, not claims that each dependency is the latest security
-patch. Review dependency/image advisories before deployment outside a lab. Tool
-installation references are in [SOURCES.md](docs/SOURCES.md).
+gRPC is deliberately pinned to the patched stable v1.83.2 backport; the higher
+v1.84.0 release was flagged by the vulnerability scan. The selection and dated
+results are recorded in [dependency validation](docs/DEPENDENCY-VALIDATION.md).
+Run the scan again when dependencies change.
 
-On Ubuntu/Debian, the supporting OS tools can be installed with:
+For Ubuntu/Linux or a WSL terminal, start in the repository root:
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y build-essential make curl jq unzip python3
+repo_root="$(pwd)"
+bash "$repo_root/scripts/setup-dev.sh"
+source "$repo_root/scripts/dev-env.sh"
 ```
 
-Run `bash scripts/setup-dev.sh` in Ubuntu/WSL, then `source scripts/dev-env.sh`.
-On macOS, ensure your command-line compiler tools are available for race tests.
+The installer supplies the OS tools and pinned toolchain. For manual macOS setup,
+follow [DEVELOPMENT.md](docs/DEVELOPMENT.md), including compiler tools for race tests.
 `make doctor` identifies missing tools and checks the Docker daemon.
 
 ## First build and tests
 
 ```bash
-# From the repository directory after setup:
-source scripts/dev-env.sh
-make test-core
+# From the repository root after setup:
+repo_root="$(pwd)"
+bash "$repo_root/scripts/dev.sh" quality vuln
+bash "$repo_root/scripts/dev.sh" pull-images docker-test docker-build
 
-# Requires the pinned Go 1.27.1 toolchain, protoc, and access to Go module downloads:
-make prepare
-make test
-make vet
-make build
-make helm-check
+# Repair Go formatting when needed, then check it:
+bash "$repo_root/scripts/dev.sh" format format-check
 
-# After reviewing the resolved dependency versions:
-git add go.mod go.sum gen/replicas/v1/*.go
+# Optional smaller dependency-free test suite:
+bash "$repo_root/scripts/dev.sh" test-core
 ```
+
+The format inventory covers tracked and nonignored untracked Go files, including
+the generated bindings. `quality` also verifies generation, runs race tests/vet,
+builds all three binaries, renders all five chart profiles, checks workflow syntax
+and verifies module checksums. `vuln` remains a separate required security gate.
 
 `make prepare` pins the Go code generators to the versions in toolchain.env. It runs
 `protoc`, `go mod tidy`, and `go mod verify`. The quality check fails when
@@ -121,6 +155,16 @@ The Dockerfile expects a prepared source tree, including `go.sum` and `gen/`.
 Run `make prepare` after intentionally changing dependencies or schemas; both
 `make docker-build` and a direct build consume the prepared source tree:
 `docker build .`.
+
+After deliberately changing the schema, generator or dependency selection:
+
+```bash
+bash "$repo_root/scripts/dev.sh" prepare
+bash "$repo_root/scripts/dev.sh" quality vuln
+```
+
+Review and commit the resulting `go.mod`, `go.sum` and generated-source changes
+together. A normal first build uses the supplied files and does not need `prepare`.
 
 ## Deploy and exercise each level
 
@@ -170,9 +214,10 @@ CA identity lasts thirty days. Existing files are not overwritten silently.
 After `make deploy LEVEL=4`, create a disposable target:
 
 ```bash
+source scripts/dev-env.sh
 kubectl --context kind-sre-reference create namespace replica-demo
 kubectl --context kind-sre-reference -n replica-demo create deployment demo \
-  --image=registry.k8s.io/pause:3.10
+  --image="$PAUSE_IMAGE"
 
 # Leave this command running in a separate terminal:
 kubectl --context kind-sre-reference -n replica-system \
@@ -249,7 +294,9 @@ These HTTP routes are on port 8081, omitted from the Service. Level 5 additional
 implements the standard authenticated gRPC health service.
 
 The Helm Deployment defaults to two replicas, `maxUnavailable: 0`, `maxSurge: 1`,
-readiness/startup probes, a five-second readiness window, and a PDB. API Pods do
+readiness/startup probes, `minReadySeconds: 5`, and a PDB. A ready Pod may receive
+Service traffic immediately; the five-second stability period controls when the
+Deployment counts it available for rollout progress. API Pods do
 not need controller leadership to serve requests. Shutdown marks readiness false,
 waits for endpoint propagation, then drains HTTP/gRPC work with a deadline.
 
@@ -257,7 +304,23 @@ This is a design intended for safe rolling upgrades, **not an unconditional
 zero-downtime guarantee**. Capacity, scheduling, TLS trust overlap, network behavior,
 and API compatibility still matter. `make upgrade-test` samples the real Service
 with fresh authenticated connections from a Job; any failed request fails the test.
-Those rollout tests were supplied but not executed in the authoring environment.
+Live rollout acceptance remains unverified. The current probe lasts 75 seconds,
+while Helm may take 180 seconds, so a passing probe can miss a late outage. See
+the [rollout visual guide](docs/visuals/rollout.html) and audit finding A2.
+
+## Validation and workflow status
+
+The [2026-09-20 local checks](docs/DEPENDENCY-VALIDATION.md) passed formatting for
+24 Go files, source and compiled-server vulnerability scans, race tests, vet,
+builds, generated-code verification, chart/workflow checks, Docker tests and local
+packaging. This is arm64 WSL evidence; remote CI and live KIND acceptance are
+separate checks. The [visual guide checks](docs/visuals/VALIDATION.md) cover offline
+HTML loading, desktop/mobile layouts, playback, GIF motion and reduced motion.
+
+GitHub Actions covers the configured Gitflow branches, PRs and version tags.
+Version tags package the chart and image archive; cluster tests are a manual
+levels 1–5 matrix, with rollout probes for levels 3–5. See
+[DEVELOPMENT.md](docs/DEVELOPMENT.md) for the branch conventions and exact commands.
 
 ## Important boundaries
 

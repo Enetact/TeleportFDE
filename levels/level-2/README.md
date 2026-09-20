@@ -1,6 +1,6 @@
 # Level 2: HTTP replica writes
 
-[All levels](../README.md) | [File map](FILES.md) | [Audit](../../docs/AUDIT.md)
+[All levels](../README.md) | [File map](FILES.md) | [Visual level map](../../docs/visuals/levels.html) | [Build results](../../docs/DEPENDENCY-VALIDATION.md)
 
 ## Behavior in this repository
 
@@ -9,7 +9,8 @@ Adds PUT requests, replica validation, scale-subresource writes, version checks,
 This folder uses the shared source at the repository root. It is a study/run
 profile, not a separate codebase or evidence that this level has passed.
 The same server binary compiles every adapter, including gRPC, at all levels.
-All levels require the full bootstrap for a server build and use mTLS in this reference.
+All levels need the shared Go toolchain and dependencies and use mTLS in this
+reference. The generated bindings and dependency checksums are already included.
 
 ## Folder structure
 
@@ -22,17 +23,34 @@ values.yaml   Optional Helm values overlay selecting this level
 
 ## Commands
 
-Use a Linux or macOS shell with the tools in the [root README](../../README.md).
-Start in the repository root:
+Complete the [development setup](../../docs/DEVELOPMENT.md) once. In an
+Ubuntu/WSL terminal (or a manually configured macOS shell), start in the repository
+root, not this level folder:
 
 ```bash
 repo_root="$(pwd)"
-bash "$repo_root/levels/level-2/run.sh" test-core
+source "$repo_root/scripts/dev-env.sh"
+bash "$repo_root/levels/level-2/run.sh" quality vuln
+```
+
+For local cluster checks, with Docker running:
+
+```bash
 bash "$repo_root/levels/level-2/run.sh" doctor
-bash "$repo_root/levels/level-2/run.sh" prepare
-bash "$repo_root/levels/level-2/run.sh" test vet build helm-check
 bash "$repo_root/levels/level-2/run.sh" integration
 ```
+
+From PowerShell at the repository root, use the WSL wrapper:
+
+```powershell
+$repoRoot = (Get-Location).Path
+& (Join-Path $repoRoot 'scripts/dev.ps1') -MakeArguments @('quality', 'vuln', 'LEVEL=2')
+& (Join-Path $repoRoot 'scripts/dev.ps1') -MakeArguments @('integration', 'LEVEL=2')
+```
+
+`quality` and `vuln` validate the shared implementation, not just one level.
+Use `format` to repair Go formatting. Run `prepare` only after intentionally
+changing the schema, dependency or generator selection; then rerun the checks.
 
 `integration` builds/deploys to a named local KIND cluster and modifies disposable
 Kubernetes resources. It leaves the application release running. Choose a lab
@@ -57,5 +75,8 @@ LEVEL; it does not consume this optional values overlay.
 Demonstrate scale-up, zero replicas, invalid input, stale-version rejection, and HPA conflict handling against KIND.
 
 Keep command output, tool versions, source commit and cluster details with the
-result. Historical core test logs do not establish that this level works end to
-end. See [AUDIT.md](../../docs/AUDIT.md) for current findings and validation limits.
+result. Shared source tests, image builds and scans passed in the
+[latest recorded local validation](../../docs/DEPENDENCY-VALIDATION.md); live level
+acceptance remains unverified. The [original audit](../../docs/AUDIT.md) preserves
+the baseline findings. The [visual guides](../../docs/visuals/index.html) explain
+the implementation without claiming live test results.

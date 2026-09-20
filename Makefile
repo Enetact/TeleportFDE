@@ -82,9 +82,12 @@ integration: deploy build
 integration-all:
 	@for level in 1 2 3 4 5; do $(MAKE) integration LEVEL=$$level; done
 
-upgrade-test: deploy build
-	@test '$(LEVEL)' = 3 -o '$(LEVEL)' = 4 -o '$(LEVEL)' = 5 || { echo 'Use LEVEL=3, LEVEL=4 or LEVEL=5.'; exit 1; }
+upgrade-test: check-upgrade-level deploy build
 	UPGRADE_TEST=1 LEVEL='$(LEVEL)' CLUSTER='$(CLUSTER)' NAMESPACE='$(NAMESPACE)' RELEASE='$(RELEASE)' IMAGE='$(IMAGE)' bash scripts/integration.sh
+
+.PHONY: check-upgrade-level
+check-upgrade-level:
+	@test '$(LEVEL)' = 3 -o '$(LEVEL)' = 4 -o '$(LEVEL)' = 5 || { echo 'Use LEVEL=3, LEVEL=4 or LEVEL=5.'; exit 1; }
 
 helm-check:
 	helm lint $(CHART)
