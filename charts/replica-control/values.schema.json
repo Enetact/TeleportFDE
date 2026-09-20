@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["level", "replicaCount", "image", "tls", "leaderElection"],
+  "properties": {
+    "level": {"type":"integer","minimum":1,"maximum":5},
+    "replicaCount": {"type":"integer","minimum":1},
+    "image": {"type":"object","required":["repository","tag"],"properties":{"repository":{"type":"string","minLength":1},"tag":{"type":"string","minLength":1},"pullPolicy":{"enum":["Always","IfNotPresent","Never"]}}},
+    "service": {"type":"object","properties":{"port":{"type":"integer","minimum":1,"maximum":65535}}},
+    "tls": {"type":"object","required":["existingSecret","allowedClientURI"],"properties":{"existingSecret":{"type":"string","minLength":1},"allowedClientURI":{"type":"string","minLength":1},"rolloutToken":{"type":"string"}}},
+    "leaderElection": {"type":"object","properties":{"enabled":{"type":"boolean"}}},
+    "rolloutToken": {"type":"string"}
+  }
+}

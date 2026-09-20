@@ -1,0 +1,337 @@
+{"Time":"2026-09-20T16:55:36.476786051Z","Action":"start","Package":"example.com/replica-control/internal/model"}
+{"Time":"2026-09-20T16:55:36.477373181Z","Action":"start","Package":"example.com/replica-control/internal/service"}
+{"Time":"2026-09-20T16:55:36.486084927Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation"}
+{"Time":"2026-09-20T16:55:36.48616164Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation","Output":"=== RUN   TestTargetValidation\n"}
+{"Time":"2026-09-20T16:55:36.486171093Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo"}
+{"Time":"2026-09-20T16:55:36.486173837Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo","Output":"=== RUN   TestTargetValidation/default/demo\n"}
+{"Time":"2026-09-20T16:55:36.486248718Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo","Output":"--- PASS: TestTargetValidation/default/demo (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.486253294Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.486264871Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/team-a/api.v2"}
+{"Time":"2026-09-20T16:55:36.486266884Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/team-a/api.v2","Output":"=== RUN   TestTargetValidation/team-a/api.v2\n"}
+{"Time":"2026-09-20T16:55:36.486270335Z","Action":"run","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds"}
+{"Time":"2026-09-20T16:55:36.486331695Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds","Output":"=== RUN   TestSetPresenceAndBounds\n"}
+{"Time":"2026-09-20T16:55:36.486367412Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/team-a/api.v2","Output":"--- PASS: TestTargetValidation/team-a/api.v2 (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.486394312Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/team-a/api.v2","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.486398468Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation//demo"}
+{"Time":"2026-09-20T16:55:36.486401813Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation//demo","Output":"=== RUN   TestTargetValidation//demo\n"}
+{"Time":"2026-09-20T16:55:36.486408843Z","Action":"run","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/missing"}
+{"Time":"2026-09-20T16:55:36.486411277Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/missing","Output":"=== RUN   TestSetPresenceAndBounds/missing\n"}
+{"Time":"2026-09-20T16:55:36.486435443Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation//demo","Output":"--- PASS: TestTargetValidation//demo (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.486456994Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation//demo","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.486461Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/UPPER/demo"}
+{"Time":"2026-09-20T16:55:36.486462793Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/UPPER/demo","Output":"=== RUN   TestTargetValidation/UPPER/demo\n"}
+{"Time":"2026-09-20T16:55:36.486522791Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/UPPER/demo","Output":"--- PASS: TestTargetValidation/UPPER/demo (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.486532455Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/UPPER/demo","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.486537052Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/../secrets"}
+{"Time":"2026-09-20T16:55:36.486538815Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/../secrets","Output":"=== RUN   TestTargetValidation/default/../secrets\n"}
+{"Time":"2026-09-20T16:55:36.486542165Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/missing","Output":"--- PASS: TestSetPresenceAndBounds/missing (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.486597731Z","Action":"pass","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/missing","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.486605853Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/../secrets","Output":"--- PASS: TestTargetValidation/default/../secrets (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.48661008Z","Action":"run","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/zero"}
+{"Time":"2026-09-20T16:55:36.486612363Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/zero","Output":"=== RUN   TestSetPresenceAndBounds/zero\n"}
+{"Time":"2026-09-20T16:55:36.48661719Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/../secrets","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.486638161Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/-demo"}
+{"Time":"2026-09-20T16:55:36.486640124Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/-demo","Output":"=== RUN   TestTargetValidation/default/-demo\n"}
+{"Time":"2026-09-20T16:55:36.486703056Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/zero","Output":"--- PASS: TestSetPresenceAndBounds/zero (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.4867057Z","Action":"pass","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/zero","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.486710788Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/-demo","Output":"--- PASS: TestTargetValidation/default/-demo (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.486715164Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/-demo","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.486718419Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo-"}
+{"Time":"2026-09-20T16:55:36.486720983Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo-","Output":"=== RUN   TestTargetValidation/default/demo-\n"}
+{"Time":"2026-09-20T16:55:36.486739075Z","Action":"run","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/negative"}
+{"Time":"2026-09-20T16:55:36.486746365Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/negative","Output":"=== RUN   TestSetPresenceAndBounds/negative\n"}
+{"Time":"2026-09-20T16:55:36.486806123Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo-","Output":"--- PASS: TestTargetValidation/default/demo- (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.486816769Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo-","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.486821005Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo..x"}
+{"Time":"2026-09-20T16:55:36.486828857Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo..x","Output":"=== RUN   TestTargetValidation/default/demo..x\n"}
+{"Time":"2026-09-20T16:55:36.486862496Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/negative","Output":"--- PASS: TestSetPresenceAndBounds/negative (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.486909786Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo..x","Output":"--- PASS: TestTargetValidation/default/demo..x (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.486913441Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/default/demo..x","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.48693322Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/a_b/demo"}
+{"Time":"2026-09-20T16:55:36.486935704Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/a_b/demo","Output":"=== RUN   TestTargetValidation/a_b/demo\n"}
+{"Time":"2026-09-20T16:55:36.486944657Z","Action":"pass","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/negative","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.48699413Z","Action":"run","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/one"}
+{"Time":"2026-09-20T16:55:36.486997014Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/one","Output":"=== RUN   TestSetPresenceAndBounds/one\n"}
+{"Time":"2026-09-20T16:55:36.487001191Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/a_b/demo","Output":"--- PASS: TestTargetValidation/a_b/demo (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.487004696Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/a_b/demo","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487006649Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/a/a"}
+{"Time":"2026-09-20T16:55:36.487008371Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/a/a","Output":"=== RUN   TestTargetValidation/a/a\n"}
+{"Time":"2026-09-20T16:55:36.487077568Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/a/a","Output":"--- PASS: TestTargetValidation/a/a (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.487084027Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation/a/a","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487110456Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation","Output":"--- PASS: TestTargetValidation (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.487139449Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/one","Output":"--- PASS: TestSetPresenceAndBounds/one (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.487144366Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestTargetValidation","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487146379Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestReplicas"}
+{"Time":"2026-09-20T16:55:36.487148963Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestReplicas","Output":"=== RUN   TestReplicas\n"}
+{"Time":"2026-09-20T16:55:36.487203092Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestReplicas","Output":"--- PASS: TestReplicas (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.487206728Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestReplicas","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487209682Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestErrors"}
+{"Time":"2026-09-20T16:55:36.48721536Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestErrors","Output":"=== RUN   TestErrors\n"}
+{"Time":"2026-09-20T16:55:36.487268899Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestErrors","Output":"--- PASS: TestErrors (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.487272524Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestErrors","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487298713Z","Action":"pass","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/one","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487301727Z","Action":"run","Package":"example.com/replica-control/internal/model","Test":"TestParseKey"}
+{"Time":"2026-09-20T16:55:36.48730347Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestParseKey","Output":"=== RUN   TestParseKey\n"}
+{"Time":"2026-09-20T16:55:36.487332168Z","Action":"run","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/maximum"}
+{"Time":"2026-09-20T16:55:36.487341031Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/maximum","Output":"=== RUN   TestSetPresenceAndBounds/maximum\n"}
+{"Time":"2026-09-20T16:55:36.487392166Z","Action":"output","Package":"example.com/replica-control/internal/model","Test":"TestParseKey","Output":"--- PASS: TestParseKey (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.48740148Z","Action":"pass","Package":"example.com/replica-control/internal/model","Test":"TestParseKey","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487405025Z","Action":"output","Package":"example.com/replica-control/internal/model","Output":"PASS\n"}
+{"Time":"2026-09-20T16:55:36.487529508Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/maximum","Output":"--- PASS: TestSetPresenceAndBounds/maximum (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.487534385Z","Action":"pass","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/maximum","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487547545Z","Action":"run","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/too_large"}
+{"Time":"2026-09-20T16:55:36.487549527Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/too_large","Output":"=== RUN   TestSetPresenceAndBounds/too_large\n"}
+{"Time":"2026-09-20T16:55:36.487664316Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/too_large","Output":"--- PASS: TestSetPresenceAndBounds/too_large (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.487678017Z","Action":"pass","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds/too_large","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487702663Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds","Output":"--- PASS: TestSetPresenceAndBounds (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.487716053Z","Action":"pass","Package":"example.com/replica-control/internal/service","Test":"TestSetPresenceAndBounds","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.487731115Z","Action":"run","Package":"example.com/replica-control/internal/service","Test":"TestInvalidNamespaceNoBackendCall"}
+{"Time":"2026-09-20T16:55:36.487733108Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestInvalidNamespaceNoBackendCall","Output":"=== RUN   TestInvalidNamespaceNoBackendCall\n"}
+{"Time":"2026-09-20T16:55:36.489582179Z","Action":"output","Package":"example.com/replica-control/internal/model","Output":"coverage: 82.1% of statements\n"}
+{"Time":"2026-09-20T16:55:36.489594878Z","Action":"output","Package":"example.com/replica-control/internal/service","Test":"TestInvalidNamespaceNoBackendCall","Output":"--- PASS: TestInvalidNamespaceNoBackendCall (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.489604672Z","Action":"pass","Package":"example.com/replica-control/internal/service","Test":"TestInvalidNamespaceNoBackendCall","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.489607266Z","Action":"output","Package":"example.com/replica-control/internal/service","Output":"PASS\n"}
+{"Time":"2026-09-20T16:55:36.48960984Z","Action":"output","Package":"example.com/replica-control/internal/service","Output":"coverage: 60.0% of statements\n"}
+{"Time":"2026-09-20T16:55:36.62204631Z","Action":"start","Package":"example.com/replica-control/internal/httpapi"}
+{"Time":"2026-09-20T16:55:36.622284291Z","Action":"start","Package":"example.com/replica-control/internal/reconcile"}
+{"Time":"2026-09-20T16:55:36.631483364Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP"}
+{"Time":"2026-09-20T16:55:36.631482994Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile"}
+{"Time":"2026-09-20T16:55:36.631528751Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP","Output":"=== RUN   TestHTTP\n"}
+{"Time":"2026-09-20T16:55:36.631619014Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/get"}
+{"Time":"2026-09-20T16:55:36.631625183Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/get","Output":"=== RUN   TestHTTP/get\n"}
+{"Time":"2026-09-20T16:55:36.631632003Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/get","Output":"--- PASS: TestHTTP/get (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631611889Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile","Output":"=== RUN   TestReconcile\n"}
+{"Time":"2026-09-20T16:55:36.631664576Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/drift"}
+{"Time":"2026-09-20T16:55:36.631667801Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/drift","Output":"=== RUN   TestReconcile/drift\n"}
+{"Time":"2026-09-20T16:55:36.63167359Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/drift","Output":"--- PASS: TestReconcile/drift (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631676704Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/drift","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.63168078Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/ready"}
+{"Time":"2026-09-20T16:55:36.631682813Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/ready","Output":"=== RUN   TestReconcile/ready\n"}
+{"Time":"2026-09-20T16:55:36.631685467Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/ready","Output":"--- PASS: TestReconcile/ready (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.63168766Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/ready","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631689593Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/waiting_pods"}
+{"Time":"2026-09-20T16:55:36.631690945Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/waiting_pods","Output":"=== RUN   TestReconcile/waiting_pods\n"}
+{"Time":"2026-09-20T16:55:36.631693138Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/waiting_pods","Output":"--- PASS: TestReconcile/waiting_pods (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631695932Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/waiting_pods","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631698086Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/old_deployment_generation"}
+{"Time":"2026-09-20T16:55:36.631636099Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/get","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631706077Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/old_deployment_generation","Output":"=== RUN   TestReconcile/old_deployment_generation\n"}
+{"Time":"2026-09-20T16:55:36.631710699Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/not_found"}
+{"Time":"2026-09-20T16:55:36.631713368Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/old_deployment_generation","Output":"--- PASS: TestReconcile/old_deployment_generation (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631715992Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/old_deployment_generation","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631717845Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/zero"}
+{"Time":"2026-09-20T16:55:36.631719477Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/zero","Output":"=== RUN   TestReconcile/zero\n"}
+{"Time":"2026-09-20T16:55:36.631719432Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/not_found","Output":"=== RUN   TestHTTP/not_found\n"}
+{"Time":"2026-09-20T16:55:36.63172163Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/zero","Output":"--- PASS: TestReconcile/zero (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631724925Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/zero","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631726698Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/zero_ready"}
+{"Time":"2026-09-20T16:55:36.63172817Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/zero_ready","Output":"=== RUN   TestReconcile/zero_ready\n"}
+{"Time":"2026-09-20T16:55:36.631730423Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/zero_ready","Output":"--- PASS: TestReconcile/zero_ready (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631732957Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/zero_ready","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631734709Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/HPA"}
+{"Time":"2026-09-20T16:55:36.631736202Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/HPA","Output":"=== RUN   TestReconcile/HPA\n"}
+{"Time":"2026-09-20T16:55:36.631738124Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/HPA","Output":"--- PASS: TestReconcile/HPA (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631740007Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/HPA","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.63174187Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/protected"}
+{"Time":"2026-09-20T16:55:36.631743152Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/protected","Output":"=== RUN   TestReconcile/protected\n"}
+{"Time":"2026-09-20T16:55:36.631745155Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/protected","Output":"--- PASS: TestReconcile/protected (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631746917Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/protected","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.6317487Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/recreated_deployment"}
+{"Time":"2026-09-20T16:55:36.631752295Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/recreated_deployment","Output":"=== RUN   TestReconcile/recreated_deployment\n"}
+{"Time":"2026-09-20T16:55:36.631754338Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/recreated_deployment","Output":"--- PASS: TestReconcile/recreated_deployment (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631756171Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/recreated_deployment","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631757763Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/deleting_deployment"}
+{"Time":"2026-09-20T16:55:36.631759226Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/deleting_deployment","Output":"=== RUN   TestReconcile/deleting_deployment\n"}
+{"Time":"2026-09-20T16:55:36.631761249Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/deleting_deployment","Output":"--- PASS: TestReconcile/deleting_deployment (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631763181Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/deleting_deployment","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631764824Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/missing_deployment"}
+{"Time":"2026-09-20T16:55:36.631766286Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/missing_deployment","Output":"=== RUN   TestReconcile/missing_deployment\n"}
+{"Time":"2026-09-20T16:55:36.631768139Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/missing_deployment","Output":"--- PASS: TestReconcile/missing_deployment (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631771163Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/missing_deployment","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631773066Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/missing_intent"}
+{"Time":"2026-09-20T16:55:36.631774358Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/missing_intent","Output":"=== RUN   TestReconcile/missing_intent\n"}
+{"Time":"2026-09-20T16:55:36.631776341Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/missing_intent","Output":"--- PASS: TestReconcile/missing_intent (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631778073Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/missing_intent","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631780016Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/deleting_intent"}
+{"Time":"2026-09-20T16:55:36.631781619Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/deleting_intent","Output":"=== RUN   TestReconcile/deleting_intent\n"}
+{"Time":"2026-09-20T16:55:36.631783431Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/deleting_intent","Output":"--- PASS: TestReconcile/deleting_intent (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631785184Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/deleting_intent","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631786846Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/changed_intent"}
+{"Time":"2026-09-20T16:55:36.631788268Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/changed_intent","Output":"=== RUN   TestReconcile/changed_intent\n"}
+{"Time":"2026-09-20T16:55:36.631791323Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/changed_intent","Output":"--- PASS: TestReconcile/changed_intent (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631793145Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/changed_intent","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631794818Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/scale_conflict"}
+{"Time":"2026-09-20T16:55:36.631793821Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/not_found","Output":"--- PASS: TestHTTP/not_found (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631798153Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/scale_conflict","Output":"=== RUN   TestReconcile/scale_conflict\n"}
+{"Time":"2026-09-20T16:55:36.631799399Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/not_found","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631801338Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/scale_conflict","Output":"--- PASS: TestReconcile/scale_conflict (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631804652Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/scale_conflict","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631804757Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/l1_write_blocked"}
+{"Time":"2026-09-20T16:55:36.631806455Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/HPA_lookup_denied"}
+{"Time":"2026-09-20T16:55:36.631810281Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/HPA_lookup_denied","Output":"=== RUN   TestReconcile/HPA_lookup_denied\n"}
+{"Time":"2026-09-20T16:55:36.631812895Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/HPA_lookup_denied","Output":"--- PASS: TestReconcile/HPA_lookup_denied (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631814747Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/HPA_lookup_denied","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.63181688Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/dependency_unavailable"}
+{"Time":"2026-09-20T16:55:36.631819094Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/dependency_unavailable","Output":"=== RUN   TestReconcile/dependency_unavailable\n"}
+{"Time":"2026-09-20T16:55:36.631821037Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/dependency_unavailable","Output":"--- PASS: TestReconcile/dependency_unavailable (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631822929Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/dependency_unavailable","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631824702Z","Action":"run","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/invalid_intent"}
+{"Time":"2026-09-20T16:55:36.631826264Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/invalid_intent","Output":"=== RUN   TestReconcile/invalid_intent\n"}
+{"Time":"2026-09-20T16:55:36.631808723Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/l1_write_blocked","Output":"=== RUN   TestHTTP/l1_write_blocked\n"}
+{"Time":"2026-09-20T16:55:36.631831336Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/l1_write_blocked","Output":"--- PASS: TestHTTP/l1_write_blocked (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631835588Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/invalid_intent","Output":"--- PASS: TestReconcile/invalid_intent (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631836394Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/l1_write_blocked","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631840215Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile/invalid_intent","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631842743Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/set"}
+{"Time":"2026-09-20T16:55:36.631844451Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile","Output":"--- PASS: TestReconcile (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631846098Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/set","Output":"=== RUN   TestHTTP/set\n"}
+{"Time":"2026-09-20T16:55:36.631848086Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Test":"TestReconcile","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631850855Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/set","Output":"--- PASS: TestHTTP/set (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631851321Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Output":"PASS\n"}
+{"Time":"2026-09-20T16:55:36.631853469Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/set","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631856714Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/zero"}
+{"Time":"2026-09-20T16:55:36.631858276Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/zero","Output":"=== RUN   TestHTTP/zero\n"}
+{"Time":"2026-09-20T16:55:36.631861771Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/zero","Output":"--- PASS: TestHTTP/zero (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.631863464Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/zero","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631868661Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/missing"}
+{"Time":"2026-09-20T16:55:36.631870734Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/missing","Output":"=== RUN   TestHTTP/missing\n"}
+{"Time":"2026-09-20T16:55:36.631872978Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/missing","Output":"--- PASS: TestHTTP/missing (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.63187481Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/missing","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.631900508Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/null"}
+{"Time":"2026-09-20T16:55:36.63190878Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/null","Output":"=== RUN   TestHTTP/null\n"}
+{"Time":"2026-09-20T16:55:36.632240018Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/null","Output":"--- PASS: TestHTTP/null (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.632283392Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/null","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.632330231Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/negative"}
+{"Time":"2026-09-20T16:55:36.632333646Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/negative","Output":"=== RUN   TestHTTP/negative\n"}
+{"Time":"2026-09-20T16:55:36.6330161Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Output":"coverage: 96.2% of statements\n"}
+{"Time":"2026-09-20T16:55:36.633546981Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/negative","Output":"--- PASS: TestHTTP/negative (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.63367506Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/negative","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.633743591Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/too_large_count"}
+{"Time":"2026-09-20T16:55:36.633747066Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/too_large_count","Output":"=== RUN   TestHTTP/too_large_count\n"}
+{"Time":"2026-09-20T16:55:36.633999057Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/too_large_count","Output":"--- PASS: TestHTTP/too_large_count (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.634038665Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/too_large_count","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.634082589Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/unknown_field"}
+{"Time":"2026-09-20T16:55:36.634085684Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/unknown_field","Output":"=== RUN   TestHTTP/unknown_field\n"}
+{"Time":"2026-09-20T16:55:36.634349853Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/unknown_field","Output":"--- PASS: TestHTTP/unknown_field (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.634412074Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/unknown_field","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.63444322Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/two_objects"}
+{"Time":"2026-09-20T16:55:36.634447667Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/two_objects","Output":"=== RUN   TestHTTP/two_objects\n"}
+{"Time":"2026-09-20T16:55:36.634862067Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/two_objects","Output":"--- PASS: TestHTTP/two_objects (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.634902837Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/two_objects","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.634952229Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/fraction"}
+{"Time":"2026-09-20T16:55:36.634955294Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/fraction","Output":"=== RUN   TestHTTP/fraction\n"}
+{"Time":"2026-09-20T16:55:36.635214886Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/fraction","Output":"--- PASS: TestHTTP/fraction (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.635253973Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/fraction","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.635302114Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/bad_content_type"}
+{"Time":"2026-09-20T16:55:36.635305219Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/bad_content_type","Output":"=== RUN   TestHTTP/bad_content_type\n"}
+{"Time":"2026-09-20T16:55:36.63550278Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/bad_content_type","Output":"--- PASS: TestHTTP/bad_content_type (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.635584039Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/bad_content_type","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.635611289Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/oversized"}
+{"Time":"2026-09-20T16:55:36.635635895Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/oversized","Output":"=== RUN   TestHTTP/oversized\n"}
+{"Time":"2026-09-20T16:55:36.636332471Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/oversized","Output":"--- PASS: TestHTTP/oversized (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.636374783Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/oversized","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.636421752Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/conflict"}
+{"Time":"2026-09-20T16:55:36.636424837Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/conflict","Output":"=== RUN   TestHTTP/conflict\n"}
+{"Time":"2026-09-20T16:55:36.636728844Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/conflict","Output":"--- PASS: TestHTTP/conflict (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.636801341Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/conflict","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.636824605Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/HPA"}
+{"Time":"2026-09-20T16:55:36.636827008Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/HPA","Output":"=== RUN   TestHTTP/HPA\n"}
+{"Time":"2026-09-20T16:55:36.637041855Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/HPA","Output":"--- PASS: TestHTTP/HPA (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.63707949Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/HPA","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.637101172Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/forbidden"}
+{"Time":"2026-09-20T16:55:36.637103575Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/forbidden","Output":"=== RUN   TestHTTP/forbidden\n"}
+{"Time":"2026-09-20T16:55:36.637350729Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/forbidden","Output":"--- PASS: TestHTTP/forbidden (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.637417788Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/forbidden","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.637441212Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/dependency_down"}
+{"Time":"2026-09-20T16:55:36.637443496Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/dependency_down","Output":"=== RUN   TestHTTP/dependency_down\n"}
+{"Time":"2026-09-20T16:55:36.637647957Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/dependency_down","Output":"--- PASS: TestHTTP/dependency_down (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.637688426Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/dependency_down","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.637715326Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/list_l2"}
+{"Time":"2026-09-20T16:55:36.637717649Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/list_l2","Output":"=== RUN   TestHTTP/list_l2\n"}
+{"Time":"2026-09-20T16:55:36.647432793Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/list_l2","Output":"--- PASS: TestHTTP/list_l2 (0.01s)\n"}
+{"Time":"2026-09-20T16:55:36.647464719Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/list_l2","Elapsed":0.01}
+{"Time":"2026-09-20T16:55:36.647477578Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/list_l3"}
+{"Time":"2026-09-20T16:55:36.647480282Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/list_l3","Output":"=== RUN   TestHTTP/list_l3\n"}
+{"Time":"2026-09-20T16:55:36.647483046Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/list_l3","Output":"--- PASS: TestHTTP/list_l3 (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.647525188Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/list_l3","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.647527802Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/invalid_namespace"}
+{"Time":"2026-09-20T16:55:36.647529775Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/invalid_namespace","Output":"=== RUN   TestHTTP/invalid_namespace\n"}
+{"Time":"2026-09-20T16:55:36.64753304Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/invalid_namespace","Output":"--- PASS: TestHTTP/invalid_namespace (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.647537947Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP/invalid_namespace","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.647542264Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP","Output":"--- PASS: TestHTTP (0.01s)\n"}
+{"Time":"2026-09-20T16:55:36.647544637Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTP","Elapsed":0.01}
+{"Time":"2026-09-20T16:55:36.64754683Z","Action":"run","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTPMethod"}
+{"Time":"2026-09-20T16:55:36.647548503Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTPMethod","Output":"=== RUN   TestHTTPMethod\n"}
+{"Time":"2026-09-20T16:55:36.647550496Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTPMethod","Output":"--- PASS: TestHTTPMethod (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.647552328Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Test":"TestHTTPMethod","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.647554001Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Output":"PASS\n"}
+{"Time":"2026-09-20T16:55:36.647555643Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Output":"coverage: 94.6% of statements\n"}
+{"Time":"2026-09-20T16:55:36.691911663Z","Action":"start","Package":"example.com/replica-control/internal/security"}
+{"Time":"2026-09-20T16:55:36.701010084Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestMTLS"}
+{"Time":"2026-09-20T16:55:36.701037153Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS","Output":"=== RUN   TestMTLS\n"}
+{"Time":"2026-09-20T16:55:36.712509097Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/authorized"}
+{"Time":"2026-09-20T16:55:36.712531109Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/authorized","Output":"=== RUN   TestMTLS/authorized\n"}
+{"Time":"2026-09-20T16:55:36.720956429Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/authorized","Output":"--- PASS: TestMTLS/authorized (0.01s)\n"}
+{"Time":"2026-09-20T16:55:36.720981716Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/authorized","Elapsed":0.01}
+{"Time":"2026-09-20T16:55:36.720989728Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/no_certificate"}
+{"Time":"2026-09-20T16:55:36.720992151Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/no_certificate","Output":"=== RUN   TestMTLS/no_certificate\n"}
+{"Time":"2026-09-20T16:55:36.727082555Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/no_certificate","Output":"--- PASS: TestMTLS/no_certificate (0.01s)\n"}
+{"Time":"2026-09-20T16:55:36.727097837Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/no_certificate","Elapsed":0.01}
+{"Time":"2026-09-20T16:55:36.727107572Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/wrong_URI"}
+{"Time":"2026-09-20T16:55:36.727110466Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/wrong_URI","Output":"=== RUN   TestMTLS/wrong_URI\n"}
+{"Time":"2026-09-20T16:55:36.733221204Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/wrong_URI","Output":"--- PASS: TestMTLS/wrong_URI (0.01s)\n"}
+{"Time":"2026-09-20T16:55:36.733242295Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/wrong_URI","Elapsed":0.01}
+{"Time":"2026-09-20T16:55:36.733246241Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/expired_certificate"}
+{"Time":"2026-09-20T16:55:36.733248464Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/expired_certificate","Output":"=== RUN   TestMTLS/expired_certificate\n"}
+{"Time":"2026-09-20T16:55:36.742391486Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/expired_certificate","Output":"--- PASS: TestMTLS/expired_certificate (0.01s)\n"}
+{"Time":"2026-09-20T16:55:36.742419176Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/expired_certificate","Elapsed":0.01}
+{"Time":"2026-09-20T16:55:36.742425626Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/wrong_server_name"}
+{"Time":"2026-09-20T16:55:36.74242843Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/wrong_server_name","Output":"=== RUN   TestMTLS/wrong_server_name\n"}
+{"Time":"2026-09-20T16:55:36.751307417Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/wrong_server_name","Output":"--- PASS: TestMTLS/wrong_server_name (0.01s)\n"}
+{"Time":"2026-09-20T16:55:36.751419402Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/wrong_server_name","Elapsed":0.01}
+{"Time":"2026-09-20T16:55:36.751483256Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/TLS_1.2_rejected"}
+{"Time":"2026-09-20T16:55:36.751487312Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/TLS_1.2_rejected","Output":"=== RUN   TestMTLS/TLS_1.2_rejected\n"}
+{"Time":"2026-09-20T16:55:36.753601584Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/TLS_1.2_rejected","Output":"--- PASS: TestMTLS/TLS_1.2_rejected (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.753667681Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/TLS_1.2_rejected","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.753720389Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/server_EKU_cannot_be_client"}
+{"Time":"2026-09-20T16:55:36.753724194Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/server_EKU_cannot_be_client","Output":"=== RUN   TestMTLS/server_EKU_cannot_be_client\n"}
+{"Time":"2026-09-20T16:55:36.759372787Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/server_EKU_cannot_be_client","Output":"--- PASS: TestMTLS/server_EKU_cannot_be_client (0.01s)\n"}
+{"Time":"2026-09-20T16:55:36.759403402Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/server_EKU_cannot_be_client","Elapsed":0.01}
+{"Time":"2026-09-20T16:55:36.759409321Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/untrusted_client_CA"}
+{"Time":"2026-09-20T16:55:36.759411915Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/untrusted_client_CA","Output":"=== RUN   TestMTLS/untrusted_client_CA\n"}
+{"Time":"2026-09-20T16:55:36.765006078Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/untrusted_client_CA","Output":"--- PASS: TestMTLS/untrusted_client_CA (0.01s)\n"}
+{"Time":"2026-09-20T16:55:36.76503478Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestMTLS/untrusted_client_CA","Elapsed":0.01}
+{"Time":"2026-09-20T16:55:36.765498613Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestMTLS","Output":"--- PASS: TestMTLS (0.06s)\n"}
+{"Time":"2026-09-20T16:55:36.765504241Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestMTLS","Elapsed":0.06}
+{"Time":"2026-09-20T16:55:36.76550998Z","Action":"run","Package":"example.com/replica-control/internal/security","Test":"TestInvalidTLSConfiguration"}
+{"Time":"2026-09-20T16:55:36.765511722Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestInvalidTLSConfiguration","Output":"=== RUN   TestInvalidTLSConfiguration\n"}
+{"Time":"2026-09-20T16:55:36.765705868Z","Action":"output","Package":"example.com/replica-control/internal/security","Test":"TestInvalidTLSConfiguration","Output":"--- PASS: TestInvalidTLSConfiguration (0.00s)\n"}
+{"Time":"2026-09-20T16:55:36.765709483Z","Action":"pass","Package":"example.com/replica-control/internal/security","Test":"TestInvalidTLSConfiguration","Elapsed":0}
+{"Time":"2026-09-20T16:55:36.765725577Z","Action":"output","Package":"example.com/replica-control/internal/security","Output":"PASS\n"}
+{"Time":"2026-09-20T16:55:36.767034914Z","Action":"output","Package":"example.com/replica-control/internal/security","Output":"coverage: 77.4% of statements\n"}
+{"Time":"2026-09-20T16:55:37.490289254Z","Action":"output","Package":"example.com/replica-control/internal/model","Output":"ok  \texample.com/replica-control/internal/model\t1.012s\tcoverage: 82.1% of statements\n"}
+{"Time":"2026-09-20T16:55:37.49042231Z","Action":"pass","Package":"example.com/replica-control/internal/model","Elapsed":1.014}
+{"Time":"2026-09-20T16:55:37.490293701Z","Action":"output","Package":"example.com/replica-control/internal/service","Output":"ok  \texample.com/replica-control/internal/service\t1.011s\tcoverage: 60.0% of statements\n"}
+{"Time":"2026-09-20T16:55:37.490441308Z","Action":"pass","Package":"example.com/replica-control/internal/service","Elapsed":1.013}
+{"Time":"2026-09-20T16:55:37.634077718Z","Action":"output","Package":"example.com/replica-control/internal/reconcile","Output":"ok  \texample.com/replica-control/internal/reconcile\t1.012s\tcoverage: 96.2% of statements\n"}
+{"Time":"2026-09-20T16:55:37.634120511Z","Action":"pass","Package":"example.com/replica-control/internal/reconcile","Elapsed":1.012}
+{"Time":"2026-09-20T16:55:37.647421757Z","Action":"output","Package":"example.com/replica-control/internal/httpapi","Output":"ok  \texample.com/replica-control/internal/httpapi\t1.025s\tcoverage: 94.6% of statements\n"}
+{"Time":"2026-09-20T16:55:37.647453124Z","Action":"pass","Package":"example.com/replica-control/internal/httpapi","Elapsed":1.025}
+{"Time":"2026-09-20T16:55:37.763394934Z","Action":"start","Package":"example.com/replica-control/internal/health"}
+{"Time":"2026-09-20T16:55:37.763640275Z","Action":"start","Package":"example.com/replica-control/cmd/certgen"}
+{"Time":"2026-09-20T16:55:37.765514223Z","Action":"output","Package":"example.com/replica-control/cmd/certgen","Output":"\texample.com/replica-control/cmd/certgen\t\tcoverage: 0.0% of statements\n"}
+{"Time":"2026-09-20T16:55:37.765527232Z","Action":"pass","Package":"example.com/replica-control/cmd/certgen","Elapsed":0.002}
+{"Time":"2026-09-20T16:55:37.769150705Z","Action":"output","Package":"example.com/replica-control/internal/security","Output":"ok  \texample.com/replica-control/internal/security\t1.077s\tcoverage: 77.4% of statements\n"}
+{"Time":"2026-09-20T16:55:37.769170635Z","Action":"pass","Package":"example.com/replica-control/internal/security","Elapsed":1.077}
+{"Time":"2026-09-20T16:55:37.772175512Z","Action":"run","Package":"example.com/replica-control/internal/health","Test":"TestHealthStates"}
+{"Time":"2026-09-20T16:55:37.77219454Z","Action":"output","Package":"example.com/replica-control/internal/health","Test":"TestHealthStates","Output":"=== RUN   TestHealthStates\n"}
+{"Time":"2026-09-20T16:55:37.772437308Z","Action":"output","Package":"example.com/replica-control/internal/health","Test":"TestHealthStates","Output":"--- PASS: TestHealthStates (0.00s)\n"}
+{"Time":"2026-09-20T16:55:37.772452941Z","Action":"pass","Package":"example.com/replica-control/internal/health","Test":"TestHealthStates","Elapsed":0}
+{"Time":"2026-09-20T16:55:37.772467152Z","Action":"run","Package":"example.com/replica-control/internal/health","Test":"TestLiveProbeFailure"}
+{"Time":"2026-09-20T16:55:37.772469365Z","Action":"output","Package":"example.com/replica-control/internal/health","Test":"TestLiveProbeFailure","Output":"=== RUN   TestLiveProbeFailure\n"}
+{"Time":"2026-09-20T16:55:37.772666114Z","Action":"output","Package":"example.com/replica-control/internal/health","Test":"TestLiveProbeFailure","Output":"--- PASS: TestLiveProbeFailure (0.00s)\n"}
+{"Time":"2026-09-20T16:55:37.772673045Z","Action":"pass","Package":"example.com/replica-control/internal/health","Test":"TestLiveProbeFailure","Elapsed":0}
+{"Time":"2026-09-20T16:55:37.772692013Z","Action":"output","Package":"example.com/replica-control/internal/health","Output":"PASS\n"}
+{"Time":"2026-09-20T16:55:37.773688068Z","Action":"output","Package":"example.com/replica-control/internal/health","Output":"coverage: 90.0% of statements\n"}
+{"Time":"2026-09-20T16:55:38.774997099Z","Action":"output","Package":"example.com/replica-control/internal/health","Output":"ok  \texample.com/replica-control/internal/health\t1.011s\tcoverage: 90.0% of statements\n"}
+{"Time":"2026-09-20T16:55:38.775057508Z","Action":"pass","Package":"example.com/replica-control/internal/health","Elapsed":1.012}

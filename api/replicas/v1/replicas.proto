@@ -1,0 +1,39 @@
+syntax = "proto3";
+package replicas.v1;
+option go_package = "example.com/replica-control/gen/replicas/v1;replicasv1";
+
+service ReplicaService {
+  rpc GetReplicas(GetReplicasRequest) returns (Deployment);
+  rpc SetReplicas(SetReplicasRequest) returns (SetReplicasResponse);
+  rpc ListDeployments(ListDeploymentsRequest) returns (ListDeploymentsResponse);
+}
+message GetReplicasRequest { string namespace = 1; string name = 2; }
+message SetReplicasRequest {
+  string namespace = 1;
+  string name = 2;
+  optional int32 replicas = 3; // Presence distinguishes missing from an intentional zero.
+  string expected_version = 4; // ReplicaIntent resourceVersion, not Deployment version.
+}
+message ListDeploymentsRequest { string namespace = 1; } // Empty means all namespaces.
+message Deployment {
+  string namespace = 1;
+  string name = 2;
+  string uid = 3;
+  string resource_version = 4;
+  int32 replicas = 5;
+  int32 ready_replicas = 6;
+  int32 available_replicas = 7;
+  optional int32 desired_replicas = 8;
+  string intent_version = 9;
+  string reconcile_phase = 10;
+  int64 generation = 11;
+  int64 observed_generation = 12;
+}
+message SetReplicasResponse {
+  string namespace = 1;
+  string name = 2;
+  int32 replicas = 3;
+  string version = 4;
+  bool accepted = 5; // Persisted intent, NOT a guarantee that Pods are ready.
+}
+message ListDeploymentsResponse { repeated Deployment deployments = 1; }
