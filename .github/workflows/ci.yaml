@@ -42,7 +42,8 @@ jobs:
           if-no-files-found: error
   integration:
     needs: quality
-    if: github.event_name == 'workflow_dispatch' && inputs.cluster_tests
+    # Exercise every level for both automatic triggers; retain the manual opt-in.
+    if: github.event_name == 'pull_request' || github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.cluster_tests)
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:

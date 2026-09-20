@@ -63,14 +63,14 @@ export const guides = [
   {
     slug: 'delivery', number: '05', title: 'Source to a local image.',
     subtitle: 'The development checks that travel with the repository', category: 'BUILD & DELIVERY',
-    summary: 'Connect the local toolchain to GitHub checks, container builds, optional cluster tests and version-tag artifacts.',
+    summary: 'Connect the local toolchain to GitHub checks, container builds, automatic PR and push cluster tests, and version-tag artifacts.',
     principle: 'The same pinned requirements power local checks and CI.',
     caption: 'Version tags create artifacts; the workflow does not deploy to a remote cluster.',
-    facts: [['Source gate', 'Format + tests + scan'], ['Runtime', 'Static, non-root image'], ['Cluster checks', 'Explicit manual option']],
+    facts: [['Source gate', 'Format + tests + scan'], ['Runtime', 'Static, non-root image'], ['Cluster checks', 'PRs + pushes']],
     notes: [
       ['Review build inputs', 'toolchain.env maps tools and image pins. go.mod and go.sum select and verify packages. Generated protobuf bindings are committed and compared against fresh generation.'],
       ['Keep checks reproducible', 'The format inventory includes tracked and nonignored untracked Go files, including generated code. The quality gate also runs race tests, vet, builds, chart rendering and workflow validation.'],
-      ['Build, then choose the evidence', 'Docker has a test stage and a static runtime stage. Version-tag runs package the chart and image archive. The manually requested KIND matrix exercises all five levels and rollout probes for levels 3–5.']
+      ['Exercise every PR and push', 'Docker has a test stage and a static runtime stage. After quality passes, both PRs and pushes run the KIND matrix for all five levels and rollout probes for levels 3–5. A push to an open PR can run both matrices. Manual runs can enable the same tests; version tags also package the chart and image archive.']
     ],
     caveat: 'Local build results are documented separately from remote CI or live cluster results. Moving particles represent the workflow, not a running pipeline.',
     refs: ['toolchain.env', 'Makefile', 'Dockerfile', '.github/workflows/ci.yaml', 'docs/DEPENDENCY-VALIDATION.md']

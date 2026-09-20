@@ -4,7 +4,7 @@ flowchart TB
   review --> security[Module checksums / vulnerability scan]
   security --> container[Docker test + runtime build]
   container --> tags[Version tag / chart + image archive]
-  container -.->|Manual workflow option| kind[KIND matrix / levels 1-5]
+  container -->|PR / push / manual opt-in| kind[KIND matrix / levels 1-5]
   kind --> probe[Rollout probes / levels 3-5]
   classDef core fill:#182c47,stroke:#76baff,color:#f1f5ff
   classDef gate fill:#173d44,stroke:#5eead4,color:#f0fdfa

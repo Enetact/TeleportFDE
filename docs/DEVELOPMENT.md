@@ -143,8 +143,11 @@ setup does not create branches or change repository protection settings.
 CI runs on the configured Gitflow branches, PRs and `v*` tags. It installs the
 same pinned tools, checks all Go formatting, verifies generated bindings, runs
 race tests/vet/build, renders all five chart profiles, checks workflows, scans Go
-vulnerabilities, and tests/builds the Docker image. Cluster testing is an explicit
-manual matrix for levels 1–5; rollout checks include 3–5.
+vulnerabilities, and tests/builds the Docker image. Pull requests and pushes
+automatically run the KIND matrix for levels 1–5 after quality passes; rollout
+checks include 3–5. Matching branch and version-tag pushes are included. A push
+to an open PR can run both matrices. For a manual workflow run, select the branch
+and enable `cluster_tests` to run the same integration jobs.
 
 Version tags package a Helm chart and local image archive as short-lived workflow
 artifacts. Nothing is automatically deployed or pushed to a container registry.

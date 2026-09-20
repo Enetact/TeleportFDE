@@ -136,12 +136,13 @@ suite. `make deploy LEVEL=N` builds and loads a static, non-root image into a na
 local KIND cluster and installs the chart. Docker produces one architecture per
 invocation through BuildKit target variables, supporting amd64/arm64 workflows.
 
-`make integration-all` exercises each level. `make upgrade-test LEVEL=4|5` creates
+`make integration-all` exercises each level. `make upgrade-test LEVEL=3|4|5` creates
 an authenticated probe Job in the cluster that connects to the Service using fresh
 connections while Helm rolls the application. Any failed request fails the Job.
 A kubectl port-forward is not used as the availability measurement because it
-selects a specific Pod. Unit CI runs on pushes/PRs; cluster tests are opt-in manual
-runs to avoid silently consuming resources on every change.
+selects a specific Pod. Quality CI runs on pushes/PRs. Both push and pull-request
+runs automatically test all five levels after quality passes. Manual runs can
+also enable `cluster_tests`. A push to an open PR can trigger both matrices.
 
 Generated files and real go.sum must be reviewed and committed after bootstrap.
 Pin the protoc executable version, action commit SHAs and builder image digest for

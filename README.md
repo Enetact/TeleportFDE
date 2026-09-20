@@ -63,7 +63,7 @@ internal/health/     Separate liveness, readiness, and live dependency checks
 internal/security/   TLS 1.3, certificate verification, URI SAN authorization
 charts/replica-control/  Helm resources and structural CRD schema
 scripts/             Integration and formatting checks
-.github/workflows/   Unit checks and opt-in cluster-test matrix
+.github/workflows/   Quality checks and automatic PR/push cluster-test matrix
 levels/level-1..5/   Guides, shared file maps, command wrappers and Helm overlays
 gen/replicas/v1/     Committed generated protobuf and gRPC bindings
 docs/visuals/        Offline HTML guides, Mermaid sources, SVGs and animated GIFs
@@ -318,8 +318,11 @@ separate checks. The [visual guide checks](docs/visuals/VALIDATION.md) cover off
 HTML loading, desktop/mobile layouts, playback, GIF motion and reduced motion.
 
 GitHub Actions covers the configured Gitflow branches, PRs and version tags.
-Version tags package the chart and image archive; cluster tests are a manual
-levels 1–5 matrix, with rollout probes for levels 3–5. See
+Version tags package the chart and image archive. Pull requests and pushes
+automatically run the levels 1–5 cluster matrix after quality passes, with rollout
+probes for levels 3–5. This includes matching branch pushes and version-tag pushes.
+A push to an open PR can therefore produce both push and PR integration runs.
+Manual runs can also enable `cluster_tests`. See
 [DEVELOPMENT.md](docs/DEVELOPMENT.md) for the branch conventions and exact commands.
 
 ## Important boundaries
