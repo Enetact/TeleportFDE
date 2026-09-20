@@ -103,7 +103,7 @@ check-prepared:
 	@test -s go.sum -a -s gen/replicas/v1/replicas.pb.go -a -s gen/replicas/v1/replicas_grpc.pb.go || { echo 'Run make prepare first, then review go.mod, go.sum and gen/.' >&2; exit 1; }
 
 format:
-	gofmt -w cmd internal gen
+	bash scripts/check-format.sh --write
 
 format-check:
 	bash scripts/check-format.sh

@@ -13,6 +13,7 @@ them; ordinary quality/build targets check the supplied files without regenerati
 Fresh validation results are recorded in [DEPENDENCY-VALIDATION.md](docs/DEPENDENCY-VALIDATION.md).
 The original [VALIDATION.md](docs/VALIDATION.md) describes the earlier authoring
 environment and remains historical evidence.
+
 Teleport's public challenge recommends that candidates write their own design
 and code, obtain design approval, and use reviewable pull requests. This reference
 is not a substitute for that process. Do not represent it as independently
@@ -72,7 +73,7 @@ an employer's or production cluster.
 | make | GNU make; shell recipes use bash |
 | Docker | BuildKit-capable Docker with a running daemon |
 | kubectl | 1.37.0 baseline for the bundled local Kubernetes target |
-| KIND | 0.33.0 baseline; node 1.37.0 pinned by digest in Makefile |
+| KIND | 0.33.0 baseline; node 1.37.0 pinned by digest in toolchain.env |
 | Helm | Helm 4.3.0; commands use rollback-on-failure and watcher waiting |
 | protoc | Protocol Buffers compiler 36.2; Go plugins are pinned separately |
 | curl, jq | HTTP and JSON integration assertions |
@@ -85,7 +86,7 @@ On Ubuntu/Debian, the supporting OS tools can be installed with:
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y build-essential make protobuf-compiler curl jq
+sudo apt-get install -y build-essential make curl jq unzip python3
 ```
 
 Run `bash scripts/setup-dev.sh` in Ubuntu/WSL, then `source scripts/dev-env.sh`.
@@ -110,7 +111,7 @@ make helm-check
 git add go.mod go.sum gen/replicas/v1/*.go
 ```
 
-`make prepare` pins the Go code generators to the versions in Makefile. It runs
+`make prepare` pins the Go code generators to the versions in toolchain.env. It runs
 `protoc`, `go mod tidy`, and `go mod verify`. The quality check fails when
 the generated source/checksum file is missing, or regeneration differs from
 those supplied files. This revision pins protoc and CI action commit SHAs
