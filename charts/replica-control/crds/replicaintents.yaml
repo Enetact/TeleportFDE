@@ -1,0 +1,89 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: replicaintents.replicas.reference.example.com
+spec:
+  group: replicas.reference.example.com
+  scope: Namespaced
+  names:
+    plural: replicaintents
+    singular: replicaintent
+    kind: ReplicaIntent
+    shortNames: [ri]
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      additionalPrinterColumns:
+        - name: Desired
+          type: integer
+          jsonPath: .spec.replicas
+        - name: Observed
+          type: integer
+          jsonPath: .status.observedReplicas
+        - name: Phase
+          type: string
+          jsonPath: .status.phase
+        - name: Reason
+          type: string
+          jsonPath: .status.reason
+      schema:
+        openAPIV3Schema:
+          type: object
+          required: [spec]
+          x-kubernetes-validations:
+            - rule: "self.metadata.name == self.spec.deploymentName"
+              message: "intent name must equal deploymentName (one intent per Deployment)"
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              required: [deploymentName, deploymentUID, replicas]
+              properties:
+                deploymentName:
+                  type: string
+                  minLength: 1
+                  maxLength: 253
+                  pattern: '^[a-z0-9]([-a-z0-9.]*[a-z0-9])?$'
+                  x-kubernetes-validations:
+                    - rule: "self == oldSelf"
+                      message: "deploymentName is immutable"
+                deploymentUID:
+                  type: string
+                  minLength: 1
+                  maxLength: 128
+                  x-kubernetes-validations:
+                    - rule: "self == oldSelf"
+                      message: "deploymentUID is immutable"
+                replicas:
+                  type: integer
+                  format: int32
+                  minimum: 0
+                  maximum: 1000
+            status:
+              type: object
+              properties:
+                observedGeneration:
+                  type: integer
+                  format: int64
+                observedReplicas:
+                  type: integer
+                  format: int32
+                  minimum: 0
+                readyReplicas:
+                  type: integer
+                  format: int32
+                  minimum: 0
+                phase:
+                  type: string
+                  enum: [Reconciling, Ready, Blocked]
+                reason:
+                  type: string
+                  maxLength: 128

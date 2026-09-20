@@ -1,0 +1,7 @@
+.git
+.local
+.bin
+.tools
+artifacts
+*.zip
+coverage.out

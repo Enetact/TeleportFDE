@@ -1,0 +1,8 @@
+GOTOOLCHAIN=local GOPROXY=off go test -modfile=go.offline.mod -race -count=1 ./internal/model ./internal/service ./internal/httpapi ./internal/reconcile ./internal/security ./internal/health ./cmd/certgen
+ok  	example.com/replica-control/internal/model	1.016s
+ok  	example.com/replica-control/internal/service	1.010s
+ok  	example.com/replica-control/internal/httpapi	1.014s
+ok  	example.com/replica-control/internal/reconcile	1.010s
+?   	example.com/replica-control/cmd/certgen	[no test files]
+ok  	example.com/replica-control/internal/security	1.063s
+ok  	example.com/replica-control/internal/health	1.010s

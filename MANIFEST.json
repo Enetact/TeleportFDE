@@ -1,0 +1,271 @@
+{
+  "artifact": "teleport-sre-reference",
+  "purpose": "AI-generated educational source reference; not an end-to-end validated submission",
+  "files": [
+    {
+      "path": ".dockerignore",
+      "bytes": 53,
+      "sha256": "ce921c71c73032a3e1d8055e3eeba18191b2aad8f4f6d010ab1a0035fdcec54a"
+    },
+    {
+      "path": ".github/workflows/ci.yaml",
+      "bytes": 2491,
+      "sha256": "3a867e9a8b62c1cf9c8ca77620998d3857441a2de7d3a39614e15ef4442b9f4b"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 192,
+      "sha256": "202026048ed1ebea932241d523b124fe520a368b89428dadac966d0d9dc67d7e"
+    },
+    {
+      "path": "Dockerfile",
+      "bytes": 1032,
+      "sha256": "ae2cff5ddeb7b5954f56ebfca791cffaa1db258ddb2ddfadb00dd266c921c3d3"
+    },
+    {
+      "path": "Makefile",
+      "bytes": 5618,
+      "sha256": "081d4bead67bede711485e2960fa60f1cadd308fee04394c5a779c7be4094676"
+    },
+    {
+      "path": "README.md",
+      "bytes": 13927,
+      "sha256": "a222262a60d6fa15a394dfb301c5431b576cca6eaeb58967fa4bfef764df5e8d"
+    },
+    {
+      "path": "api/replicas/v1/replicas.proto",
+      "bytes": 1394,
+      "sha256": "ba642f85297995073bb53a783091a5b05e5b42092b2d6d0d50a6b7f8cf6f7a6f"
+    },
+    {
+      "path": "charts/replica-control/Chart.yaml",
+      "bytes": 202,
+      "sha256": "2635473d3e5fef0256ea6201c1f101d474f9d241f403108330f52fb2f102270a"
+    },
+    {
+      "path": "charts/replica-control/crds/replicaintents.yaml",
+      "bytes": 2762,
+      "sha256": "941e375422a8468ec76c58c4bb2b0b960ad57a68a2e44e426ea6f7ef28915dfb"
+    },
+    {
+      "path": "charts/replica-control/templates/NOTES.txt",
+      "bytes": 450,
+      "sha256": "6a64d47937976db06b471042553918fdc61bb55170139ebe8551101ddc19ee28"
+    },
+    {
+      "path": "charts/replica-control/templates/_helpers.tpl",
+      "bytes": 441,
+      "sha256": "8ccc0c9d18db55ec1661d975944f83dc2aec46a8210b518b09dba95b0390eb98"
+    },
+    {
+      "path": "charts/replica-control/templates/deployment.yaml",
+      "bytes": 3963,
+      "sha256": "258f75fa09e34a06b1a9f1ec3c849dbdf75c22b46649a4be0b75d41d4637fcca"
+    },
+    {
+      "path": "charts/replica-control/templates/pdb.yaml",
+      "bytes": 279,
+      "sha256": "7181ee75a9ecbddb9cb95a1aeb3ca49c039f53e06407036ae5b9563d60f80387"
+    },
+    {
+      "path": "charts/replica-control/templates/rbac.yaml",
+      "bytes": 2138,
+      "sha256": "069de6694052106156740e7c1a1348d8a1108f1a14caaeb84498838d75107a17"
+    },
+    {
+      "path": "charts/replica-control/templates/service.yaml",
+      "bytes": 445,
+      "sha256": "ea58a0a35893ffc72ec22f9f02af66ea59d024643e31ac32e6abd688dd90c54a"
+    },
+    {
+      "path": "charts/replica-control/templates/serviceaccount.yaml",
+      "bytes": 196,
+      "sha256": "a35f2fb43df59d0d8188c79a6f2fe18f7f5d666e59d11f367ffdd064cfe19e72"
+    },
+    {
+      "path": "charts/replica-control/values.schema.json",
+      "bytes": 958,
+      "sha256": "74463c73220e0b15868582496cb82b470b3ee476e612a8b83ef2c448586d262e"
+    },
+    {
+      "path": "charts/replica-control/values.yaml",
+      "bytes": 599,
+      "sha256": "7dcab77a48de01a7461c2cc04ea85da370d9fd3b3266938215699658aa25f832"
+    },
+    {
+      "path": "cmd/certgen/main.go",
+      "bytes": 3739,
+      "sha256": "aac1ed886cb69d6f7a98d02e5cba51c71c8cfac32cc9bdb3e210d05837b875c3"
+    },
+    {
+      "path": "cmd/probe/main.go",
+      "bytes": 3182,
+      "sha256": "d342f56d55de0c8187ff878c0ef3bb6c37118d5096bc27fd063c7c0004b1019b"
+    },
+    {
+      "path": "cmd/replicactl/main.go",
+      "bytes": 3134,
+      "sha256": "8f2deee23f1529e993041087f5db97a7e5eb2ce006bbd1903238c5590bc699b6"
+    },
+    {
+      "path": "cmd/server/main.go",
+      "bytes": 8277,
+      "sha256": "a0fa9a4ff41877f0450a5cd2974d86720446c15848043579120005cfe2df861f"
+    },
+    {
+      "path": "docs/DESIGN.md",
+      "bytes": 10752,
+      "sha256": "7f042e7b8c343f82787636258b6877dfcf6cde4541dd04c021246b33aee2be18"
+    },
+    {
+      "path": "docs/SECURITY.md",
+      "bytes": 2975,
+      "sha256": "564f44b83f6aa9309d27b37dffc2b21d3acd8a20bf62b10fbf1b194b9e149a28"
+    },
+    {
+      "path": "docs/SOURCES.md",
+      "bytes": 2176,
+      "sha256": "e2cb2a0b538a289243548eab677deb53702c1aad337a825f12e049f52c5636c9"
+    },
+    {
+      "path": "docs/VALIDATION.md",
+      "bytes": 4201,
+      "sha256": "f3a12f3c7b8ce33719f86f5acaf178788026d0515755a7e9a2ae3bc28715c676"
+    },
+    {
+      "path": "docs/WALKTHROUGH.md",
+      "bytes": 6717,
+      "sha256": "b120835b0aa07ad04ee5e865db6d925803922c60fa3d012d97d07f82f009ad1b"
+    },
+    {
+      "path": "docs/validation/core-tests-summary.txt",
+      "bytes": 608,
+      "sha256": "d7561f722ad1b79626a66739130dfd2b72926335352c5b0fb88c7888355d8733"
+    },
+    {
+      "path": "docs/validation/core-tests.jsonl",
+      "bytes": 59273,
+      "sha256": "f2fa079fb28bbeea5d7ad04ade6e7d13a1724692342a4c6ffc35d4ecde5a7af5"
+    },
+    {
+      "path": "docs/validation/core-vet.txt",
+      "bytes": 72,
+      "sha256": "69ed72dcc50c208d92a887088601ecf33956cce5a357d067225c837a105ea9d8"
+    },
+    {
+      "path": "gen/README.md",
+      "bytes": 520,
+      "sha256": "f2077c2b72d3f533679a19475886204c5a1108e2183b7381c93e35f4288648ae"
+    },
+    {
+      "path": "go.mod",
+      "bytes": 218,
+      "sha256": "cc5a6e5ac18a3306f37e4a94e819f83cae155696071ec27b5002ba27c276f3b1"
+    },
+    {
+      "path": "go.offline.mod",
+      "bytes": 125,
+      "sha256": "3fa6aace0aec7b140647d93a54b5f4f2a14489bd20b4ba47cb6be1d4a1cce1d0"
+    },
+    {
+      "path": "internal/controller/controller.go",
+      "bytes": 3939,
+      "sha256": "0f77f05e158f8175a31c45dc4029038fcbc1167a13a83fea73f730dbfcb78894"
+    },
+    {
+      "path": "internal/grpcapi/grpc.go",
+      "bytes": 3293,
+      "sha256": "fa32d3c6714a0c28ab106f19cbd2fe784de864e3c39a47c2f464beed2f993f26"
+    },
+    {
+      "path": "internal/grpcapi/grpc_test.go",
+      "bytes": 2900,
+      "sha256": "21ad1b05bf518d6c369f2e704a2f706a299b4420acd5e14f55a01baeeea42925"
+    },
+    {
+      "path": "internal/health/health.go",
+      "bytes": 1576,
+      "sha256": "a928680354e79352a628a157e9b2dbf7f565afa1ed4fafea244d20ad9721a9d2"
+    },
+    {
+      "path": "internal/health/health_test.go",
+      "bytes": 1365,
+      "sha256": "2009e1fd910a82a15608b7efc347c024e470b7e2d6be306f60fc8cab8e31fa39"
+    },
+    {
+      "path": "internal/httpapi/http.go",
+      "bytes": 3555,
+      "sha256": "44effee9c6f7fe277863d8dc7e4118574735fba2922bb1a512710d65ce60e59b"
+    },
+    {
+      "path": "internal/httpapi/http_test.go",
+      "bytes": 3870,
+      "sha256": "b658f1ff300fb29eace9df29be00f31b757c4265cb0812b16cea1cd41370e812"
+    },
+    {
+      "path": "internal/kube/backend.go",
+      "bytes": 9368,
+      "sha256": "4befe7470f9fb3eca108c5b57b2577f08f656b16a7365cc40df90e4787853215"
+    },
+    {
+      "path": "internal/kube/backend_test.go",
+      "bytes": 5791,
+      "sha256": "44ed521abfd9be118f5daeda124c8f6c1b6c08d6da0db03e769b823696ba1dce"
+    },
+    {
+      "path": "internal/kube/intents.go",
+      "bytes": 5904,
+      "sha256": "2ce46d57379e42abd91dd493fb4165353a3c15d7709a483000cb405b40d7607a"
+    },
+    {
+      "path": "internal/model/model.go",
+      "bytes": 4448,
+      "sha256": "154100b111e8953ab1a4d291f3d3d17c0186fe02356b443561c08dadbb157aad"
+    },
+    {
+      "path": "internal/model/model_test.go",
+      "bytes": 1570,
+      "sha256": "2b839ab89a86558f5049b661df8cdc994a0940f9272803706108954667f0391b"
+    },
+    {
+      "path": "internal/reconcile/reconcile.go",
+      "bytes": 2824,
+      "sha256": "b548d7f53c49428680c13f4d64bdb6bf2ec435d19171bef98394926b9e74df21"
+    },
+    {
+      "path": "internal/reconcile/reconcile_test.go",
+      "bytes": 4401,
+      "sha256": "4c3c0bd27c46bbc4d76f52e76a2dc1a3c246604a1467be7692277c284bece381"
+    },
+    {
+      "path": "internal/security/tls.go",
+      "bytes": 2053,
+      "sha256": "f59f033e31a945e1e25913f50a27271306ce56b0b42ce2f87e70c4f671082aad"
+    },
+    {
+      "path": "internal/security/tls_test.go",
+      "bytes": 4832,
+      "sha256": "704e8e596df581db3daaf65084244b5ca14202cbede6df0856d446989f2ab730"
+    },
+    {
+      "path": "internal/service/service.go",
+      "bytes": 1214,
+      "sha256": "490fc63dabe6884ca613e49713160e64286dff3a2877b64050a58f311fd9549a"
+    },
+    {
+      "path": "internal/service/service_test.go",
+      "bytes": 1547,
+      "sha256": "4c36d67a8583db0678404b128cde2cf9cd9da542a21419904d46662dd9b621b7"
+    },
+    {
+      "path": "scripts/check-format.sh",
+      "bytes": 152,
+      "sha256": "aeb0d5918c11a32f3d6fb47085c78e328a687968911ad99e34c4517183d414da"
+    },
+    {
+      "path": "scripts/integration.sh",
+      "bytes": 8431,
+      "sha256": "c551691394f81636b3f0d96573aceb9c8ddf1577babecbddf6f64deed9b82eb6"
+    }
+  ]
+}

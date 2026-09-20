@@ -1,0 +1,5 @@
+Level {{ .Values.level }} is configured with mutual TLS on Service {{ .Release.Name }}:{{ .Values.service.port }}.
+The server trusts the configured CA and authorizes only the configured client URI SAN.
+Certificates are loaded at startup; use a rolling restart after certificate rotation.
+Do not expose this replica-management API publicly. The authenticated operator can
+scale Deployments cluster-wide, except application-enforced protected targets.

@@ -1,0 +1,122 @@
+{{- if and (eq (int .Values.level) 5) (gt (int .Values.replicaCount) 1) (not .Values.leaderElection.enabled) -}}
+{{- fail "Level 5 with multiple replicas requires leaderElection.enabled=true" -}}
+{{- end }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "replica-control.name" . }}
+  labels:
+    {{- include "replica-control.labels" . | nindent 4 }}
+  annotations:
+    replicas.reference.example.com/protected: "true"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  minReadySeconds: 5
+  revisionHistoryLimit: 3
+  progressDeadlineSeconds: 180
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      {{- include "replica-control.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "replica-control.selectorLabels" . | nindent 8 }}
+      annotations:
+        replica-control/config-hash: {{ toJson .Values | sha256sum | quote }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ include "replica-control.name" . }}
+      automountServiceAccountToken: true
+      terminationGracePeriodSeconds: 40
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    {{- include "replica-control.selectorLabels" . | nindent 20 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: server
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - --level={{ .Values.level }}
+            - --listen=:8443
+            - --health-listen=:8081
+            - --tls-cert=/tls/tls.crt
+            - --tls-key=/tls/tls.key
+            - --client-ca=/tls/ca.crt
+            - --allowed-client-uri={{ .Values.tls.allowedClientURI }}
+            - --leader-election={{ .Values.leaderElection.enabled }}
+            - --lease-namespace={{ .Release.Namespace }}
+            - --lease-name={{ include "replica-control.name" . }}
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          ports:
+            - name: api
+              containerPort: 8443
+            - name: health
+              containerPort: 8081
+          startupProbe:
+            httpGet:
+              path: /readyz
+              port: health
+            periodSeconds: 2
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: health
+            periodSeconds: 2
+            timeoutSeconds: 1
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: health
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tls
+              mountPath: /tls
+              readOnly: true
+      volumes:
+        - name: tls
+          secret:
+            secretName: {{ .Values.tls.existingSecret }}
+            defaultMode: 0440

@@ -1,0 +1,69 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Release.Namespace }}-{{ include "replica-control.name" . }}
+  labels:
+    {{- include "replica-control.labels" . | nindent 4 }}
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch"]
+  {{- if ge (int .Values.level) 2 }}
+  - apiGroups: ["apps"]
+    resources: ["deployments/scale"]
+    verbs: ["get", "update"]
+  - apiGroups: ["autoscaling"]
+    resources: ["horizontalpodautoscalers"]
+    verbs: ["get", "list", "watch"]
+  {{- end }}
+  {{- if eq (int .Values.level) 5 }}
+  - apiGroups: ["replicas.reference.example.com"]
+    resources: ["replicaintents"]
+    verbs: ["get", "list", "watch", "create", "update"]
+  - apiGroups: ["replicas.reference.example.com"]
+    resources: ["replicaintents/status"]
+    verbs: ["get", "update"]
+  {{- end }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Release.Namespace }}-{{ include "replica-control.name" . }}
+  labels:
+    {{- include "replica-control.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "replica-control.name" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ .Release.Namespace }}-{{ include "replica-control.name" . }}
+{{- if eq (int .Values.level) 5 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "replica-control.name" . }}-leader
+rules:
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["create"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    resourceNames: [{{ include "replica-control.name" . | quote }}]
+    verbs: ["get", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "replica-control.name" . }}-leader
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "replica-control.name" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "replica-control.name" . }}-leader
+{{- end }}
