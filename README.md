@@ -1,8 +1,16 @@
 # Replica Control — Teleport SRE Levels 1–5 Reference
 
-Independent, AI-generated educational implementation prepared for Jamie. This is
-not an official Teleport solution, an approved design, or a claim of production
-readiness. It is a reference to study, run, critique, and adapt.
+Independent educational implementation architected and directed by
+**Jamie Holland**. AI assistance engineered the implementation under Jamie's
+direction, including code, tests, documentation and verification work.
+
+**Authorship and assistance:** Jamie Holland is the author and system architect.
+The AI's role was to implement Jamie's architecture and instructions and check
+technical statements against the source and available test evidence. Verification
+claims are limited to the checks actually performed and their recorded results;
+unverified behavior and remaining gaps are identified in the validation documents.
+This is a reference to study, run, critique and adapt, with no claim of official
+Teleport approval or production readiness.
 
 **Current development setup:** see [DEVELOPMENT.md](docs/DEVELOPMENT.md) for
 Windows/WSL installation, the package/image map and Git workflow. Go/Kubernetes
@@ -25,10 +33,9 @@ in a browser for five architecture walkthroughs with animated SVGs, GIFs,
 Mermaid sources and downloadable diagrams. Viewing works offline; see the
 [visual guide instructions](docs/visuals/README.md) to rebuild the assets.
 
-Teleport's public challenge recommends that candidates write their own design
-and code, obtain design approval, and use reviewable pull requests. This reference
-is not a substitute for that process. Do not represent it as independently
-written or as reviewer-approved.
+For assessment use, disclose the implementation assistance described above and
+follow the hiring team's agreed design-review and submission process. Project
+authorship and architecture ownership do not establish reviewer approval.
 
 ## Coverage by level
 
@@ -47,8 +54,12 @@ on a separate Pod-only port, not on the Service.
 
 ## Start here
 
-Read [the design](docs/DESIGN.md), then follow the level sequence in
-[WALKTHROUGH.md](docs/WALKTHROUGH.md). The source is intentionally layered:
+Read [RFD 0001: system design](rfd/0001-replica-control.md) for the review draft,
+or [the implementation overview](docs/DESIGN.md) for a shorter explanation.
+Then follow the level sequence in [WALKTHROUGH.md](docs/WALKTHROUGH.md).
+The [terminal demo guide](docs/TERMINAL-DEMO.md) provides per-level test commands,
+live Kubernetes watches and the complete HTTP/gRPC call walkthrough.
+The source is intentionally layered:
 
 ```text
 cmd/server/          Process lifecycle, TLS, HTTP/gRPC selection, leader election
@@ -68,7 +79,7 @@ internal/health/     Separate liveness, readiness, and live dependency checks
 internal/security/   TLS 1.3, certificate verification, URI SAN authorization
 charts/replica-control/  Helm resources and structural CRD schema
 scripts/             Integration and formatting checks
-.github/workflows/   Quality checks and automatic PR/push cluster-test matrix
+.github/workflows/   Push quality checks, optional PR checks and full main validation
 levels/level-1..5/   Guides, shared file maps, command wrappers and Helm overlays
 gen/replicas/v1/     Committed generated protobuf and gRPC bindings
 docs/visuals/        Offline HTML guides, Mermaid sources, SVGs and animated GIFs
@@ -210,6 +221,9 @@ TLS certificate alert counts as rejection. Authenticated API checks follow on a
 fresh tunnel. Per-stage diagnostics are saved under
 `artifacts/integration/level-N/` and uploaded by CI without certificate keys.
 See [integration validation](docs/INTEGRATION-VALIDATION.md) for scope and results.
+The harness also prints verified API PASS/FAIL checkpoints, selected response
+fields and a per-level GitHub job summary. See [API test logs](docs/API-TEST-LOGS.md)
+for where to find results and how expected rejections count as passing tests.
 
 The integration script creates a unique temporary namespace, checks behavior,
 then removes that namespace on success or failure. The application release is
@@ -331,13 +345,15 @@ packaging. This is arm64 WSL evidence; remote CI and live KIND acceptance are
 separate checks. The [visual guide checks](docs/visuals/VALIDATION.md) cover offline
 HTML loading, desktop/mobile layouts, playback, GIF motion and reduced motion.
 
-GitHub Actions covers the configured Gitflow branches, PRs and version tags.
-Version tags package the chart and image archive. Pull requests and pushes
-automatically run the levels 1–5 cluster matrix after quality passes, with rollout
-probes for levels 3–5. This includes matching branch pushes and version-tag pushes.
-A push to an open PR can therefore produce both push and PR integration runs.
-Manual runs can also enable `cluster_tests`. See
-[DEVELOPMENT.md](docs/DEVELOPMENT.md) for the branch conventions and exact commands.
+GitHub Actions runs source-quality checks on every branch push. PR checks are
+off by default: add `ci:full` in the PR's Labels sidebar to enable the full suite;
+remove it to disable PR checks. Pushes to `main`, including completed PR merges,
+and `v*` tags run quality, container checks, all five KIND levels and rollout
+probes for levels 3–5. A merged PR uses the main push run without an extra
+PR-closed run. Version tags also package the chart and image archive.
+Manual branch runs can enable `cluster_tests`. See [CI controls](docs/CI-CONTROLS.md)
+for the event matrix and GitHub UI steps, and [DEVELOPMENT.md](docs/DEVELOPMENT.md)
+for local commands and branch conventions.
 
 ## Important boundaries
 

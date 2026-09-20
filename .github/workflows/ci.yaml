@@ -1,23 +1,41 @@
 name: development-ci
 on:
   push:
-    branches: [main, master, develop, 'feature/**', 'release/**', 'hotfix/**']
+    branches: ['**']
     tags: ['v*']
   pull_request:
-    branches: [main, master, develop, 'release/**']
+    types: [opened, synchronize, reopened, labeled, unlabeled]
   workflow_dispatch:
     inputs:
       cluster_tests:
-        description: Exercise all levels and rollout checks in disposable KIND clusters
+        description: Full container and KIND checks (main and version tags always run full)
         type: boolean
         default: false
 permissions:
   contents: read
 concurrency:
-  group: development-ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+  # Unrelated label edits must neither restart nor cancel an active PR test run.
+  # Removing ci:full shares the PR's normal group and cancels obsolete work.
+  group: development-ci-${{ github.event_name }}-${{ github.ref }}-${{ (github.event.action == 'labeled' || github.event.action == 'unlabeled') && github.event.label.name != 'ci:full' && format('label-{0}', github.event.label.name) || 'checks' }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/') }}
 jobs:
+  policy:
+    if: github.event_name != 'pull_request' || (github.event.action != 'labeled' && github.event.action != 'unlabeled') || github.event.label.name == 'ci:full'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      quality: ${{ steps.select.outputs.quality }}
+      full: ${{ steps.select.outputs.full }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Select checks for this event
+        id: select
+        run: python3 scripts/ci-policy.py
   quality:
+    needs: policy
+    if: needs.policy.outputs.quality == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -29,6 +47,7 @@ jobs:
       - name: Validate source, generated files, chart and workflows
         run: bash scripts/dev.sh quality vuln
       - name: Test and build the complete container
+        if: needs.policy.outputs.full == 'true'
         run: bash scripts/dev.sh docker-test docker-build
       - name: Package development artifacts for version tags
         if: startsWith(github.ref, 'refs/tags/v')
@@ -41,9 +60,8 @@ jobs:
           retention-days: 7
           if-no-files-found: error
   integration:
-    needs: quality
-    # Exercise every level for both automatic triggers; retain the manual opt-in.
-    if: github.event_name == 'pull_request' || github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.cluster_tests)
+    needs: [policy, quality]
+    if: needs.policy.outputs.full == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     strategy:
@@ -55,7 +73,8 @@ jobs:
         with:
           persist-credentials: false
       - run: bash scripts/setup-dev.sh
-      - run: bash scripts/dev.sh integration LEVEL=${{ matrix.level }}
+      - name: Verify level ${{ matrix.level }} API calls
+        run: bash scripts/dev.sh integration LEVEL=${{ matrix.level }}
       - name: Probe rolling availability
         if: matrix.level >= 3
         run: bash scripts/dev.sh upgrade-test LEVEL=${{ matrix.level }}

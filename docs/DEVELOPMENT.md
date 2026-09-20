@@ -154,6 +154,11 @@ Kubernetes events before namespace cleanup. A refused connection is a transport
 failure, not successful certificate rejection. Repair the tunnel or fixture;
 do not disable certificate verification to make the test pass.
 
+Successful and failed runs also produce `api-checks.log` and `check-summary.log`,
+with verified operations and selected response fields printed in the terminal.
+GitHub receives a per-level job summary. [API test logs](API-TEST-LOGS.md) explains
+checkpoint counts, expected errors and where to find the downloadable evidence.
+
 During local validation Docker/KIND restarted between WSL command sessions.
 The remaining checks passed in one continuous session after the named lab node
 was recovered. If local runs encounter stopped containers, check Docker and the
@@ -167,14 +172,16 @@ preparation, and `hotfix/*` for focused corrections. Merge release/hotfix result
 back into the appropriate long-lived branches. This is a supported convention;
 setup does not create branches or change repository protection settings.
 
-CI runs on the configured Gitflow branches, PRs and `v*` tags. It installs the
-same pinned tools, checks all Go formatting, verifies generated bindings, runs
-race tests/vet/build, renders all five chart profiles, checks workflows, scans Go
-vulnerabilities, and tests/builds the Docker image. Pull requests and pushes
-automatically run the KIND matrix for levels 1–5 after quality passes; rollout
-checks include 3–5. Matching branch and version-tag pushes are included. A push
-to an open PR can run both matrices. For a manual workflow run, select the branch
-and enable `cluster_tests` to run the same integration jobs.
+CI runs source-quality checks on pushes to every branch: all Go formatting,
+generated bindings, race tests/vet/build, five chart profiles, workflow and event
+policy checks, module verification and the Go vulnerability scan. PR checks are
+off by default; the `ci:full` label enables the full suite and removing it disables
+PR checks. Main pushes (including completed PR merges), `v*` tags and enabled PRs
+also test/build the Docker image and run KIND levels 1–5 with rollout probes for
+3–5. Other branch pushes omit those container/cluster jobs. All paths install the
+same pinned tools. Manual branch runs can enable `cluster_tests`; main/tag runs
+remain full. Read [CI controls](CI-CONTROLS.md) for exact UI steps, cancellation
+behavior, required-check considerations and the complete event matrix.
 
 Version tags package a Helm chart and local image archive as short-lived workflow
 artifacts. Nothing is automatically deployed or pushed to a container registry.

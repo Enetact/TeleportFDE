@@ -21,7 +21,7 @@ Start-Process (Join-Path $repoRoot 'docs/visuals/index.html')
 | [Levels 1–5](levels.html) | Cumulative capabilities within the same shared server |
 | [Reconciliation](reconciliation.html) | Durable intent, leader workers, ownership checks and convergence |
 | [Rolling updates](rollout.html) | New capacity, readiness, routing and request draining |
-| [Development pipeline](delivery.html) | Source checks, image stages, tag artifacts and automatic PR/push cluster tests |
+| [Development pipeline](delivery.html) | Branch source checks, optional PR checks, full main/tag validation and artifacts |
 
 Each page includes motion SVG, GIF and still modes; playback controls; an expanded
 view; a prose walkthrough; implementation links; and Mermaid source. Reduced-motion
