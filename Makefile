@@ -114,7 +114,7 @@ verify-generated: check-prepared
 workflow-check:
 	actionlint -shellcheck= -pyflakes=
 
-quality: format-check verify-generated test vet build helm-check workflow-check
+quality: toolchain-check format-check verify-generated test vet build helm-check workflow-check
 	go mod verify
 
 vuln: check-prepared
@@ -135,3 +135,7 @@ package: check-prepared
 	@mkdir -p artifacts
 	helm package $(CHART) --destination artifacts
 	docker image save '$(IMAGE)' | gzip > artifacts/replica-control-image.tar.gz
+
+.PHONY: toolchain-check
+toolchain-check:
+	python3 scripts/check-toolchain.py

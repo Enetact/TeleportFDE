@@ -4,18 +4,15 @@ Independent, AI-generated educational implementation prepared for Jamie. This is
 not an official Teleport solution, an approved design, or a claim of production
 readiness. It is a reference to study, run, critique, and adapt.
 
-**Validation boundary:** the dependency-free Go packages were actually tested
-with `-race` in the authoring environment. The Kubernetes and gRPC adapters, full
-binary build, Helm rendering, Docker image, and live-cluster workflows were not
-executed there: the environment had Go 1.23.2, no dependency downloads, and no
-Docker/Kubernetes/Helm/protoc. See [VALIDATION.md](docs/VALIDATION.md).
+**Current development setup:** see [DEVELOPMENT.md](docs/DEVELOPMENT.md) for
+Windows/WSL installation, the package/image map and Git workflow. All versioned
+tools and image digests are centralized in `toolchain.env`. Generated protobuf
+bindings and `go.sum` are now included. `make prepare` intentionally refreshes
+them; ordinary quality/build targets check the supplied files without regenerating.
 
-**One bootstrap step is required:** run `make prepare` on a networked development
-machine. It generates the protobuf Go bindings and the real `go.sum`. Neither is
-fabricated in this archive. Commit those outputs before using the CI workflow.
-Do not treat the archive as a reproducibly locked release until that step and the
-full verification commands have passed.
-
+Fresh validation results are recorded in [DEPENDENCY-VALIDATION.md](docs/DEPENDENCY-VALIDATION.md).
+The original [VALIDATION.md](docs/VALIDATION.md) describes the earlier authoring
+environment and remains historical evidence.
 Teleport's public challenge recommends that candidates write their own design
 and code, obtain design approval, and use reviewable pull requests. This reference
 is not a substitute for that process. Do not represent it as independently
@@ -70,14 +67,14 @@ an employer's or production cluster.
 
 | Tool | Reference baseline / requirement |
 |---|---|
-| Go | Minimum 1.25 for full application; builder and CI select 1.26.8 |
+| Go | Minimum 1.26 for Kubernetes clients; local tools, builder and CI select 1.27.1 |
 | Go for `test-core` only | 1.23 or newer, with a working C compiler for `-race` |
 | make | GNU make; shell recipes use bash |
 | Docker | BuildKit-capable Docker with a running daemon |
-| kubectl | 1.35.0 baseline for the bundled local Kubernetes target |
-| KIND | 0.31.0 baseline; node 1.35.0 pinned by digest in Makefile |
-| Helm | Helm 3; CI uses 3.19.0 (Helm 4 CLI compatibility is not assumed) |
-| protoc | Protocol Buffers compiler supporting proto3 optional fields; 3.21+ |
+| kubectl | 1.37.0 baseline for the bundled local Kubernetes target |
+| KIND | 0.33.0 baseline; node 1.37.0 pinned by digest in Makefile |
+| Helm | Helm 4.3.0; commands use rollback-on-failure and watcher waiting |
+| protoc | Protocol Buffers compiler 36.2; Go plugins are pinned separately |
 | curl, jq | HTTP and JSON integration assertions |
 
 These are reference pins, not claims that each dependency is the latest security
@@ -91,17 +88,18 @@ sudo apt-get update
 sudo apt-get install -y build-essential make protobuf-compiler curl jq
 ```
 
-Install Go, Docker, kubectl, KIND, and Helm 3 using their official instructions.
+Run `bash scripts/setup-dev.sh` in Ubuntu/WSL, then `source scripts/dev-env.sh`.
 On macOS, ensure your command-line compiler tools are available for race tests.
 `make doctor` identifies missing tools and checks the Docker daemon.
 
 ## First build and tests
 
 ```bash
-# From the extracted repository directory:
+# From the repository directory after setup:
+source scripts/dev-env.sh
 make test-core
 
-# Requires Go 1.25+, protoc, and access to Go module downloads:
+# Requires the pinned Go 1.27.1 toolchain, protoc, and access to Go module downloads:
 make prepare
 make test
 make vet
@@ -113,13 +111,14 @@ git add go.mod go.sum gen/replicas/v1/*.go
 ```
 
 `make prepare` pins the Go code generators to the versions in Makefile. It runs
-`protoc`, `go mod tidy`, and `go mod verify`. The CI check intentionally fails when
-the generated source/real lockfile have not been committed, or regeneration changes
-those committed files. Pin the protoc version itself and CI action commit SHAs
-for stronger release reproducibility; the supplied workflow does not yet do so.
+`protoc`, `go mod tidy`, and `go mod verify`. The quality check fails when
+the generated source/checksum file is missing, or regeneration differs from
+those supplied files. This revision pins protoc and CI action commit SHAs
+alongside download checksums and builder/node/test image digests.
 
 The Dockerfile expects a prepared source tree, including `go.sum` and `gen/`.
-Use `make docker-build`, which runs preparation, rather than a bare first-run
+Run `make prepare` after intentionally changing dependencies or schemas; both
+`make docker-build` and a direct build consume the prepared source tree:
 `docker build .`.
 
 ## Deploy and exercise each level
@@ -137,6 +136,7 @@ make integration LEVEL=5
 make integration-all
 
 # Test upgrades using the real in-cluster Service:
+make upgrade-test LEVEL=3
 make upgrade-test LEVEL=4
 make upgrade-test LEVEL=5
 ```
@@ -254,7 +254,7 @@ waits for endpoint propagation, then drains HTTP/gRPC work with a deadline.
 
 This is a design intended for safe rolling upgrades, **not an unconditional
 zero-downtime guarantee**. Capacity, scheduling, TLS trust overlap, network behavior,
-and API compatibility still matter. `make upgrade-test` measures the real Service
+and API compatibility still matter. `make upgrade-test` samples the real Service
 with fresh authenticated connections from a Job; any failed request fails the test.
 Those rollout tests were supplied but not executed in the authoring environment.
 

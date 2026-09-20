@@ -1,68 +1,69 @@
-name: reference-ci
+name: development-ci
 on:
   push:
+    branches: [main, master, develop, 'feature/**', 'release/**', 'hotfix/**']
+    tags: ['v*']
   pull_request:
+    branches: [main, master, develop, 'release/**']
   workflow_dispatch:
     inputs:
       cluster_tests:
-        description: Run all five levels and both rollout tests in ephemeral KIND clusters
+        description: Exercise all levels and rollout checks in disposable KIND clusters
         type: boolean
         default: false
 permissions:
   contents: read
+concurrency:
+  group: development-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 jobs:
-  unit:
+  quality:
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          go-version: '1.26.8'
-          cache: false
-      - name: Install protobuf compiler
-        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
-      - run: bash scripts/check-format.sh
-      - run: make test vet build
-      - name: Require the dependency lock and generated code to be committed
-        run: |
-          git ls-files --error-unmatch go.sum gen/replicas/v1/replicas.pb.go gen/replicas/v1/replicas_grpc.pb.go
-          git diff --exit-code -- go.mod go.sum gen/
+          persist-credentials: false
+      - name: Install pinned development tools
+        run: bash scripts/setup-dev.sh
+      - name: Validate source, generated files, chart and workflows
+        run: bash scripts/dev.sh quality vuln
+      - name: Test and build the complete container
+        run: bash scripts/dev.sh docker-test docker-build
+      - name: Package development artifacts for version tags
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: bash scripts/dev.sh package
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          name: development-package-${{ github.ref_name }}
+          path: artifacts/
+          retention-days: 7
+          if-no-files-found: error
   integration:
-    needs: unit
+    needs: quality
     if: github.event_name == 'workflow_dispatch' && inputs.cluster_tests
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         level: [1, 2, 3, 4, 5]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          go-version: '1.26.8'
-          cache: false
-      - uses: azure/setup-helm@v4.3.0
-        with:
-          version: 'v3.19.0'
-      - name: Install test tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y protobuf-compiler jq
-          go install sigs.k8s.io/kind@v0.31.0
-          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
-          curl --fail --location --retry 3 -o kubectl https://dl.k8s.io/release/v1.35.0/bin/linux/amd64/kubectl
-          curl --fail --location --retry 3 -o kubectl.sha256 https://dl.k8s.io/release/v1.35.0/bin/linux/amd64/kubectl.sha256
-          echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
-          sudo install -m 0755 kubectl /usr/local/bin/kubectl
-      - run: make helm-check integration LEVEL=${{ matrix.level }}
+          persist-credentials: false
+      - run: bash scripts/setup-dev.sh
+      - run: bash scripts/dev.sh integration LEVEL=${{ matrix.level }}
       - name: Probe rolling availability
-        if: matrix.level >= 4
-        run: make upgrade-test LEVEL=${{ matrix.level }}
+        if: matrix.level >= 3
+        run: bash scripts/dev.sh upgrade-test LEVEL=${{ matrix.level }}
       - name: Diagnostics
         if: failure()
         run: |
+          source scripts/dev-env.sh
           kubectl --context kind-sre-reference get pods -A -o wide || true
           kubectl --context kind-sre-reference -n replica-system logs deployment/replica-control --tail=200 || true
-      - name: Remove development cluster
+      - name: Remove the job's disposable development cluster
         if: always()
-        run: make clean-cluster
+        run: bash scripts/dev.sh clean-cluster

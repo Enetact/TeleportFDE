@@ -17,19 +17,19 @@ type Code string
 
 const (
 	// InvalidArgument denotes malformed or out-of-range input.
-	InvalidArgument    Code = "invalid_argument"
+	InvalidArgument Code = "invalid_argument"
 	// NotFound denotes a missing target or Kubernetes resource.
-	NotFound           Code = "not_found"
+	NotFound Code = "not_found"
 	// Conflict denotes a stale version or a concurrently replaced resource.
-	Conflict           Code = "conflict"
+	Conflict Code = "conflict"
 	// Forbidden denotes an authorization or protected-target rejection.
-	Forbidden          Code = "forbidden"
+	Forbidden Code = "forbidden"
 	// Unavailable denotes a dependency or cancellation failure.
-	Unavailable        Code = "unavailable"
+	Unavailable Code = "unavailable"
 	// FailedPrecondition denotes a target state that prevents the operation.
 	FailedPrecondition Code = "failed_precondition"
 	// Internal denotes an unexpected application failure.
-	Internal           Code = "internal"
+	Internal Code = "internal"
 )
 
 // Error carries a transport-neutral code, a message and an optional cause.
@@ -41,10 +41,10 @@ type Error struct {
 }
 
 // Error returns the message supplied by the caller.
-func (e *Error) Error() string                       { return e.Message }
+func (e *Error) Error() string { return e.Message }
 
 // Unwrap exposes the cause to errors.Is and errors.As.
-func (e *Error) Unwrap() error                       { return e.Cause }
+func (e *Error) Unwrap() error { return e.Cause }
 
 // E constructs an Error with the supplied code, message and optional cause.
 func E(code Code, message string, cause error) error { return &Error{code, message, cause} }
