@@ -18,7 +18,7 @@ All links below resolve to shared source. Files can serve multiple levels.
 | [go.mod](../../go.mod) | Full application dependency declarations |
 | [go.offline.mod](../../go.offline.mod) | Dependency-free test subset only |
 | [charts/replica-control](../../charts/replica-control) | Shared chart, values, workload, service, service account and RBAC |
-| [.github/workflows/ci.yaml](../../.github/workflows/ci.yaml) | Quality gate, automatic PR/push cluster matrix and manual opt-in |
+| [.github/workflows/ci.yaml](../../.github/workflows/ci.yaml) | Push quality gate, ci:full PR opt-in, full main/tag suite and manual controls |
 | [scripts/integration.sh](../../scripts/integration.sh) | Level-selected live checks |
 | [scripts/check-format.sh](../../scripts/check-format.sh) | Go formatting check |
 | [docs/DESIGN.md](../../docs/DESIGN.md) | Existing educational design and complete protobuf contract |

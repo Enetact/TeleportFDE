@@ -64,16 +64,16 @@ export const guides = [
   {
     slug: 'delivery', number: '05', title: 'Source to a local image.',
     subtitle: 'The development checks that travel with the repository', category: 'BUILD & DELIVERY',
-    summary: 'Connect the local toolchain to GitHub checks, container builds, automatic PR and push cluster tests, and version-tag artifacts.',
+    summary: 'Connect the local toolchain to branch checks, optional PR validation, full main validation, and version-tag artifacts.',
     principle: 'The same pinned requirements power local checks and CI.',
     caption: 'Version tags create artifacts; the workflow does not deploy to a remote cluster.',
-    facts: [['Source gate', 'Format + tests + scan'], ['Runtime', 'Static, non-root image'], ['Cluster checks', 'PRs + pushes']],
+    facts: [['Source gate', 'Format + tests + scan'], ['Runtime', 'Static, non-root image'], ['Cluster checks', 'Main + opt-in PRs']],
     notes: [
       ['Review build inputs', 'toolchain.env maps tools and image pins. go.mod and go.sum select and verify packages. Generated protobuf bindings are committed and compared against fresh generation.'],
       ['Keep checks reproducible', 'The format inventory includes tracked and nonignored untracked Go files, including generated code. The quality gate also runs race tests, vet, four host builds, tunnel lifecycle regressions, chart rendering and workflow validation. The TLS rejection helper runs on the host; the scratch runtime retains three binaries.'],
-      ['Exercise every PR and push', 'After quality passes, PRs and pushes run the KIND matrix for all five levels and rollout probes for levels 3–5. Certificate checks use isolated tunnels. Per-level diagnostic logs are retained for seven days before cluster cleanup; private keys are excluded. A push to an open PR can run both matrices. Manual runs can enable the tests; version tags also package the chart and image archive.']
+      ['Choose when to run full checks', 'Branch pushes run source checks. PR checks are off until the ci:full label is added; removing it disables them. Main pushes, including completed PR merges, version tags and enabled PRs run container checks, all five KIND levels and rollout probes for levels 3–5. Manual branch runs can request the full suite. Diagnostic logs are retained for seven days; private keys are excluded.']
     ],
     caveat: 'All five local KIND levels and rollout checks for levels 3–5 passed on Linux/ARM64. GitHub-hosted results for the fixes are still separate evidence. Moving particles illustrate the workflow.',
-    refs: ['toolchain.env', 'Makefile', 'Dockerfile', '.github/workflows/ci.yaml', 'scripts/port-forward.sh', 'cmd/tlscheck/main.go', 'docs/DEPENDENCY-VALIDATION.md', 'docs/INTEGRATION-VALIDATION.md']
+    refs: ['toolchain.env', 'Makefile', 'Dockerfile', '.github/workflows/ci.yaml', 'scripts/ci-policy.py', 'docs/CI-CONTROLS.md', 'scripts/port-forward.sh', 'cmd/tlscheck/main.go', 'docs/DEPENDENCY-VALIDATION.md', 'docs/INTEGRATION-VALIDATION.md']
   }
 ];

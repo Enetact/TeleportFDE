@@ -1,4 +1,13 @@
-# RFD: Replica Control reference architecture
+# Replica Control reference architecture
+
+The formal [RFD 0001: system design](../rfd/0001-replica-control.md) records
+user workflows, contracts, alternatives, review decisions and validation limits
+using Teleport's RFD structure. This document is the shorter implementation guide.
+
+**Author and system architect:** Jamie Holland. AI assistance implemented Jamie's
+architecture under his direction and supported code, tests, documentation and
+evidence-based verification. See the [authorship and assistance statement](../README.md)
+for the division of responsibilities and verification limits.
 
 **Status:** educational reference, not approved by a Teleport interview panel.
 **Scope:** the five levels in the linked public challenge, implemented with one
@@ -152,9 +161,12 @@ inside the Pod, followed by ten seconds of additional sampling. The 300-second
 probe deadline fails closed without that acknowledgment and observation period.
 The Job allows 360 seconds and Helm allows 180 seconds. Any failed request fails the Job.
 A kubectl port-forward is not used as the availability measurement because it
-selects a specific Pod. Quality CI runs on pushes/PRs. Both push and pull-request
-runs automatically test all five levels after quality passes. Manual runs can
-also enable `cluster_tests`. A push to an open PR can trigger both matrices.
+selects a specific Pod. Branch pushes run source-quality CI; PR checks are off
+unless the `ci:full` label is present. Main pushes, including completed PR merges,
+version tags and enabled PRs run container checks and all five cluster levels.
+Other manual branch runs can enable `cluster_tests`. The merge's main push is
+the full post-merge run; there is no duplicate PR-closed run. See
+[CI controls](CI-CONTROLS.md) for GitHub UI steps and the event matrix.
 Selected per-level diagnostic logs are uploaded for seven days before cleanup;
 private keys and Secret manifests are excluded from the artifact inputs.
 

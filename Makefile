@@ -117,8 +117,12 @@ format-check:
 verify-generated: check-prepared
 	bash scripts/verify-generated.sh
 
-workflow-check:
+workflow-check: ci-policy-check
 	actionlint -shellcheck= -pyflakes=
+
+.PHONY: ci-policy-check
+ci-policy-check:
+	PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts -p 'test_ci_policy.py' -v
 
 quality: toolchain-check format-check verify-generated test vet build helm-check workflow-check harness-check
 	go mod verify

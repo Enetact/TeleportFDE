@@ -6,6 +6,12 @@ describe the original baseline and are retained as historical evidence.
 [Integration repairs and validation](INTEGRATION-VALIDATION.md) track the subsequent
 A2/A4 fixes and the shared port-forward failure observed in CI.
 
+**Authorship clarification (2026-09-20):** Jamie Holland architected the system
+and directed its implementation. AI assistance engineered the code under his
+direction and supported testing, documentation and evidence-based verification.
+The original audit's broad "AI-generated" description below is historical wording;
+the [current attribution](../README.md) states these responsibilities more precisely.
+
 ## Follow-up status
 
 | Original finding | Current status |

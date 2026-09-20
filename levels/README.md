@@ -3,6 +3,8 @@
 [Repository setup](../README.md) | [Animated level map](../docs/visuals/levels.html) | [Build results](../docs/DEPENDENCY-VALIDATION.md) | [Live integration results](../docs/INTEGRATION-VALIDATION.md)
 
 These five folders organize the shared Go implementation by runtime level.
+Use the [terminal demo guide](../docs/TERMINAL-DEMO.md) to show each level's tests,
+API calls, live replica counts and controller behavior side by side.
 The official careers index maps both SRE and Forward Deployed Engineer to the
 [same public challenge](https://github.com/gravitational/careers/blob/main/challenges/README.md).
 Separate folders are a navigation choice for this repository, not an official

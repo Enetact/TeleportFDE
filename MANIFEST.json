@@ -1,6 +1,9 @@
 {
   "artifact": "teleport-sre-reference",
-  "purpose": "AI-generated educational source reference; not an end-to-end validated submission",
+  "purpose": "Educational source reference architected and directed by Jamie Holland, with AI-assisted implementation and verification",
+  "author": "Jamie Holland",
+  "assistance": "AI assistance engineered Jamie Holland's architecture under his direction and checked technical claims against source and available test evidence; verification is limited to recorded checks.",
+  "inventory_scope": "The files array preserves the original imported artifact's checksum inventory, not the current checkout. See VALIDATION.md for subsequent evidence.",
   "files": [
     {
       "path": ".dockerignore",
