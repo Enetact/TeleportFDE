@@ -71,13 +71,18 @@ This renders manifests only. Deployment still needs the documented image, TLS
 Secret and CRD preparation. The shared make workflow selects the same level via
 LEVEL; it does not consume this optional values overlay.
 
-## Evidence still needed
+## Validated behavior and remaining evidence
 
-Demonstrate durable intent, drift correction, conflicts, deletion/recreation protection, leader failover, mTLS and gRPC availability through an entire upgrade. Generated bindings are included and checked by `make verify-generated`; see [dependency validation](../../docs/DEPENDENCY-VALIDATION.md) for the latest build evidence.
+Local KIND gRPC, persisted-intent scaling, drift correction, intent readiness, stale-version and HPA conflict checks passed. The rollout probe recorded 137 requests with zero failures. Explicit leader failover and deletion/recreation protection remain separate live exercises.
 
-Keep command output, tool versions, source commit and cluster details with the
-result. Shared source tests, image builds and scans passed in the
-[latest recorded local validation](../../docs/DEPENDENCY-VALIDATION.md); live level
-acceptance remains unverified. The [original audit](../../docs/AUDIT.md) preserves
-the baseline findings. The [visual guides](../../docs/visuals/index.html) explain
-the implementation without claiming live test results.
+See the [integration report](../../docs/INTEGRATION-VALIDATION.md) and
+[source-hash receipt](../../docs/validation/integration-summary.json). These are
+Linux/ARM64 results; GitHub-hosted Linux/AMD64 checks for the fixes are not yet
+recorded. Keep source revision, tool versions and cluster details with new runs.
+The [original audit](../../docs/AUDIT.md) preserves the baseline findings.
+
+Certificate rejection checks use isolated tunnels and verify normal authenticated
+access afterward. Stage logs remain under `artifacts/integration/level-N/`; CI
+uploads the selected logs for seven days before deleting its temporary cluster.
+The [visual guides](../../docs/visuals/index.html) illustrate the implementation;
+animations themselves are not execution evidence.

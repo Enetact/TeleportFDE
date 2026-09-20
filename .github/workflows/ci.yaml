@@ -63,8 +63,21 @@ jobs:
         if: failure()
         run: |
           source scripts/dev-env.sh
-          kubectl --context kind-sre-reference get pods -A -o wide || true
-          kubectl --context kind-sre-reference -n replica-system logs deployment/replica-control --tail=200 || true
+          diagnostic_dir="artifacts/integration/level-${{ matrix.level }}/workflow"
+          mkdir -p "$diagnostic_dir"
+          kubectl --context kind-sre-reference get pods -A -o wide > "$diagnostic_dir/pods.log" 2>&1 || true
+          kubectl --context kind-sre-reference -n replica-system logs -l app.kubernetes.io/instance=replica-control --all-containers --prefix --tail=200 > "$diagnostic_dir/application.log" 2>&1 || true
+          kubectl --context kind-sre-reference get events -A --sort-by=.metadata.creationTimestamp > "$diagnostic_dir/events.log" 2>&1 || true
+          cat "$diagnostic_dir"/*.log
+      - name: Retain integration diagnostics
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: integration-level-${{ matrix.level }}-${{ github.run_attempt }}
+          # Only harness logs are eligible; never upload .local/pki or Secrets.
+          path: artifacts/integration/level-${{ matrix.level }}/**/*.log
+          retention-days: 7
+          if-no-files-found: warn
       - name: Remove the job's disposable development cluster
         if: always()
         run: bash scripts/dev.sh clean-cluster

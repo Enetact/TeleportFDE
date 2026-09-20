@@ -71,13 +71,18 @@ This renders manifests only. Deployment still needs the documented image, TLS
 Secret and CRD preparation. The shared make workflow selects the same level via
 LEVEL; it does not consume this optional values overlay.
 
-## Evidence still needed
+## Validated behavior and remaining evidence
 
-Demonstrate listing, loss/recovery of Kubernetes connectivity, and availability throughout a Helm upgrade. Run `bash "$repo_root/levels/level-3/run.sh" upgrade-test` to exercise the rollout probe. The target now accepts level 3, resolving the command restriction in historical audit finding A3; the fixed-duration probe still has the coverage limitation in A2.
+Local KIND listing, scaling, certificate and rollout checks passed. The rollout probe recorded 144 requests with zero failures through upgrade completion and ten additional seconds. Explicit loss/recovery of Kubernetes connectivity remains a separate live exercise.
 
-Keep command output, tool versions, source commit and cluster details with the
-result. Shared source tests, image builds and scans passed in the
-[latest recorded local validation](../../docs/DEPENDENCY-VALIDATION.md); live level
-acceptance remains unverified. The [original audit](../../docs/AUDIT.md) preserves
-the baseline findings. The [visual guides](../../docs/visuals/index.html) explain
-the implementation without claiming live test results.
+See the [integration report](../../docs/INTEGRATION-VALIDATION.md) and
+[source-hash receipt](../../docs/validation/integration-summary.json). These are
+Linux/ARM64 results; GitHub-hosted Linux/AMD64 checks for the fixes are not yet
+recorded. Keep source revision, tool versions and cluster details with new runs.
+The [original audit](../../docs/AUDIT.md) preserves the baseline findings.
+
+Certificate rejection checks use isolated tunnels and verify normal authenticated
+access afterward. Stage logs remain under `artifacts/integration/level-N/`; CI
+uploads the selected logs for seven days before deleting its temporary cluster.
+The [visual guides](../../docs/visuals/index.html) illustrate the implementation;
+animations themselves are not execution evidence.

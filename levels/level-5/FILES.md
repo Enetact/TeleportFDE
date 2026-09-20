@@ -18,7 +18,7 @@ All links below resolve to shared source. Files can serve multiple levels.
 | [go.mod](../../go.mod) | Full application dependency declarations |
 | [go.offline.mod](../../go.offline.mod) | Dependency-free test subset only |
 | [charts/replica-control](../../charts/replica-control) | Shared chart, values, workload, service, service account and RBAC |
-| [.github/workflows/ci.yaml](../../.github/workflows/ci.yaml) | Unit checks and opt-in cluster matrix |
+| [.github/workflows/ci.yaml](../../.github/workflows/ci.yaml) | Quality gate, automatic PR/push cluster matrix and manual opt-in |
 | [scripts/integration.sh](../../scripts/integration.sh) | Level-selected live checks |
 | [scripts/check-format.sh](../../scripts/check-format.sh) | Go formatting check |
 | [docs/DESIGN.md](../../docs/DESIGN.md) | Existing educational design and complete protobuf contract |
@@ -45,3 +45,15 @@ All links below resolve to shared source. Files can serve multiple levels.
 - [charts/replica-control/crds/replicaintents.yaml](../../charts/replica-control/crds/replicaintents.yaml)
 
 Generated build inputs are included at [replicas.pb.go](../../gen/replicas/v1/replicas.pb.go) and [replicas_grpc.pb.go](../../gen/replicas/v1/replicas_grpc.pb.go). All server levels require these because they share one binary. Use `make verify-generated` to check them against the pinned generators without rewriting the working tree.
+
+Shared integration helpers: [tunnel lifecycle](../../scripts/port-forward.sh),
+[TLS rejection verifier](../../cmd/tlscheck/main.go), and
+[harness regression checks](../../scripts/test-harness.sh).
+
+Additional shared verifier source and tests: [rejection.go](../../internal/security/rejection.go)
+and [rejection_test.go](../../internal/security/rejection_test.go).
+Current results: [integration report](../../docs/INTEGRATION-VALIDATION.md) and
+[source-hash receipt](../../docs/validation/integration-summary.json).
+
+Rollout lifecycle: [monitor.go](../../cmd/probe/monitor.go) and
+[monitor_test.go](../../cmd/probe/monitor_test.go).

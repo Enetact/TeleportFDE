@@ -55,10 +55,11 @@ export const guides = [
     notes: [
       ['Start capacity before retiring it', 'The chart defaults to two API Pods, maxUnavailable=0 and maxSurge=1. Spare scheduling capacity and working networking are still required.'],
       ['Wait until a Pod can serve', 'Readiness requires initial cache sync where applicable and a recent Kubernetes connectivity check. A ready Pod can receive Service traffic. minReadySeconds adds a five-second stability period before Deployment counts it available for rollout progress; it does not delay Service routing.'],
-      ['Stop accepting, then finish work', 'On shutdown, the server marks readiness false, waits five seconds for endpoint propagation, and allows up to fifteen seconds for request draining before forced stop.']
+      ['Stop accepting, then finish work', 'On shutdown, the server marks readiness false, waits five seconds for endpoint propagation, and allows up to fifteen seconds for request draining before forced stop.'],
+      ['Observe the complete upgrade', 'An in-cluster probe first proves authenticated access. It samples throughout Helm and continues for ten seconds after the harness acknowledges completion. Missing completion or an early exit fails the check.']
     ],
-    caveat: 'The current rollout probe runs for 75 seconds while Helm allows 180 seconds. It can miss a late outage; the visual does not claim full-upgrade coverage.',
-    refs: ['charts/replica-control/templates/deployment.yaml', 'charts/replica-control/templates/service.yaml', 'internal/health/health.go', 'cmd/server/main.go', 'scripts/integration.sh']
+    caveat: 'The controlled probe has a 300-second deadline and samples with a three-second request limit. Passing is bounded sampled evidence, not a guarantee of zero latency. Live results are recorded separately.',
+    refs: ['charts/replica-control/templates/deployment.yaml', 'charts/replica-control/templates/service.yaml', 'internal/health/health.go', 'cmd/server/main.go', 'scripts/integration.sh', 'cmd/probe/monitor.go', 'docs/INTEGRATION-VALIDATION.md']
   },
   {
     slug: 'delivery', number: '05', title: 'Source to a local image.',
@@ -69,10 +70,10 @@ export const guides = [
     facts: [['Source gate', 'Format + tests + scan'], ['Runtime', 'Static, non-root image'], ['Cluster checks', 'PRs + pushes']],
     notes: [
       ['Review build inputs', 'toolchain.env maps tools and image pins. go.mod and go.sum select and verify packages. Generated protobuf bindings are committed and compared against fresh generation.'],
-      ['Keep checks reproducible', 'The format inventory includes tracked and nonignored untracked Go files, including generated code. The quality gate also runs race tests, vet, builds, chart rendering and workflow validation.'],
-      ['Exercise every PR and push', 'Docker has a test stage and a static runtime stage. After quality passes, both PRs and pushes run the KIND matrix for all five levels and rollout probes for levels 3–5. A push to an open PR can run both matrices. Manual runs can enable the same tests; version tags also package the chart and image archive.']
+      ['Keep checks reproducible', 'The format inventory includes tracked and nonignored untracked Go files, including generated code. The quality gate also runs race tests, vet, four host builds, tunnel lifecycle regressions, chart rendering and workflow validation. The TLS rejection helper runs on the host; the scratch runtime retains three binaries.'],
+      ['Exercise every PR and push', 'After quality passes, PRs and pushes run the KIND matrix for all five levels and rollout probes for levels 3–5. Certificate checks use isolated tunnels. Per-level diagnostic logs are retained for seven days before cluster cleanup; private keys are excluded. A push to an open PR can run both matrices. Manual runs can enable the tests; version tags also package the chart and image archive.']
     ],
-    caveat: 'Local build results are documented separately from remote CI or live cluster results. Moving particles represent the workflow, not a running pipeline.',
-    refs: ['toolchain.env', 'Makefile', 'Dockerfile', '.github/workflows/ci.yaml', 'docs/DEPENDENCY-VALIDATION.md']
+    caveat: 'All five local KIND levels and rollout checks for levels 3–5 passed on Linux/ARM64. GitHub-hosted results for the fixes are still separate evidence. Moving particles illustrate the workflow.',
+    refs: ['toolchain.env', 'Makefile', 'Dockerfile', '.github/workflows/ci.yaml', 'scripts/port-forward.sh', 'cmd/tlscheck/main.go', 'docs/DEPENDENCY-VALIDATION.md', 'docs/INTEGRATION-VALIDATION.md']
   }
 ];

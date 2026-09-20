@@ -32,9 +32,10 @@ The SVG mode provides true pause, restart and speed control.
 The diagrams describe the current development reference. Moving markers show
 directions of work, not real traffic, measured latency or proof of availability.
 The level-5 acknowledgement means persisted intent, not ready Pods. The rollout
-guide explicitly preserves the known 75-second probe versus 180-second Helm
-coverage limitation. See [the source audit](../AUDIT.md) and
-[dependency validation](../DEPENDENCY-VALIDATION.md) for evidence boundaries.
+guide shows monitoring through confirmed upgrade completion and ten seconds
+afterward. See [integration validation](../INTEGRATION-VALIDATION.md),
+[the historical audit](../AUDIT.md) and [dependency validation](../DEPENDENCY-VALIDATION.md)
+for evidence boundaries.
 
 ## Export formats
 

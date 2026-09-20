@@ -18,7 +18,7 @@ requests blocked and recorded. No development server is needed to view the files
 | Actual motion | Decoded frames at different times have different pixel hashes |
 | Visual review | All five poster previews, desktop gallery, desktop guide and mobile guide inspected |
 
-Each GIF is approximately 3.7–4.0 MiB. Static and animated SVGs use the same
+Each GIF is approximately 3.5–4.0 MiB. Static and animated SVGs use the same
 Mermaid layout as the GIF frames. The rendered diagrams were reviewed against
 server startup, controller behavior, the Helm Deployment and the development
 workflow. In particular, readiness permits Service routing before the separate
@@ -28,3 +28,7 @@ Reproduce with `node docs/visuals/tools/check.mjs` after installing the pinned
 visual-build dependencies. The generated screenshots and detailed JSON receipt
 are in ignored `docs/visuals/.build/`. Validation is specific to the exercised
 Windows/Edge environment; it is not a live Kubernetes availability result.
+
+Integration follow-up (2026-09-20): rebuilt the rollout Mermaid, SVG, GIF and HTML
+for explicit completion acknowledgment and post-upgrade observation. Reran all
+six offline-page checks successfully and inspected the updated rollout page.

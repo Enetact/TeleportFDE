@@ -16,6 +16,17 @@ Local CA key material remains on the developer's machine. The archive contains n
 actual private keys, tokens, kubeconfigs, or pre-generated operational identities.
 The negative-test certificate is created only when the developer runs certgen.
 
+Integration verifies certificate rejection using `cmd/tlscheck`: fixtures must
+load, be current and CA-trusted for client authentication, and have the intended
+URI role. Only remote TLS certificate alerts pass a negative check. Each identity
+uses an isolated port-forward; authenticated access is verified before and after
+the negative checks. Missing files, connection refusal and timeouts fail closed.
+CI retains selected diagnostic logs, excluding `.local/pki` and Secret manifests.
+
+The rollout probe's completion endpoint listens only on loopback inside its Pod
+and is reached with the existing KIND administrator's `kubectl exec` access.
+It is not exposed by a Kubernetes Service and does not grant application access.
+
 ## Not implemented / not guaranteed
 
 - Fine-grained authorization, tenant isolation, rate limits per identity, or
@@ -28,7 +39,9 @@ The negative-test certificate is created only when the developer runs certgen.
   spanning intent and Deployment. Idempotency and conflict detection reduce risk;
   they do not create distributed transactions.
 - A production audit trail, admission policy, network-policy enforcement, signed
-  releases, SBOM, vulnerability assessment, or a fully pinned supply chain.
+  releases, SBOM, or a comprehensive vulnerability assessment. Reviewed tool,
+  image and action pins and a passing Go vulnerability scan are present; they
+  do not establish complete supply-chain security or scan every container OS package.
 - Large-cluster API pagination, namespace-specific authorization, or a guarantee
   that an initially synchronized informer remains fully fresh during every failure.
 
@@ -42,9 +55,13 @@ to work around a DNS SAN mismatch; fix the identity/endpoint configuration.
 
 ## Before any non-lab use
 
-Review the full dependency graph and vulnerabilities after resolving go.sum; pin
-images by digest; pin CI actions to reviewed commit SHAs; replace development PKI;
+Revalidate the selected dependency graph, Go vulnerabilities, image digests and
+reviewed CI action pins against the intended release; replace development PKI;
 reduce permission scope; add the required authorization and audit controls; verify
 upgrade behavior under load and dependency outages; and have an independent review.
 These are requirements for a deployment decision, not tasks claimed as completed
 by this reference implementation.
+
+The [integration report](INTEGRATION-VALIDATION.md) records local race/TLS tests,
+fault-injection checks, the clean Go scan and live KIND results. It is development
+evidence, not a security certification or approval for non-lab deployment.

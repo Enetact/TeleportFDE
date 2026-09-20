@@ -1,6 +1,34 @@
-# Validation record — reviewed revision
+# Current validation status
 
-**September 20, 2026. This supersedes the original validation narrative.**
+The latest local validation passed on 2026-09-20 using Ubuntu-24.04 under WSL,
+Linux/ARM64, Go 1.27.1 and Kubernetes 1.37.0.
+
+| Scope | Current evidence |
+|---|---|
+| Formatting, full race tests, vet, binaries, charts and workflow syntax | Passed; 29 Go files and four host binaries |
+| Go vulnerability scan and Docker test/build | Passed; no Go vulnerabilities found |
+| Real KIND integration | Levels 1–5 passed |
+| Service rollout monitoring | Levels 3–5 passed; 427 sampled requests, zero failures |
+| Broken tunnel and missing certificate | Correctly failed the negative-test verifier |
+| Offline visual guides | All six pages passed browser validation |
+| GitHub-hosted execution of the new fixes | Not yet recorded; local success is separate evidence |
+
+Use the [integration report](docs/INTEGRATION-VALIDATION.md) and
+[source-hash receipt](docs/validation/integration-summary.json) for the exact
+scope, earlier attempts, timings and environment. The temporary KIND cluster was
+removed. [Development setup](docs/DEVELOPMENT.md) contains the current commands;
+[dependency validation](docs/DEPENDENCY-VALIDATION.md) records the earlier package
+and image work. Explicit leader-failover, connectivity-loss, certificate-rotation
+and load testing remain separate from the checks recorded here.
+
+The imported review below is retained for provenance. Its review-specific receipt
+directory is not present in this checkout, and its proposed behavioral corrections
+are not automatically part of this implementation. Its old tool versions, missing
+build-input claims and commands are historical, not current setup instructions.
+
+## Imported review record (historical)
+
+**Historical review dated September 20, 2026; superseded for current status by the records above.**
 
 Status: source-reviewed, dependency-free core executed. Full application, gRPC/Kubernetes adapters and deployment **not verified**. Proposed Level 6 features are design only.
 

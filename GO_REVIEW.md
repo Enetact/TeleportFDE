@@ -1,8 +1,10 @@
 # Go source review and correction record
 
+> Historical imported review notes, not a description of the current checkout or its latest test results. Current results are in [dependency validation](docs/DEPENDENCY-VALIDATION.md) and [integration validation](docs/INTEGRATION-VALIDATION.md). The review-specific receipt directory referenced below is absent here, so its fuzz counts and claimed corrections are not verified evidence for this tree. For example, Backend still lives in internal/model, and the HTTP probe still ignores body-drain errors; do not infer those imported fixes from the passing integration tests.
+
 **Reviewed September 20, 2026 | Prepared for Jamie Holland**
 
-## Verdict and scope
+## Historical verdict and scope
 
 The revised source is better aligned with Go's published coding guidance, with specific behavioral regressions fixed and tested in the dependency-free core. It is **not yet a fully built, vulnerability-cleared, or deployment-validated release**. The Kubernetes/gRPC portions remain source-reviewed, not type-checked or executed here. No Level 6 feature is implemented in this revision.
 
@@ -12,7 +14,7 @@ The review covered the original archive's 14 non-test Go files, tests, build aut
 
 Go has a language specification and multiple complementary guidance documents, not a single production-readiness certification checklist. Effective Go remains useful for idioms, but its own introduction explains its age and limited coverage of later language/ecosystem changes. This review also uses Code Review Comments, Go Doc Comments, the context documentation, module guidance, and official testing/security documentation. [G1–G8]
 
-## What changed
+## Changes claimed by the imported review
 
 | ID | Finding | Change and files | Evidence/status |
 |---|---|---|---|
@@ -38,7 +40,7 @@ The implementation keeps explicit error returns, small packages, concrete struct
 
 A configured backend's concurrency contract is now documented; that comment is not proof that every adapter satisfies it. `context.WithoutCancel` in process startup intentionally retains values while allowing readiness and RPC draining before stopping background work. Its child cancel function is explicitly owned. That choice still requires end-to-end shutdown verification. Request handlers continue to use their own cancellation/deadline paths. [G3–G4]
 
-## Executed evidence
+## Imported execution claims (not verified here)
 
 The installed compiler is **Go 1.23.2**. The full module declares **Go 1.25.0 minimum**; existing CI/container configuration selects **1.26.8**. Those are different scopes. Passing dependency-free tests under 1.23.2 does not certify the target compiler, module graph, or production runtime.
 
@@ -59,7 +61,7 @@ Counts include parent/subtest/fuzz-seed events; they are not a claim of 107 inde
 
 The raw records and scanner source are under `docs/validation/review-2026-09-20/`. See [VALIDATION.md](VALIDATION.md) for commands and evidence mapping.
 
-## Remaining release gates
+## Historical release recommendations
 
 **Build and supply chain.** Generate the protobuf files with the real compiler/plugins; resolve and review `go.mod`/`go.sum`; run the complete build, tests and vet under the intended supported compiler. `go.sum` records module checksums; it is not a standalone lockfile or proof of a clean supply chain. The revised gates check consistency, not bit-for-bit reproducibility across arbitrary toolchains. Pin/review protoc and container base-image digests and CI action commit SHAs before a release. [G5]
 
@@ -75,30 +77,25 @@ The raw records and scanner source are under `docs/validation/review-2026-09-20/
 
 **Deployment.** Run Helm lint/rendering, container builds, KIND integration for levels 1–5 and both real-Service rolling-upgrade tests. Do not use employer production systems to complete these lab gates. No zero-downtime or production-readiness assertion is supported by this review.
 
-## Reproduce the remaining verification
+## Current verification commands
 
-From the reviewed project root, using the selected supported compiler and a network-enabled lab:
+The review narrative above is historical. Use the current
+[development setup](docs/DEVELOPMENT.md) and [integration report](docs/INTEGRATION-VALIDATION.md)
+to reproduce the supported checks from the repository root:
 
 ```bash
-# Explicit bootstrap. Review changes before committing.
-make prepare
-git add go.mod go.sum gen/replicas/v1/replicas.pb.go \
-    gen/replicas/v1/replicas_grpc.pb.go
-
-# Install the reviewed security-tool pin; ensure its bin directory is on PATH.
-go install golang.org/x/vuln/cmd/govulncheck@v1.8.0
-export PATH="$(go env GOPATH)/bin:$PATH"
-
-# Verify without silently repairing dependency state.
-make quality
-make fuzz-core
-make helm-check
-make integration-all
-make upgrade-test LEVEL=4
-make upgrade-test LEVEL=5
+repo_root="$(pwd)"
+bash "$repo_root/scripts/dev.sh" quality vuln docker-test
+bash "$repo_root/scripts/dev.sh" integration-all
+for level in 3 4 5; do
+  bash "$repo_root/scripts/dev.sh" upgrade-test "LEVEL=$level" || exit 1
+done
 ```
 
-`git add` assumes this folder has been put into a Git repository. Review and commit the outputs before CI. The commands above are **instructions, not executed results**. `make quality` does not include live-cluster tests. `make test-core` intentionally tests only the named dependency-free packages.
+The current Makefile has no `fuzz-core` target. Generated bindings and `go.sum`
+are already supplied; run `prepare` only after deliberately changing schemas,
+generators or dependencies. The imported fuzz counts above are not current-tree
+execution evidence. `quality` covers source/build checks; cluster tests are separate.
 
 ## Official references
 

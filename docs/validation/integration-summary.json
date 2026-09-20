@@ -1,0 +1,77 @@
+{
+  "recordedAtUtc": "2026-09-20T20:48:44.4435452Z",
+  "baselineCommit": "3e4603a85f0ccb9aa9a956167a6d3eb11e558ee4",
+  "sourceState": "Uncommitted working tree; validated source hashes below",
+  "environment": {
+    "distribution": "Ubuntu-24.04 under WSL",
+    "architecture": "linux/arm64",
+    "go": "1.27.1",
+    "docker": "29.7.2",
+    "kind": "0.33.0",
+    "helm": "4.3.0",
+    "kubernetes": "v1.37.0",
+    "cluster": "sre-ci-fix"
+  },
+  "checks": {
+    "quality": "passed",
+    "goFormatFiles": 29,
+    "vulnerabilities": 0,
+    "dockerTest": "passed",
+    "integrationLevels": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "liveClosedTunnelFault": "correctly failed",
+    "missingCertificateFault": "correctly failed",
+    "visualPages": 6,
+    "externalVisualRequests": 0,
+    "githubHostedRunner": "not run for these local changes",
+    "temporaryClusterCleanup": "passed; sre-ci-fix deleted and no KIND clusters remain"
+  },
+  "rollouts": [
+    {
+      "level": 3,
+      "status": "passed",
+      "requests": 144,
+      "failures": 0,
+      "longest": "106.247816ms"
+    },
+    {
+      "level": 4,
+      "status": "passed",
+      "requests": 146,
+      "failures": 0,
+      "longest": "114.238641ms"
+    },
+    {
+      "level": 5,
+      "status": "passed",
+      "requests": 137,
+      "failures": 0,
+      "longest": "86.962423ms"
+    }
+  ],
+  "earlierAttempts": [
+    "Initial aggregate level 1 was interrupted by editing the active script; its unchanged rerun passed. Levels 2-5 passed in the aggregate run.",
+    "Docker/KIND restarted between local command sessions; the named test node was restarted and remaining checks passed in a continuous session."
+  ],
+  "sourceSha256": {
+    "Makefile": "081bf5be21836551ca497bd81dc909588c8309037fdce3b64bf691fb2df57892",
+    ".github/workflows/ci.yaml": "7f5a10da6a6cfc87bf08c1b58474ca67e1ac7b6e27838a71716848f46884e930",
+    "toolchain.env": "fad92906e228a77e4b75ec98890cfada2309fb0b1e5d8ee3539b65fc1a8026fd",
+    "go.mod": "d69f8accd6dfec3dcb52dd6a299228f40b6e9da7d62fe096964ef996c754fae3",
+    "go.sum": "a059a3d5ea2b28b8c6e646842ffe9efc26c6f1d7ee76d886e0ad9867b8e824f2",
+    "cmd/probe/main.go": "b27b4cc4da4f69dd0dc6a85b26279723ad23e00f3da5b686dd9064bfe0b52534",
+    "cmd/probe/monitor.go": "749486c8812870842601a1a0f057845efdabff7153cdf698e6e37e45a6401ee1",
+    "cmd/probe/monitor_test.go": "fa8fc695701a6d2301315c24170d0fc0bd38dc3b45a686ff723aed502db8b8f1",
+    "cmd/tlscheck/main.go": "c63398b5c304f0e5d9bd5318382229a58856243fac2909ad06e01dcf6c51e1de",
+    "internal/security/rejection.go": "9e837578a2a3a0914b7b9889912ad700c7d264caff85a519a2aa6ec1792f70b4",
+    "internal/security/rejection_test.go": "d94a9f64d764f1ae200f83d9e2814700d6e52b30f6c29efbd1de4edc532fe3db",
+    "scripts/integration.sh": "b95a8bd7edb072225d177c5d627d96a2cfed12404881206686fc0d8a81039d94",
+    "scripts/port-forward.sh": "d95c1c248d9fd29c2518396af0570e8acb47ec0b6eaae9a071771197b18a7a8f",
+    "scripts/test-harness.sh": "31a5cf1bff177aeda2c3dd1a2abaf564e0a77cfb79e7095bf69b4af0016c1017"
+  }
+}

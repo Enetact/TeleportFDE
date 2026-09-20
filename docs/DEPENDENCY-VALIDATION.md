@@ -4,6 +4,12 @@ Checked on 2026-09-20 in Ubuntu 24.04 under WSL, Linux arm64. This report
 supplements the original source audit; it does not turn the historical audit
 or imported review notes into evidence of live cluster behavior.
 
+This records the earlier dependency-repair pass. The later
+[integration report](INTEGRATION-VALIDATION.md) adds passing real KIND checks for
+levels 1–5, rollout checks for 3–5, the fourth host binary (`tlscheck`), and a
+29-file formatting inventory. Image IDs and the 24-file count below belong to
+the earlier pass and are not identifiers/counts for the updated runtime.
+
 ## Installed and mapped requirements
 
 The installed toolchain is Go 1.27.1, protoc 36.2, protoc-gen-go v1.36.12,
@@ -65,7 +71,7 @@ above the versions selected by upstream packages. The clean vulnerability scan
 applies to the selected graph, not every available module release.
 
 `make quality` verifies formatting, generated bindings, race tests, vet, all
-three binaries, Helm lint/render for levels 1–5, workflow syntax and module
+four host binaries, harness lifecycle regressions, Helm lint/render for levels 1–5, workflow syntax and module
 checksums. `make vuln` scans the application dependency graph. `make docker-test`
 runs tests/vet with the builder's requirements; `make docker-build` creates the
 non-root image with static binaries and CA roots. The scratch runtime needs no
@@ -74,11 +80,13 @@ host Go installation or package manager.
 ## Remaining scope
 
 GitHub-hosted execution, branch protections, native Windows/macOS builds,
-amd64 execution and live KIND level/rollout acceptance are separate checks.
-Local validation of YAML is not proof of a remote CI run. Historical audit
-finding A2 (the fixed-duration rollout probe) and A4 (negative TLS-test evidence)
-remain relevant. The level-3 rollout target is now enabled and invalid rollout
-levels are rejected before deployment prerequisites run.
+amd64 execution remain separate checks. Local validation of YAML is not proof of
+a remote CI run. Live KIND integration for levels 1–5 and rollout checks for 3–5
+subsequently passed on Linux/ARM64. Historical findings A2 (probe coverage) and A4
+(negative TLS-test evidence) are addressed by completion-controlled monitoring,
+isolated tunnels, validated fixtures and explicit remote certificate alerts.
+See the [integration receipt](validation/integration-summary.json). Invalid
+rollout levels are rejected before deployment prerequisites run.
 
 The original audit's missing-build-input finding is addressed by generating
 and including the real checksum file and bindings. See

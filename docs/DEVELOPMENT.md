@@ -129,9 +129,36 @@ make upgrade-test LEVEL=5
 These commands create/update only the named local KIND lab and its test resources.
 The release stays running. Select `CLUSTER`, `NAMESPACE` and `RELEASE` overrides
 before generating certificates. `make clean-cluster` deletes the explicitly named
-lab cluster; it is not part of ordinary setup. The existing fixed-duration rollout
-probe is sampled evidence and still has the coverage limitation described in A2
-of the historical audit.
+lab cluster; it is not part of ordinary setup. `integration-all` attempts every
+level and returns failure if any level fails. Certificate rejection checks use
+separate tunnels and explicit TLS alert verification. `make build` includes the
+host-only `tlscheck` helper; the scratch image still has three runtime binaries.
+
+Rollout monitoring starts after a successful request and continues through Helm
+completion plus ten seconds. A loopback control endpoint inside the probe Pod is
+acknowledged using `kubectl exec`; no extra image, shell or RBAC is required.
+The 300-second probe deadline fails without acknowledgment; the Job allows 360
+seconds and Helm allows 180 seconds. CI retains selected per-level logs for seven
+days before removing its cluster. See [integration validation](INTEGRATION-VALIDATION.md).
+
+The command chain is `scripts/dev.ps1` (Windows) → WSL → `scripts/dev.sh` → GNU
+Make → the selected recipe and scripts. On Linux/CI, execution starts with
+`scripts/dev.sh`. GNU Make and Bash run in the development environment or Actions
+runner; the scratch application image contains neither. The wrappers derive the
+checkout directory and pass it to Make, so moving the repository needs no path edits.
+
+For a failure, find the named stage and `result.log` under
+`artifacts/integration/level-N/<test-namespace>/`, then inspect that stage's
+port-forward/TLS log. Failure diagnostics also capture Pods, application logs and
+Kubernetes events before namespace cleanup. A refused connection is a transport
+failure, not successful certificate rejection. Repair the tunnel or fixture;
+do not disable certificate verification to make the test pass.
+
+During local validation Docker/KIND restarted between WSL command sessions.
+The remaining checks passed in one continuous session after the named lab node
+was recovered. If local runs encounter stopped containers, check Docker and the
+selected KIND cluster before retrying; this observation does not describe the
+GitHub-hosted runner or authorize resetting unrelated local workloads.
 
 ## Git workflow and GitHub Actions
 

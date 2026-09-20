@@ -58,7 +58,8 @@ in the very next cache read.
 Read the fake-client test that clears recorded actions, performs repeated reads,
 and asserts no new Kubernetes GET/list actions occurred. That tests behavior,
 not just the existence of a map called a cache. Watch updates are tested separately.
-Those Kubernetes-dependent tests still need to be executed on a prepared machine.
+Those Kubernetes-dependent tests passed in the full race-enabled suite; the
+[integration report](INTEGRATION-VALIDATION.md) records the separate live checks.
 
 Exercise: why does `HasSynced` establish initial readiness but not guarantee that
 a watch is currently receiving every update? What additional freshness policy
@@ -76,6 +77,14 @@ claim otherwise because mutual TLS is present.
 
 Exercise: explain the wrong-URI, wrong-CA, wrong-server-name, expired-certificate,
 and wrong-EKU tests. Which side should reject each handshake?
+
+Read `internal/security/rejection.go`, `cmd/tlscheck/main.go`, and
+`scripts/port-forward.sh` to see how the integration harness proves rejection.
+Each negative identity uses a separate tunnel after an authenticated read proves
+reachability. The helper checks the fixture's validity and URI role, then requires
+a remote TLS certificate alert. Connection refusal, timeout or a missing file
+must fail the test; they do not prove that the server enforced its identity policy.
+Normal authenticated checks resume on a fresh tunnel afterward.
 
 ## 6. Trace a level-5 change end to end
 
@@ -116,16 +125,26 @@ to answer requests. Readiness gates traffic; liveness should not turn a Kubernet
 outage into a restart storm. Graceful shutdown first withdraws readiness, then
 drains bounded work.
 
-Read `cmd/probe/main.go` and the integration script. The upgrade test uses Service
+Read `cmd/probe/main.go`, `cmd/probe/monitor.go` and the integration script. The upgrade test uses Service
 DNS from a Job rather than kubectl port-forward. This matters because port-forward
 can fail when its selected Pod disappears even if the Service is healthy.
+
+The first successful authenticated sample announces readiness. After Helm finishes,
+the harness invokes `/probe --finish` inside the probe Pod. Monitoring continues
+for ten more seconds. A 300-second deadline fails when completion is missing or
+too late; the Job has a 360-second deadline and Helm allows 180 seconds. The
+loopback control endpoint needs no additional Service or credentials inside the Pod.
+CI retains named-stage logs before deleting its disposable cluster.
 
 Exercise: explain why `maxUnavailable: 0` alone is not proof of zero downtime.
 Then run the test and inspect the actual request/failure counts and longest call.
 
 ## 8. Be explicit about what remains unproven
 
-This archive has passing core/race/TLS tests, not a passing live Kubernetes report.
-Complete bootstrap, dependency review, full tests, chart checks, integration, and
-rollout measurements before claiming it works end to end. A working demo still
-is not a production security assessment.
+Full race tests, builds, chart/workflow checks, Go vulnerability scanning, all five
+KIND integration levels and rollout checks for levels 3–5 passed locally on
+Linux/ARM64. See [the execution report](INTEGRATION-VALIDATION.md) and its source
+hashes. GitHub-hosted Linux/AMD64 execution, explicit leader-failover testing and
+Kubernetes connectivity-loss/recovery remain separate evidence gaps. Sampled
+availability with a three-second request deadline is not a zero-latency guarantee
+or a production security assessment.

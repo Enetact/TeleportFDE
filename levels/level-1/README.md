@@ -70,13 +70,18 @@ This renders manifests only. Deployment still needs the documented image, TLS
 Secret and CRD preparation. The shared make workflow selects the same level via
 LEVEL; it does not consume this optional values overlay.
 
-## Evidence still needed
+## Validated behavior and remaining evidence
 
-Demonstrate an existing Deployment, a missing target, disabled writes, and a working container deployment.
+Local KIND checks passed for authenticated replica reads, both certificate rejections and a final authenticated read. Missing-target and disabled-write behavior remains a separate live demonstration; the shared unit suite also passed.
 
-Keep command output, tool versions, source commit and cluster details with the
-result. Shared source tests, image builds and scans passed in the
-[latest recorded local validation](../../docs/DEPENDENCY-VALIDATION.md); live level
-acceptance remains unverified. The [original audit](../../docs/AUDIT.md) preserves
-the baseline findings. The [visual guides](../../docs/visuals/index.html) explain
-the implementation without claiming live test results.
+See the [integration report](../../docs/INTEGRATION-VALIDATION.md) and
+[source-hash receipt](../../docs/validation/integration-summary.json). These are
+Linux/ARM64 results; GitHub-hosted Linux/AMD64 checks for the fixes are not yet
+recorded. Keep source revision, tool versions and cluster details with new runs.
+The [original audit](../../docs/AUDIT.md) preserves the baseline findings.
+
+Certificate rejection checks use isolated tunnels and verify normal authenticated
+access afterward. Stage logs remain under `artifacts/integration/level-N/`; CI
+uploads the selected logs for seven days before deleting its temporary cluster.
+The [visual guides](../../docs/visuals/index.html) illustrate the implementation;
+animations themselves are not execution evidence.

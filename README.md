@@ -13,6 +13,10 @@ bindings and `go.sum` are now included. `make prepare` intentionally refreshes
 them; ordinary quality/build targets check the supplied files without regenerating.
 
 Fresh validation results are recorded in [DEPENDENCY-VALIDATION.md](docs/DEPENDENCY-VALIDATION.md).
+The [integration validation report](docs/INTEGRATION-VALIDATION.md) records passing
+local KIND checks for levels 1–5 and rollout probes for levels 3–5 after the tunnel fixes.
+Use the root [validation index](VALIDATION.md) to distinguish current results
+from imported review notes and historical audit records.
 The original [VALIDATION.md](docs/VALIDATION.md) describes the earlier authoring
 environment and remains historical evidence.
 
@@ -51,6 +55,7 @@ cmd/server/          Process lifecycle, TLS, HTTP/gRPC selection, leader electio
 cmd/replicactl/       Authenticated gRPC client
 cmd/certgen/          Dependency-free local-development certificate generator
 cmd/probe/           Real-Service rollout availability probe
+cmd/tlscheck/        Host-side certificate rejection verifier
 api/replicas/v1/      Complete Protocol Buffers API contract
 internal/model/      Shared types, errors, limits, validation
 internal/service/    Transport-independent API behavior
@@ -142,7 +147,7 @@ bash "$repo_root/scripts/dev.sh" test-core
 
 The format inventory covers tracked and nonignored untracked Go files, including
 the generated bindings. `quality` also verifies generation, runs race tests/vet,
-builds all three binaries, renders all five chart profiles, checks workflow syntax
+builds all four host binaries, checks harness lifecycle, renders all five chart profiles, checks workflow syntax
 and verifies module checksums. `vuln` remains a separate required security gate.
 
 `make prepare` pins the Go code generators to the versions in toolchain.env. It runs
@@ -200,6 +205,12 @@ make deploy LEVEL=5 CLUSTER=my-sre-lab NAMESPACE=sre-lab RELEASE=replica-lab
 
 Choose these names before creating local certificates. Existing certificates are
 reused; they will not automatically gain SANs when a release/namespace changes.
+Certificate rejection checks each use an isolated temporary tunnel; only a remote
+TLS certificate alert counts as rejection. Authenticated API checks follow on a
+fresh tunnel. Per-stage diagnostics are saved under
+`artifacts/integration/level-N/` and uploaded by CI without certificate keys.
+See [integration validation](docs/INTEGRATION-VALIDATION.md) for scope and results.
+
 The integration script creates a unique temporary namespace, checks behavior,
 then removes that namespace on success or failure. The application release is
 left running for inspection.
@@ -304,9 +315,12 @@ This is a design intended for safe rolling upgrades, **not an unconditional
 zero-downtime guarantee**. Capacity, scheduling, TLS trust overlap, network behavior,
 and API compatibility still matter. `make upgrade-test` samples the real Service
 with fresh authenticated connections from a Job; any failed request fails the test.
-Live rollout acceptance remains unverified. The current probe lasts 75 seconds,
-while Helm may take 180 seconds, so a passing probe can miss a late outage. See
-the [rollout visual guide](docs/visuals/rollout.html) and audit finding A2.
+The in-cluster probe starts with a successful authenticated request, observes the
+whole Helm upgrade, and continues for ten seconds after explicit completion.
+Its 300-second deadline fails closed if completion is missing or late. Availability
+is sampled with a three-second request deadline, not a guarantee of zero latency.
+See [integration validation](docs/INTEGRATION-VALIDATION.md) and the
+[rollout visual guide](docs/visuals/rollout.html).
 
 ## Validation and workflow status
 

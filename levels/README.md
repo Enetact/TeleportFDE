@@ -1,6 +1,6 @@
 # Level guides
 
-[Repository setup](../README.md) | [Animated level map](../docs/visuals/levels.html) | [Current build results](../docs/DEPENDENCY-VALIDATION.md)
+[Repository setup](../README.md) | [Animated level map](../docs/visuals/levels.html) | [Build results](../docs/DEPENDENCY-VALIDATION.md) | [Live integration results](../docs/INTEGRATION-VALIDATION.md)
 
 These five folders organize the shared Go implementation by runtime level.
 The official careers index maps both SRE and Forward Deployed Engineer to the
@@ -37,6 +37,8 @@ bindings are supplied; ordinary checks do not require `prepare` first.
 
 The [original audit](../docs/AUDIT.md) records baseline findings. Subsequent
 toolchain, generated-source and workflow fixes are described in the
-[current validation report](../docs/DEPENDENCY-VALIDATION.md); live cluster
-acceptance is still separate from passing shared-source tests. `MANIFEST.json`
+[dependency report](../docs/DEPENDENCY-VALIDATION.md). All five local KIND levels
+and rollout checks for 3–5 subsequently passed; the
+[integration report](../docs/INTEGRATION-VALIDATION.md) records those results and
+the remaining evidence gaps. `MANIFEST.json`
 records the original imported reference files, not the current guide inventory.
